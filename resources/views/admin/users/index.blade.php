@@ -9,7 +9,14 @@
                     <input type="text" name="search" class="form-control form-control-sm"
                         placeholder="Cari username / nama..." value="{{ request('search') }}"
                         style="border-radius:8px; width:220px;">
-                    <button class="btn btn-sm btn-pink">Cari</button>
+                    <button class="btn btn-sm" style="
+            background:#f5f3ff;
+            color:#7c3aed;
+            border:1px solid #d8b4fe;
+            font-weight:600;
+            ">
+                        Cari
+                    </button>
                 </form>
             </div>
             <table class="table table-hover">
@@ -32,11 +39,14 @@
                             <td>{{ $u->email }}</td>
                             <td>{{ $u->no_telp }}</td>
                             <td>
-                                <a href="/admin/users/{{ $u->id }}/edit" class="btn btn-warning btn-sm rounded-3">Edit</a>
+                                <a href="/admin/users/{{ $u->id }}/edit" class="btn btn-sm btn-warning-soft rounded-3">Edit</a>
                                 <form action="/admin/users/{{ $u->id }}" method="POST" class="d-inline"
                                     onsubmit="return confirm('Yakin hapus user ini?')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-danger btn-sm rounded-3">Hapus</button>
+                                    <button class="btn btn-sm rounded-3"
+                                        style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;font-weight:600;">
+                                        Hapus
+                                    </button>
                                 </form>
                             </td>
                         </tr>

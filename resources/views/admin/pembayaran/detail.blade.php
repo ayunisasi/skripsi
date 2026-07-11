@@ -140,7 +140,7 @@
 
         {{-- BUTTON BACK (FIXED) --}}
         <div class="mt-3">
-            <a href="/admin/pembayaran" class="btn btn-secondary">
+            <a href="/admin/pembayaran" class="btn btn-gray">
                 ← Kembali
             </a>
         </div>

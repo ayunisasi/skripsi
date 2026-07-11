@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Antrian;
-use App\Models\Booking;
 use App\Models\Terapis;
 use App\Services\AntrianService;
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ $antrians = Antrian::with(['booking.user', 'booking.layanan', 'terapis'])
     ->whereHas('booking', function ($q) {
         $q->whereDate('tgl_booking', today());
     })
-    ->whereNotIn('status', ['dibatalkan'])
+
     ->orderBy('terapis_id')
     ->orderBy('nomor_antrian')
     ->get()
@@ -48,16 +47,75 @@ $antrians = Antrian::with(['booking.user', 'booking.layanan', 'terapis'])
         return back()->with('error', 'Antrian ini tidak bisa dipanggil.');
         }
 
-        $antrian->update(['status' => 'dilayani']);
-        $antrian->booking->update([
-        'status_kehadiran' => 'hadir',
-        'checkin_at'       => now(),
-        ]);
+       $antrian->update([
+        'status'    => 'dipanggil',
+        'called_at' => now(),
+         ]);
 
         return back()->with('success',
         "Antrian #{$antrian->nomor_antrian} — {$antrian->booking->user->nama_lengkap} dipanggil!"
         );
     }
+
+public function layani(int $id)
+{
+    $antrian = Antrian::with('booking')->findOrFail($id);
+    $booking = $antrian->booking;
+
+    if ($antrian->status !== 'dipanggil') {
+        return back()->with('error', 'Antrian belum dipanggil.');
+    }
+
+    // Pengaman jika scheduler belum sempat berjalan
+    if ($antrian->called_at &&
+        Carbon::parse($antrian->called_at)->addMinutes(15)->lt(now())) {
+
+        return back()->with(
+            'error',
+            'Pelanggan sudah melewati batas 15 menit dan tidak dapat dilayani.'
+        );
+    }
+    $estimasiMulai = Carbon::parse(
+    $booking->tgl_booking . ' ' . $antrian->estimasi_jam_mulai
+);
+
+    $jamMulaiAktual = now();
+
+    $jamSelesaiAktual = $jamMulaiAktual
+        ->copy()
+        ->addMinutes($antrian->total_durasi);
+
+    // Update antrian
+    $antrian->update([
+        'status'               => 'dilayani',
+        'estimasi_jam_mulai'   => $jamMulaiAktual->format('H:i'),
+        'estimasi_jam_selesai' => $jamSelesaiAktual->format('H:i'),
+    ]);
+
+    // Update booking
+    $booking->update([
+        'status_kehadiran' => 'hadir',
+        'checkin_at'       => $jamMulaiAktual,
+        'estimasi_jam'     => $jamMulaiAktual->format('H:i'),
+        'jam_mulai'        => $jamMulaiAktual->format('H:i'),
+        'jam_selesai'      => $jamSelesaiAktual->format('H:i'),
+    ]);
+
+    // Geser estimasi antrean berikutnya
+   if (!$jamMulaiAktual->equalTo($estimasiMulai)) {
+
+    $this->antrianService->recalculate(
+        $booking->tgl_booking,
+        $booking->terapis_id
+    );
+
+}
+
+    return back()->with(
+        'success',
+        "Antrian #{$antrian->nomor_antrian} sedang dilayani."
+    );
+}
 
     // Tandai selesai dilayani
     public function selesai(int $id)

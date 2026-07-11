@@ -5,13 +5,14 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="fw-bold mb-0">Data Terapis</h6>
-                <a href="/admin/terapis/create" class="btn btn-pink btn-sm">+ Tambah</a>
+                <a href="/admin/terapis/create" class="btn btn-add btn-sm">+ Tambah</a>
             </div>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Nama Terapis</th>
+                        <th>Informasi</th>
                         <th>Status</th>
                         <th>Aksi</th>
                     </tr>
@@ -21,6 +22,23 @@
                         <tr>
                             <td>{{ $terapis->firstItem() + $i }}</td>
                             <td>{{ $t->nama_terapis }}</td>
+                            <td style="font-size:0.82rem">
+
+                                <div class="mb-1">
+                                    ⭐ <strong>{{ number_format($t->rating, 1) }}</strong>
+                                    &nbsp; | &nbsp;
+                                    📅 <strong>{{ $t->booking_selesai }}</strong>
+                                    &nbsp; | &nbsp;
+                                    💬 <strong>{{ $t->total_review }}</strong>
+                                </div>
+
+                                @if($terapisUnggulan && $terapisUnggulan->id == $t->id)
+                                    <span class="badge" style="background:#fff3cd;color:#856404;">
+                                        👑 Terapis Unggulan
+                                    </span>
+                                @endif
+
+                            </td>
                             <td>
                                 <span class="badge {{ $t->status === 'aktif' ? 'badge-aktif' : 'badge-batal' }}">
                                     {{ ucfirst($t->status) }}

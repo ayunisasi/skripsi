@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ulasan Terapis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         :root {
             --gd: #1a3a2a;
@@ -20,10 +23,11 @@
             --gold-soft: #f3ead3;
             --bg: #f7f8f7;
             --border: #e6e6e6;
+            --cream: #faf7f0;
         }
 
         body {
-            background: var(--bg);
+            background: var(--cream);
             font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
         }
 
@@ -34,21 +38,40 @@
             right: 0;
             z-index: 9999;
 
-            background: var(--gd);
-            padding: 14px 30px;
+            background: #faf7ff;
+            border-bottom: 1px solid #e9d5ff;
+            padding: 8px 16px;
 
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            box-shadow: 0 2px 15px rgba(0, 0, 0, .2);
         }
 
         .brand-name {
-            color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1.1rem
+            font-size: 1.02rem;
+            /* diperkecil dikit */
+            letter-spacing: 1.5px;
+            /* gak terlalu jauh */
+            color: #6d28d9;
+            text-transform: uppercase;
+            font-style: italic;
+            position: relative;
+            line-height: 1;
+        }
+
+        .brand-name::after {
+            content: "";
+            display: block;
+            width: 28px;
+            /* lebih kecil biar elegan */
+            height: 2px;
+            background: #c084fc;
+            margin: 5px auto 0;
+            border-radius: 10px;
+            opacity: 0.9;
+            /* biar gak terlalu “ngejreng” */
         }
 
         .brand-sub {
@@ -64,6 +87,48 @@
             border-radius: 20px;
             font-size: 0.8rem;
             text-decoration: none;
+            transition: all .2s
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--gd)
+        }
+
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #7c3aed;
+            color: #fff !important;
+
+            padding: 10px 16px;
+            border-radius: 12px;
+
+            font-weight: 600;
+            font-size: 0.9rem;
+
+            text-decoration: none;
+            border: 1px solid #7c3aed;
+
+            transition: .2s ease;
+        }
+
+        .btn-gold:hover {
+            background: #6d28d9;
+            border-color: #6d28d9;
+        }
+
+        .nav-btn {
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            background: transparent;
+            cursor: pointer;
             transition: all .2s
         }
 
@@ -206,15 +271,58 @@
             margin-top: 10px;
             padding: 11px;
             border-radius: 10px;
-            border: none;
-            background: var(--green-900);
-            color: #fff;
+            border: 1.5px solid #7c3aed;
+            background: transparent;
+            color: #7c3aed;
             font-weight: 600;
             transition: 0.2s;
         }
 
         .btn-submit:hover {
-            background: var(--green-700);
+            background: #7c3aed;
+            color: #fff;
+        }
+
+        .dropdown-menu .dropdown-item {
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-wrapper {
+                padding: 15px;
+                padding-top: 70px;
+            }
+
+            .card-box {
+                max-width: 100%;
+                border-radius: 14px;
+            }
+
+            .header {
+                padding: 18px;
+            }
+
+            .review-content {
+                padding: 18px;
+            }
+
+            .title {
+                font-size: 16px;
+            }
+
+            .star-rating label {
+                font-size: 24px;
+            }
+
+            .tags {
+                gap: 8px;
+            }
+
+            .tag {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
         }
     </style>
 </head>
@@ -226,30 +334,43 @@
                 <img src="{{ asset('images/salon.jpg') }}" alt="Logo" width="40" height="40"
                     style="border-radius:50%; object-fit:cover;">
             </div>
-
-            <div class="brand-name">
-                E-Booking Salon
-            </div>
+            <div class="brand-name">SalonQu</div>
         </div>
+        <div style="display:flex;gap:10px;align-items:center">
 
-        <div class="d-flex align-items-center gap-3">
+            <div class="dropdown">
+                <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown"
+                    style="color:#7C4DFF;font-size:0.85rem;font-weight:500">
 
-            <a href="/booking/riwayat" class="btn btn-outline-danger btn-sm rounded-pill">
-                <i class="bi bi-clock-history"></i>
-                Riwayat
-            </a>
+                    <i class="bi bi-person-circle me-1"></i>
+                    {{ Auth::user()->nama_lengkap }}
 
-            <span class="small" style="color:var(--gold)">
-                {{ Auth::user()->nama_lengkap }}
-            </span>
+                </a>
 
-            <form action="/logout" method="POST" class="d-inline">
-                @csrf
-                <button class="btn btn-outline-secondary btn-sm rounded-pill">
-                    Logout
-                </button>
-            </form>
+                <ul class="dropdown-menu dropdown-menu-end">
 
+                    <li>
+                        <a class="dropdown-item" href="/booking">
+                            <i class="bi bi-plus-circle me-2"></i> Booking Baru
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -313,7 +434,7 @@
                             </label>
 
                             <label class="tag">
-                                <input type="checkbox" name="tepat_waktu"> Tepat Waktu
+                                <input type="checkbox" name="tepat_waktu"> Keterampilan
                             </label>
 
                         </div>

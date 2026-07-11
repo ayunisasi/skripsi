@@ -12,7 +12,7 @@
         rel="stylesheet">
     <style>
         body {
-            background: #f4f1eb;
+            background: #f9fafb;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,67 +22,61 @@
         }
 
         .card {
-            width: 420px;
-            padding: 45px 35px;
-            border-radius: 28px;
-
-            background: #ffffff;
-
-            border: 2px solid #d8c39a;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.08),
-                0 0 0 4px rgba(198, 168, 107, 0.08);
-
-            overflow: hidden;
+            width: 360px;
+            padding: 28px 24px;
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         .brand {
             letter-spacing: 0.5px;
             font-family: 'Playfair Display', serif;
-            color: #23443d;
+            color: #6d28d9;
             font-size: 1.5rem;
         }
 
         .sub {
-            color: #23443d;
+            color: #7c3aed;
             font-size: 0.82rem;
         }
 
         .form-control {
-            border-radius: 14px;
-            border: 2px solid #dcc8a1;
-            padding: 14px 18px;
-            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            padding: 10px 12px;
+            font-size: 0.9rem;
         }
 
         .form-control:focus {
-            border-color: #c6a86b;
-            box-shadow: 0 0 0 4px rgba(198, 168, 107, 0.18);
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, .12);
         }
 
         .form-label {
-            font-weight: 500;
-            font-size: 0.88rem;
-            color: #23443d;
+            font-size: 0.82rem;
+            margin-bottom: 5px;
+            color: #374151;
         }
 
         .btn-pink {
-            background: linear-gradient(135deg, #c6a86b, #e0c48d);
-            color: #23443d;
-            border: none;
-            border-radius: 16px;
-            padding: 15px;
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1.5px solid #d8b4fe;
+            padding: 10px;
+            font-size: 0.9rem;
+            border-radius: 10px;
             font-weight: 700;
             width: 100%;
-            transition: all 0.3s;
-            font-size: 1.05rem;
+            transition: .3s;
         }
 
         .btn-pink:hover {
-            background: linear-gradient(135deg, #b89555, #d4b57a);
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
             transform: translateY(-2px);
-            color: #23443d;
         }
 
         .divider {
@@ -103,6 +97,8 @@
 <body>
     <div class="card">
         <div class="text-center mb-4">
+            <img src="/images/salon.jpg" alt="Logo Salon"
+                style="width:55px; height:55px; object-fit:cover; margin-bottom:8px;">
             <div class="brand">Sri Salon Sindang</div>
             <div class="sub">E-Booking Salon</div>
         </div>
@@ -142,11 +138,11 @@
         <div class="divider"></div>
         <div class="text-center">
             <small class="text-muted">Belum punya akun?
-                <a href="/register" style="color:#b89555; font-weight:600;">Daftar Gratis</a>
+                <a href="/register" style="color:#7c3aed; font-weight:600;">Daftar</a>
             </small>
         </div>
         <div class="text-center mt-2">
-            <a href="/" style="color:#8c7a5b;>
+            <a href="/" style="color:#7c3aed;>
                 ← Kembali ke Beranda
             </a>
         </div>

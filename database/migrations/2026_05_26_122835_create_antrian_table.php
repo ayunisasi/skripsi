@@ -23,9 +23,14 @@ return new class extends Migration
         $table->time('estimasi_jam_mulai');
         $table->time('estimasi_jam_selesai');
         $table->integer('total_durasi'); // menit
+        $table->timestamp('called_at')->nullable();
         $table->enum('status', [
-            'menunggu', 'dilayani', 'selesai', 'dibatalkan'
-        ])->default('menunggu');
+    'menunggu',
+    'dipanggil',
+    'dilayani',
+    'selesai',
+    'dibatalkan'
+])->default('menunggu');
         $table->timestamps();
     });
 }

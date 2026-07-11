@@ -95,10 +95,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
          ->name('admin.antrian.index');
     Route::post('/antrian/{id}/panggil', [AntrianAdminController::class, 'panggil'])
          ->name('admin.antrian.panggil');
+    Route::post('/antrian/{id}/layani', [AntrianAdminController::class, 'layani'])
+     ->name('admin.antrian.layani');
+
     Route::post('/antrian/{id}/selesai', [AntrianAdminController::class, 'selesai'])
-         ->name('admin.antrian.selesai');
+        ->name('admin.antrian.selesai');
+
     Route::post('/antrian/{id}/keterlambatan', [AntrianAdminController::class, 'prosesKeterlambatan'])
-         ->name('admin.antrian.keterlambatan');
+        ->name('admin.antrian.keterlambatan');
 
     // Pembayaran
     Route::get('/pembayaran', [PembayaranAdminController::class, 'index'])

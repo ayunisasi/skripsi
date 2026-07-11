@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Layanan;
 use App\Models\ProdukTambahan;
 use App\Models\Pembayaran;
+use App\Models\Terapis;
 use App\Services\AntrianService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,14 +21,22 @@ class BookingAdminController extends Controller
         $this->antrianService = $antrianService;
     }
 
-    public function index()
-    {
-        $bookings = Booking::with(['user', 'layanan', 'terapis', 'antrian'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15);
+public function index(Request $request)
+{
+    $query = Booking::with(['user', 'layanan', 'terapis', 'antrian']);
 
-        return view('admin.booking.index', compact('bookings'));
+    if ($request->filled('terapis_id')) {
+        $query->where('terapis_id', $request->terapis_id);
     }
+
+    $bookings = $query
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
+
+    $terapis = Terapis::where('status', 'aktif')->get();
+
+    return view('admin.booking.index', compact('bookings', 'terapis'));
+}
 
     public function detail(int $id)
     {

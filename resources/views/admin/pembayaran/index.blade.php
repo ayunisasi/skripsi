@@ -4,31 +4,60 @@
 
     {{-- Summary --}}
     <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card p-3 text-center">
-                <div style="font-size:1.5rem">💰</div>
-                <div class="fw-bold mt-1" style="color:#b5485a">
-                    Rp {{ number_format($totalPendapatan, 0, ',', '.') }}
+
+        {{-- Pendapatan Hari Ini --}}
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body d-flex justify-content-between align-items-center p-4">
+
+                    <div>
+                        <small class="text-muted d-block mb-2">
+                            Pendapatan Hari Ini
+                        </small>
+
+                        <h2 class="fw-bold mb-1" style="font-size:26px;">
+                            Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}
+                        </h2>
+
+                        <small style="color:#7c4dff">
+                            Pendapatan transaksi hari ini
+                        </small>
+                    </div>
+
+                    <div class="rounded-4 d-flex align-items-center justify-content-center"
+                        style="width:70px;height:70px;background:#f4efff;">
+                        <i class="bi bi-wallet2" style="font-size:32px;color:#7c4dff;"></i>
+                    </div>
+
                 </div>
-                <small class="text-muted">Total Pendapatan</small>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card p-3 text-center">
-                <div style="font-size:1.5rem">📥</div>
-                <div class="fw-bold mt-1" style="color:#1565c0">
-                    Rp {{ number_format($totalDP, 0, ',', '.') }}
+
+        {{-- Pendapatan Bulan Ini --}}
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body d-flex justify-content-between align-items-center p-4">
+
+                    <div>
+                        <small class="text-muted d-block mb-2">
+                            Pendapatan Bulan Ini
+                        </small>
+
+                        <h2 class="fw-bold mb-1" style="font-size:26px;">
+                            Rp {{ number_format($pendapatanBulanIni, 0, ',', '.') }}
+                        </h2>
+
+                        <small style="color:#7c4dff">
+                            Pendapatan transaksi bulan ini
+                        </small>
+                    </div>
+
+                    <div class="rounded-4 d-flex align-items-center justify-content-center"
+                        style="width:70px;height:70px;background:#f4efff;">
+                        <i class="bi bi-calendar-check" style="font-size:32px;color:#7c4dff;"></i>
+                    </div>
+
                 </div>
-                <small class="text-muted">Total DP Masuk</small>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card p-3 text-center">
-                <div style="font-size:1.5rem">🏦</div>
-                <div class="fw-bold mt-1" style="color:#388e3c">
-                    Rp {{ number_format($totalPelunasan, 0, ',', '.') }}
-                </div>
-                <small class="text-muted">Total Pelunasan</small>
             </div>
         </div>
 
@@ -91,7 +120,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="/admin/pembayaran/{{ $booking->id }}" class="btn btn-sm btn-pink">
+                                    <a href="/admin/pembayaran/{{ $booking->id }}" class="btn btn-detail-soft">
                                         Detail
                                     </a>
                                 </td>

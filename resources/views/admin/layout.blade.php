@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin') - E-Booking Salon</title>
+    <title>@yield('title', 'Admin') - SalonQu</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,11 +21,10 @@
         }
 
         body {
-            background:
-                linear-gradient(to bottom right,
-                    #f8f6f1,
-                    #f3efe3);
+            background: #faf7ff;
             font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins',
+                sans-serif;
         }
 
         /* ================= SIDEBAR ================= */
@@ -33,40 +32,35 @@
         .sidebar {
             width: 250px;
             min-height: 100vh;
-
-            background:
-                linear-gradient(180deg,
-                    #0f3d2e 0%,
-                    #14513b 55%,
-                    #1f5c45 100%);
-
             position: fixed;
-            top: 0;
-            left: 0;
+
+            background: white;
+
+            border-right: 1px solid #e9d5ff;
+
+            box-shadow: 4px 0 20px rgba(124, 58, 237, .05);
 
             display: flex;
             flex-direction: column;
 
             z-index: 100;
-
-            box-shadow:
-                6px 0 25px rgba(0, 0, 0, 0.08);
         }
 
         .sidebar-brand {
+            color: #6d28d9;
             padding: 18px 18px;
+            background: white;
 
-            color: #f8f3e7;
-
-            font-weight: 700;
-            font-size: 1rem;
-
-            border-bottom:
-                1px solid rgba(212, 175, 55, 0.22);
+            border: none;
+            border-left: 4px solid #8b5cf6;
+            border-bottom: 1px solid #ede9fe;
 
             display: flex;
             align-items: center;
             gap: 14px;
+
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         .sidebar-brand img {
@@ -81,7 +75,7 @@
             align-items: center;
             gap: 10px;
 
-            color: rgba(255, 255, 255, 0.78);
+            color: #6b7280;
 
             padding: 11px 18px;
 
@@ -98,13 +92,11 @@
         .sidebar a:hover,
         .sidebar a.active {
 
-            background:
-                rgba(212, 175, 55, 0.12);
+            background: #f5f3ff;
 
-            color: #fff;
+            color: #7c3aed;
 
-            border-left:
-                4px solid #d4af37;
+            border-left: 4px solid #7c3aed;
         }
 
         .sidebar a i {
@@ -126,7 +118,7 @@
             align-items: center;
             gap: 12px;
 
-            color: rgba(255, 255, 255, 0.82);
+            color: #6b7280;
 
             padding: 15px 22px;
 
@@ -145,13 +137,9 @@
         }
 
         .logout-btn:hover {
-            background:
-                rgba(212, 175, 55, 0.12);
-
-            color: white;
-
-            border-left:
-                4px solid #d4af37;
+            background: #f5f3ff;
+            color: #7c3aed;
+            border-left: 4px solid #7c3aed;
         }
 
         /* ================= MAIN ================= */
@@ -165,7 +153,8 @@
 
         .topbar {
             background: white;
-
+            border: 1px solid #e9d5ff;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, .05);
             padding: 18px 26px;
 
             border-radius: 22px;
@@ -176,18 +165,13 @@
 
             margin-bottom: 28px;
 
-            border:
-                1px solid #efe7d2;
-
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.05);
         }
 
         .topbar-title {
             font-size: 1.08rem;
             font-weight: 700;
 
-            color: #0f3d2e;
+            color: #7c3aed;
         }
 
         .topbar-user {
@@ -204,14 +188,11 @@
 
             overflow: hidden;
 
-            background: white;
+            background: #fff;
+            box-shadow: 0 6px 25px rgba(124, 58, 237, .08);
 
             border:
                 1px solid #efe7d2;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.05);
-
             transition: 0.3s;
         }
 
@@ -231,15 +212,13 @@
 
         .table {
             margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0 8px;
         }
 
         .table thead th {
-            background:
-                linear-gradient(to right,
-                    #f8f3e7,
-                    #f4edd9);
-
-            color: #0f3d2e;
+            background: #faf7ff;
+            color: #7c3aed;
 
             font-weight: 600;
 
@@ -261,6 +240,169 @@
         }
 
         /* ================= BUTTON ================= */
+        .btn-detail-soft {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            padding: 3px 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .btn-detail-soft:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #7c3aed;
+        }
+
+        .btn-success-soft {
+            background: #ecfdf5;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+            padding: 3px 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .btn-success-soft:hover {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .btn-danger-soft {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            padding: 3px 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .btn-danger-soft:hover {
+            background: rgba(220, 38, 38, 0.12);
+            color: #dc2626;
+            border-color: rgba(220, 38, 38, 0.35);
+        }
+
+        .btn-danger {
+            background: #f5f3ff;
+            color: #dc2626;
+            /* merah */
+            border: 1.5px solid #fecaca;
+            font-weight: 600;
+        }
+
+        .btn-danger:hover {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .table .btn {
+            padding: 3px 8px !important;
+            font-size: 0.72rem !important;
+        }
+
+        .btn-outline-soft {
+            background: white;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+        }
+
+        .btn-outline-soft:hover {
+            background: #faf7ff;
+            color: #6d28d9;
+            border: 1px solid #c084fc;
+            /* border tetap ada */
+        }
+
+        .btn-outline-soft:focus,
+        .btn-outline-soft:active {
+            background: #faf7ff !important;
+            color: #6d28d9 !important;
+            border: 1px solid #c084fc !important;
+            box-shadow: none !important;
+            /* hilangkan efek bootstrap */
+        }
+
+        .btn-purple {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .btn-purple:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
+        }
+
+        .btn-action {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .btn-action:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
+        }
+
+        .btn-purple {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+        }
+
+        .btn-purple:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .btn-gray {
+            background: white;
+            color: black;
+            border: 1.5px solid black;
+            font-weight: 300;
+        }
+
+        .btn-gray:hover {
+            background: gray;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #fff7ed;
+            color: #ea580c;
+            border: 1px solid #fed7aa;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background: #ffedd5;
+            color: #c2410c;
+            border-color: #fdba74;
+        }
+
+        .btn-warning-soft {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid #fde68a;
+            font-weight: 600;
+            transition: .2s;
+        }
+
+        .btn-warning-soft:hover {
+            background: #fef3c7;
+            color: #b45309;
+            border-color: #fcd34d;
+        }
 
         .btn-pink {
             background:
@@ -291,6 +433,48 @@
             color: white;
 
             transform: translateY(-2px);
+        }
+
+        .btn-add-soft {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+        }
+
+        .btn-add-soft:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
+        }
+
+        .btn-add-soft:focus,
+        .btn-add-soft:active {
+            background: #ede9fe !important;
+            color: #6d28d9 !important;
+            border-color: #c084fc !important;
+            box-shadow: none !important;
+        }
+
+        .btn-add {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1px solid #d8b4fe;
+            font-weight: 600;
+        }
+
+        .btn-add:hover {
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
+        }
+
+        .btn-add:focus,
+        .btn-add:active {
+            background: #ede9fe !important;
+            color: #6d28d9 !important;
+            border-color: #c084fc !important;
+            box-shadow: none !important;
         }
 
         /* ================= BADGE ================= */
@@ -422,14 +606,42 @@
         }
 
         .pagination .page-link {
-            color: #14532d;
+            color: #7c3aed;
             border-radius: 8px;
             margin: 0 3px;
         }
 
         .pagination .page-item.active .page-link {
-            background: #14532d;
-            border-color: #14532d;
+            background: #7c3aed;
+            border-color: #7c3aed;
+        }
+
+        .row-active {
+            background: #faf7ff !important;
+        }
+
+        .filter-dropdown {
+            width: 180px;
+            max-height: 180px;
+            overflow-y: auto;
+
+            border-radius: 10px;
+
+            padding: 4px;
+        }
+
+        .filter-dropdown .dropdown-item {
+            border-radius: 6px;
+
+            padding: 6px 10px;
+
+            font-size: 12px;
+
+            line-height: 1.2;
+        }
+
+        .filter-dropdown .dropdown-divider {
+            margin: 4px 0;
         }
     </style>
 </head>
@@ -444,13 +656,10 @@
             <img src="{{ asset('images/salon.jpg') }}" alt="Logo" width="48" height="48">
 
             <div>
-                <div>E-Booking Salon</div>
+                <div>SalonQu</div>
 
-                <div style="
-                    font-size:0.72rem;
-                    opacity:.75;
-                    font-weight:400;
-                ">
+                <div style="font-size:0.72rem;color:#a78bfa;font-weight:500;">
+
                     Admin Panel
                 </div>
             </div>

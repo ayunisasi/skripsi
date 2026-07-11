@@ -8,16 +8,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --gd: #1a3a2a;
-            --gm: #2d5a3d;
+            --gd: #6d28d9;
+            --gm: #8b5cf6;
             --gold: #c9a84c;
             --gold-l: #f5edd0;
+
             --cream: #faf7f0;
-            --gl: #e8f5ee
+            /* sama seperti booking */
+            --gl: #f3e8ff;
         }
 
         body {
@@ -33,19 +37,40 @@
             right: 0;
             z-index: 9999;
 
-            background: var(--gd);
-            padding: 14px 30px;
+            background: #faf7ff;
+            border-bottom: 1px solid #e9d5ff;
+            padding: 8px 16px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
         }
 
         .brand-name {
-            color: var(--gold);
             font-family: 'Playfair Display', serif;
             font-weight: 700;
-            font-size: 1.1rem
+            font-size: 1.02rem;
+            /* diperkecil dikit */
+            letter-spacing: 1.5px;
+            /* gak terlalu jauh */
+            color: #6d28d9;
+            text-transform: uppercase;
+            font-style: italic;
+            position: relative;
+            line-height: 1;
+        }
+
+        .brand-name::after {
+            content: "";
+            display: block;
+            width: 28px;
+            /* lebih kecil biar elegan */
+            height: 2px;
+            background: #c084fc;
+            margin: 5px auto 0;
+            border-radius: 10px;
+            opacity: 0.9;
+            /* biar gak terlalu “ngejreng” */
         }
 
         .brand-sub {
@@ -70,24 +95,28 @@
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, var(--gold), #b8922e);
-            color: var(--gd);
-            border: none;
-            border-radius: 10px;
-            padding: 8px 18px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all .2s;
             display: inline-flex;
             align-items: center;
-            gap: 5px
+            justify-content: center;
+
+            background: #7c3aed;
+            color: #fff !important;
+
+            padding: 10px 16px;
+            border-radius: 12px;
+
+            font-weight: 600;
+            font-size: 0.9rem;
+
+            text-decoration: none;
+            border: 1px solid #7c3aed;
+
+            transition: .2s ease;
         }
 
         .btn-gold:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 5px 15px rgba(201, 168, 76, 0.3);
-            color: var(--gd)
+            background: #6d28d9;
+            border-color: #6d28d9;
         }
 
         .nav-btn {
@@ -109,10 +138,10 @@
 
         .booking-card {
             background: white;
-            border-radius: 18px;
+            border: 1.5px solid #E6D9FF;
+            border-radius: 20px;
             overflow: hidden;
             margin-bottom: 14px;
-            border: 1px solid rgba(201, 168, 76, 0.15);
             box-shadow: 0 3px 16px rgba(26, 58, 42, 0.07);
             transition: all .2s;
         }
@@ -134,8 +163,8 @@
             align-items: center;
             gap: 4px;
             background: var(--gold-l);
-            color: var(--gd);
-            border: 1px solid rgba(201, 168, 76, 0.3);
+            color: #222;
+            border: 1px solid #E6D9FF;
             border-radius: 20px;
             padding: 3px 10px;
             font-size: 0.76rem;
@@ -148,8 +177,8 @@
             align-items: center;
             gap: 6px;
             font-size: 0.83rem;
-            color: #6b7c6b;
-            margin-bottom: 4px
+            color: #222;
+            margin-bottom: 4px;
         }
 
         .info-row i {
@@ -166,8 +195,8 @@
         }
 
         .sb-aktif {
-            background: var(--gl);
-            color: var(--gd)
+            background: #F2EDFF;
+            color: #7C4DFF;
         }
 
         .sb-selesai {
@@ -199,24 +228,17 @@
             border: none;
         }
 
-        .btn-antrian {
-            background: var(--gd);
-            color: var(--gold)
-        }
-
-        .btn-antrian:hover {
-            background: var(--gm);
-            color: var(--gold)
-        }
-
+        .btn-antrian,
         .btn-lunasi {
-            background: #1565c0;
-            color: white
+            background: transparent;
+            color: #7c3aed;
+            border: 1.5px solid #7c3aed;
         }
 
+        .btn-antrian:hover,
         .btn-lunasi:hover {
-            background: #0d47a1;
-            color: white
+            background: #f5f3ff;
+            color: #7c3aed;
         }
 
         .btn-batal {
@@ -231,15 +253,15 @@
         }
 
         .btn-hapus {
-            background: white;
-            color: #9e9e9e;
-            border: 1.5px solid #e0e0e0
+            background: #ffebee;
+            color: #c62828;
+            border: 1.5px solid #ef9a9a;
         }
 
         .btn-hapus:hover {
-            background: #ffebee;
-            color: #c62828;
-            border-color: #ef9a9a
+            background: #c62828;
+            color: white;
+            border-color: #c62828;
         }
 
         .batal-form {
@@ -249,6 +271,10 @@
             padding: 12px;
             margin-top: 10px;
             display: none;
+        }
+
+        .dropdown-menu .dropdown-item {
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -260,14 +286,43 @@
                 <img src="{{ asset('images/salon.jpg') }}" alt="Logo" width="40" height="40"
                     style="border-radius:50%; object-fit:cover;">
             </div>
-            <div class="brand-name">E-Booking Salon</div>
+            <div class="brand-name">SalonQu</div>
         </div>
         <div style="display:flex;gap:10px;align-items:center">
-            <a href="/booking" class="btn-gold"><i class="bi bi-plus-lg"></i> Booking Baru</a>
-            <span style="color:rgba(255,255,255,0.5);font-size:0.8rem">{{ Auth::user()->nama_lengkap }}</span>
-            <form action="/logout" method="POST" class="d-inline">@csrf
-                <button type="submit" class="nav-btn">Logout</button>
-            </form>
+
+            <div class="dropdown">
+                <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown"
+                    style="color:#7C4DFF;font-size:0.85rem;font-weight:500">
+
+                    <i class="bi bi-person-circle me-1"></i>
+                    {{ Auth::user()->nama_lengkap }}
+
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+
+                    <li>
+                        <a class="dropdown-item" href="/booking">
+                            <i class="bi bi-plus-circle me-2"></i> Booking Baru
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i> Logout
+                            </button>
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -288,7 +343,7 @@
 
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
             <div>
-                <h4 style="font-family:'Playfair Display',serif;color:var(--gd);margin-bottom:2px">Riwayat Pemesanan
+                <h4 style="font-family:'Playfair Display',serif;color:#222;margin-bottom:2px">Riwayat Pemesanan
                 </h4>
                 <p style="color:#9a7b82;font-size:0.82rem;margin:0">{{ $bookings->total() }} total booking</p>
             </div>
@@ -298,8 +353,8 @@
             <div class="booking-card">
                 {{-- Color bar --}}
                 <div class="status-bar" style="background:
-                                                                                                                    {{ $b->status === 'aktif' ? 'linear-gradient(90deg,#1a3a2a,#2d5a3d)' :
-            ($b->status === 'selesai' ? 'linear-gradient(90deg,#c9a84c,#b8922e)' :
+                            {{ $b->status === 'aktif' ? 'linear-gradient(90deg,#7C4DFF,#9B7BFF)' :
+            ($b->status === 'selesai' ? 'linear-gradient(90deg,#7C4DFF,#B388FF)' :
                 (str_contains($b->status, 'dibatalkan') ? 'linear-gradient(90deg,#c62828,#ef5350)' :
                     'linear-gradient(90deg,#f57c00,#ffb74d)')) }}">
                 </div>
@@ -353,7 +408,9 @@
                             @if($b->nomor_antrian)
                                 <div class="info-row">
                                     <i class="bi bi-list-ol"></i>
-                                    No. Antrian: <strong style="color:var(--gd)">#{{ $b->nomor_antrian }}</strong>
+                                    No. Antrian: <strong style="color:#222">
+                                        #{{ $b->nomor_antrian }}
+                                    </strong>
                                 </div>
                             @endif
                         </div>
@@ -381,12 +438,14 @@
                     <div
                         style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid rgba(201,168,76,0.12)">
 
+                        {{-- Lihat antrian --}}
                         @if(in_array($b->status, ['aktif', 'menunggu_pembayaran']))
                             <a href="/booking/antrian/{{ $b->kd_booking }}" class="btn-aksi btn-antrian">
                                 <i class="bi bi-list-ol"></i> Lihat Antrian
                             </a>
                         @endif
 
+                        {{-- Batalkan --}}
                         @if($b->bisaDibatalkan())
                             <form action="/booking/{{ $b->id }}/batalkan" method="POST" class="d-inline">
                                 @csrf
@@ -396,24 +455,26 @@
                             </form>
                         @endif
 
+                        {{-- Lunasi --}}
                         @if($b->sisaBayar() > 0 && $b->status === 'aktif')
                             <a href="/booking/{{ $b->id }}/lunasi" class="btn-aksi btn-lunasi">
                                 <i class="bi bi-credit-card"></i> Lunasi
                             </a>
                         @endif
 
-
-
+                        {{-- HAPUS RIWAYAT (selesai / batal) --}}
                         @if(in_array($b->status, ['selesai', 'dibatalkan', 'dibatalkan_sistem']))
                             <form action="/booking/{{ $b->id }}/hapus" method="POST" class="d-inline"
-                                onsubmit="return confirm('Hapus riwayat booking ini dari daftar?')">
-                                @csrf @method('DELETE')
+                                onsubmit="return confirm('Hapus riwayat booking ini?')">
+                                @csrf
+                                @method('DELETE')
                                 <button type="submit" class="btn-aksi btn-hapus">
                                     <i class="bi bi-trash3"></i> Hapus Riwayat
                                 </button>
                             </form>
                         @endif
 
+                        {{-- BERI ULASAN (khusus selesai) --}}
                         @if($b->status == 'selesai')
                             @if(!$b->review)
                                 <a href="/review/{{ $b->id }}" class="btn-aksi" style="background:#ffc107;color:#000;">
@@ -425,6 +486,7 @@
                                 </span>
                             @endif
                         @endif
+
                     </div>
 
 

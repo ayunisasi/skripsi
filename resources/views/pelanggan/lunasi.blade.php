@@ -11,44 +11,56 @@
 
     <style>
         :root {
-            --gd: #1a3a2a;
-            --gm: #2d5a3d;
+            --gd: #6d28d9;
+            --gm: #8b5cf6;
             --gold: #c9a84c;
             --gold-l: #f5edd0;
             --cream: #faf7f0;
+            --gl: #f3e8ff;
         }
 
         body {
-            background: #fdf6f7;
+            background: var(--cream);
             font-family: 'Poppins', sans-serif;
+
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+
             padding: 20px;
         }
 
         .card {
-            border: none;
+            border: 1px solid #e6d9ff;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(26, 58, 42, 0.12);
-            max-width: 460px;
+
+            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.08);
+
+            max-width: 500px;
             width: 100%;
+            margin: auto;
+
+            background: #fff;
         }
 
         .btn-gold {
-            background: linear-gradient(135deg, var(--gold), #b8922e);
-            color: var(--gd);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: #fff;
+
             border: none;
             border-radius: 12px;
-            padding: 14px;
+
+            padding: 12px;
             font-weight: 600;
+
             width: 100%;
+            transition: .2s;
         }
 
         .btn-gold:hover {
-            background: linear-gradient(135deg, #b8922e, var(--gold));
-            color: var(--gd);
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            color: #fff;
         }
 
         .summary-row {
@@ -59,16 +71,24 @@
         }
 
         .box {
-            background: var(--gold-l);
+            background: var(--gl);
             border-radius: 12px;
             padding: 14px;
             margin-bottom: 16px;
+
+            border: 1px solid #e6d9ff;
         }
 
         .total {
             border-top: 2px dashed #e6d7a6;
             padding-top: 10px;
             margin-top: 10px;
+        }
+
+        .summary-row.total span:last-child {
+            color: var(--gold);
+            font-size: 1.1rem;
+            font-weight: 700;
         }
     </style>
 
@@ -114,7 +134,7 @@
         </div>
 
         <button id="btnLunasi" class="btn-gold mb-3">
-            💳 Bayar Rp {{ number_format($sisaBayar, 0, ',', '.') }}
+            Bayar Rp {{ number_format($sisaBayar, 0, ',', '.') }}
         </button>
 
         <div class="text-center">

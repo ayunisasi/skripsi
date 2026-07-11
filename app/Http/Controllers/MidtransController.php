@@ -7,17 +7,21 @@ use App\Models\Booking;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Services\AntrianService;
 
 class MidtransController extends Controller
 {
-    public function __construct()
-    {
-        \Midtrans\Config::$serverKey    = config('services.midtrans.server_key');
-        \Midtrans\Config::$clientKey    = config('services.midtrans.client_key');
-        \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
-        \Midtrans\Config::$isSanitized  = true;
-        \Midtrans\Config::$is3ds        = true;
-    }
+    protected $antrianService;
+    public function __construct(AntrianService $antrianService)
+{
+    $this->antrianService = $antrianService;
+
+    \Midtrans\Config::$serverKey    = config('services.midtrans.server_key');
+    \Midtrans\Config::$clientKey    = config('services.midtrans.client_key');
+    \Midtrans\Config::$isProduction = config('services.midtrans.is_production');
+    \Midtrans\Config::$isSanitized  = true;
+    \Midtrans\Config::$is3ds        = true;
+}
 
     // Halaman form pembayaran
     public function form( int $id)
@@ -155,6 +159,10 @@ class MidtransController extends Controller
         'status_pembayaran' => $newStatusBayar,
         'status'            => $newStatusBooking,
     ]);
+    // Buat nomor antrean hanya jika belum punya antrean
+if (!$booking->antrian) {
+    $this->antrianService->assignAntrian($booking);
+}
 
     } elseif (in_array($transactionStatus, ['deny', 'expire', 'cancel'])) {
         $booking->update(['status' => 'menunggu_pembayaran']);

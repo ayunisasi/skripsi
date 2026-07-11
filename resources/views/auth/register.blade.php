@@ -12,79 +12,84 @@
         rel="stylesheet">
     <style>
         body {
-            background: #f4f1eb;
-            min-height: 100vh;
+            background: #f9fafb;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            align-items: center;
             font-family: 'Poppins', sans-serif;
             padding: 30px 15px;
+            line-height: 1.2;
+
         }
 
         .card {
-            width: 460px;
-            padding: 45px 35px;
-            border-radius: 28px;
-
+            width: 400px;
+            padding: 32px 28px;
+            border-radius: 16px;
             background: #ffffff;
-
-            border: 2px solid #d8c39a;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.08),
-                0 0 0 4px rgba(198, 168, 107, 0.08);
-
-            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
         }
 
         .brand {
-            font-family: 'Playfair Display', serif;
-            color: #23443d;
-            font-size: 1.8rem;
             letter-spacing: 0.5px;
+            font-family: 'Playfair Display', serif;
+            color: black;
+            font-size: 1.4rem;
+            margin-top: 6px;
         }
 
         .sub-text {
-            color: #8c7a5b;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
-
-        .form-control {
-            border-radius: 14px;
-            border: 2px solid #dcc8a1;
-            padding: 14px 18px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            border-color: #c6a86b;
-            box-shadow: 0 0 0 4px rgba(198, 168, 107, 0.18);
+            color: #7c3aed;
+            font-size: 0.8rem;
+            opacity: 0.8;
         }
 
         .form-label {
-            font-weight: 600;
-            font-size: 0.92rem;
-            color: #23443d;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 2px rgba(124, 58, 237, .12);
+        }
+
+        .mb-3 {
+            margin-bottom: 14px !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 18px !important;
         }
 
         .btn-pink {
-            background: linear-gradient(135deg, #c6a86b, #e0c48d);
-            color: #23443d;
-            border: none;
-            border-radius: 16px;
-            padding: 15px;
+            background: #f5f3ff;
+            color: #7c3aed;
+            border: 1.5px solid #d8b4fe;
+            padding: 10px;
+            font-size: 0.9rem;
+            border-radius: 10px;
             font-weight: 700;
             width: 100%;
-            transition: all 0.3s;
-            font-size: 1.05rem;
+            transition: .3s;
         }
 
         .btn-pink:hover {
-            background: linear-gradient(135deg, #b89555, #d4b57a);
+            background: #ede9fe;
+            color: #6d28d9;
+            border-color: #c084fc;
             transform: translateY(-2px);
-            color: #23443d;
         }
 
         .divider {
@@ -93,14 +98,15 @@
         }
 
         .login-link {
-            color: #b89555;
+            color: #7c3aed;
             font-weight: 700;
             text-decoration: none;
         }
 
         .login-link:hover {
-            color: #9f7d42;
+            color: #6d28d9;
         }
+
 
         @media (max-width: 576px) {
             .card {
@@ -119,6 +125,8 @@
 <body>
     <div class="card">
         <div class="text-center mb-4">
+            <img src="/images/salon.jpg" alt="Logo"
+                style="width:55px; height:55px; object-fit:cover; margin-bottom:8px; border-radius:50%;">
             <div class="brand">Daftar Akun</div>
             <div class="sub-text">Sri Salon Sindang</div>
         </div>

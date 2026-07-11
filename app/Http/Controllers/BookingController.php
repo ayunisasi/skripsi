@@ -38,16 +38,25 @@ class BookingController extends Controller
           ->where('status', 'selesai')
           ->count();
 
-          // Jumlah booking aktif hari ini
-    $t->booking_hari_ini =
-    $t->bookings
-      ->where('tgl_booking', now()->toDateString())
-      ->whereNotIn('status', ['dibatalkan', 'dibatalkan_sistem'])
-      ->count();
+         // Jumlah booking aktif hari ini
+$t->booking_hari_ini = $t->bookings
+    ->where('tgl_booking', now()->toDateString())
+    ->whereIn('status', [
+        'menunggu_pembayaran',
+        'aktif',
+        'menunggu',
+        'dipanggil',
+        'dilayani'
+    ])
+    ->count();
 
-// Status ketersediaan terapis
-$t->tersedia = $t->booking_hari_ini < 5;
+// Maksimal 5 pelanggan
+$t->maksimal_booking = 5;
 
+// Status tersedia
+$t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
+
+    // kriteria
     $t->ramah = $t->reviews->where('ramah', true)->count();
 
     $t->rapi = $t->reviews->where('rapi', true)->count();
@@ -197,7 +206,7 @@ if (!$cek['tersedia']) {
     ]);
 
     $booking->layanan()->attach($request->layanan_ids);
-    $this->antrianService->assignAntrian($booking);
+    // $this->antrianService->assignAntrian($booking);
 
     return redirect()->route('midtrans.form', $booking->id);
 }

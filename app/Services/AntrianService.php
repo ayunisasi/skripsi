@@ -24,14 +24,62 @@ class AntrianService
         $nomorBaru = $lastAktif ? $lastAktif->nomor_antrian + 1 : 1;
 
         // Jam mulai: setelah terakhir selesai atau jam buka
-        $jamMulai = $lastAktif
-            ? Carbon::parse($lastAktif->estimasi_jam_selesai)
-            : (Carbon::parse($tgl)->isToday() ? Carbon::now() : Carbon::parse('09:00'));
+        $jamBuka = Carbon::parse('09:00');
+
+$sekarang = Carbon::now();
+
+if ($lastAktif) {
+
+    $lastSelesai = Carbon::parse(
+        $tgl . ' ' . $lastAktif->estimasi_jam_selesai
+    );
+
+    // Kalau antrean terakhir masih berlangsung
+    if ($lastSelesai->gt($sekarang)) {
+
+        $jamMulai = $lastSelesai->copy();
+
+    } else {
+
+        // Antrean sudah kosong
+        if (Carbon::parse($tgl)->isToday()) {
+
+            if ($sekarang->lt($jamBuka)) {
+                $jamMulai = $jamBuka->copy();
+            } else {
+                $jamMulai = $sekarang->copy()->addMinutes(10);
+            }
+
+        } else {
+
+            $jamMulai = $jamBuka->copy();
+
+        }
+
+    }
+
+} else {
+
+    if (Carbon::parse($tgl)->isToday()) {
+
+        if ($sekarang->lt($jamBuka)) {
+            $jamMulai = $jamBuka->copy();
+        } else {
+            $jamMulai = $sekarang->copy()->addMinutes(10);
+        }
+
+    } else {
+
+        $jamMulai = $jamBuka->copy();
+
+    }
+
+}
 
         $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
 
         // Batasi jam tutup salon
-        $jamTutup = Carbon::parse('17:00');
+        $jamTutup = Carbon::parse('18:00');
         if ($jamSelesai->gt($jamTutup)) {
             throw new \Exception('Terapis yang dipilih sudah penuh. Silahkan pilih terapis lainnya');
         }
@@ -78,14 +126,61 @@ class AntrianService
             ->orderBy('nomor_antrian', 'desc')
             ->first();
 
-        $jamMulai = $last
-            ? Carbon::parse($last->estimasi_jam_selesai)
-            : Carbon::parse('09:00');
+        $jamBuka = Carbon::parse('09:00');
+$sekarang = Carbon::now();
+
+if ($last) {
+
+    $lastSelesai = Carbon::parse(
+        $tgl . ' ' . $last->estimasi_jam_selesai
+    );
+
+    // Jika antrean terakhir masih berlangsung
+    if ($lastSelesai->gt($sekarang)) {
+
+        $jamMulai = $lastSelesai->copy();
+
+    } else {
+
+        // Antrean sudah kosong
+        if (Carbon::parse($tgl)->isToday()) {
+
+            if ($sekarang->lt($jamBuka)) {
+                $jamMulai = $jamBuka->copy();
+            } else {
+                $jamMulai = $sekarang->copy()->addMinutes(10);
+            }
+
+        } else {
+
+            $jamMulai = $jamBuka->copy();
+
+        }
+
+    }
+
+} else {
+
+    if (Carbon::parse($tgl)->isToday()) {
+
+        if ($sekarang->lt($jamBuka)) {
+            $jamMulai = $jamBuka->copy();
+        } else {
+            $jamMulai = $sekarang->copy()->addMinutes(10);
+        }
+
+    } else {
+
+        $jamMulai = $jamBuka->copy();
+
+    }
+
+}
 
         $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
 
         // Batasi jam tutup
-        $jamTutup = Carbon::parse('17:00');
+        $jamTutup = Carbon::parse('18:00');
 if ($jamSelesai->gt($jamTutup)) {
     return [
         'tersedia' => false,
@@ -145,7 +240,7 @@ if ($jamSelesai->gt($jamTutup)) {
     $jamMulai = Carbon::parse($antrian->estimasi_jam_selesai);
     $jamSelesaiBaru = $jamMulai->copy()->addMinutes($durasiTambahan);
 
-    $jamTutup = Carbon::parse('17:00'); // jam tutup salon
+    $jamTutup = Carbon::parse('18:00'); // jam tutup salon
     if ($jamSelesaiBaru->gt($jamTutup)) {
         return [
             'konflik' => true,
@@ -180,7 +275,11 @@ if ($jamSelesai->gt($jamTutup)) {
     public static function getTanggalTersedia(): array
     {
         $result = [];
-        $today  = Carbon::today();
+        $today = Carbon::today();
+
+if (Carbon::now()->hour >= 18) {
+    $today->addDay();
+}
         $count  = 0;
         $i      = 0;
 

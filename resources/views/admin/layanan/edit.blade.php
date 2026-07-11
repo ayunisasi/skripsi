@@ -22,8 +22,8 @@
                         required>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-pink flex-fill">Simpan</button>
-                    <a href="/admin/layanan" class="btn btn-secondary flex-fill">Batal</a>
+                    <button type="submit" class="btn btn-purple flex-fill">Simpan</button>
+                    <a href="/admin/layanan" class="btn btn-gray flex-fill">Batal</a>
                 </div>
             </form>
         </div>

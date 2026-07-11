@@ -9,45 +9,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gd: #1a3a2a;
-            --gm: #2d5a3d;
+            --gd: #6d28d9;
+            --gm: #8b5cf6;
             --gold: #c9a84c;
             --gold-l: #f5edd0;
             --cream: #faf7f0;
+            --gl: #f3e8ff;
         }
 
         body {
-            background: #fdf6f7;
+            background: var(--cream);
             font-family: 'Poppins', sans-serif;
             min-height: 100vh;
-
             display: flex;
             justify-content: center;
             align-items: center;
-
             padding: 20px;
         }
 
         .card {
-            border: none;
+            border: 1px solid #e6d9ff;
             border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(181, 72, 90, 0.1);
-
+            box-shadow: 0 8px 25px rgba(109, 40, 217, 0.08);
             width: 100%;
             max-width: 500px;
-            /* ukuran sedang */
-
             margin: auto;
+            background: #fff;
         }
 
         .btn-pink {
-            background: linear-gradient(135deg, var(--gold), #b8922e);
-            color: var(--gd);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 12px;
+            width: 100%;
+            transition: .2s;
         }
 
         .btn-pink:hover {
-            background: linear-gradient(135deg, #b8922e, var(--gold));
-            color: var(--gd);
+            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            color: #fff;
         }
 
         .summary-row {
@@ -58,7 +61,7 @@
         }
 
         .total-row {
-            border-top: 2px dashed #f2c4cc;
+            border-top: 2px dashed #e6d9ff;
             padding-top: 10px;
             margin-top: 10px;
         }
@@ -70,12 +73,13 @@
     <div class="card p-4">
         <div class="text-center mb-4">
             <div style="font-size:2.5rem">💳</div>
-            <h5 class="fw-bold" style="color:var(--gd)">Pembayaran</h5>
+            <h5 class="fw-bold" style="color: black">Pembayaran</h5>
             <small class="text-muted">Sri Salon Sindang</small>
         </div>
 
         {{-- Info Booking --}}
-        <div style="background:var(--gold-l); border-radius:12px; padding:14px; margin-bottom:16px;">
+        <div
+            style="background:var(--gl); border-radius:12px; padding:14px; margin-bottom:16px; border:1px solid #e6d9ff;">
             <div class="summary-row">
                 <span class="text-muted">Kode Booking</span>
                 <span class="fw-semibold font-monospace">{{ $booking->kd_booking }}</span>
@@ -116,11 +120,11 @@
             <i class="bi bi-credit-card me-2"></i> Bayar Sekarang
         </button>
 
-        <div class="text-center">
+        {{-- <div class="text-center">
             <a href="/booking/riwayat" style="color:var(--gd); font-size:0.82rem">
                 Bayar nanti →
             </a>
-        </div>
+        </div> --}}
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

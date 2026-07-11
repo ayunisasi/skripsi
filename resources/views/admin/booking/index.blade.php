@@ -3,7 +3,72 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h6 class="fw-bold mb-4">Data Booking</h6>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h6 class="fw-bold mb-0">Data Booking</h6>
+
+    <div class="dropdown">
+
+    <button
+    class="btn btn-light border rounded-3 dropdown-toggle px-3 py-1"
+    type="button"
+    data-bs-toggle="dropdown"
+    style="
+        font-size:14px;
+        font-weight:500;
+        min-width:170px;
+    ">
+
+        <i class="bi bi-funnel-fill me-1"></i>
+
+        @if(request('terapis_id'))
+
+            {{ optional($terapis->firstWhere('id', request('terapis_id')))->nama_terapis }}
+
+        @else
+
+            Semua Terapis
+
+        @endif
+
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-1 filter-dropdown">
+
+        <li>
+
+            <a class="dropdown-item"
+               href="{{ url('/admin/booking') }}">
+
+                Semua Terapis
+
+            </a>
+
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        @foreach($terapis as $t)
+
+            <li>
+
+                <a
+                    class="dropdown-item"
+                    href="{{ url('/admin/booking?terapis_id='.$t->id) }}">
+
+                    {{ $t->nama_terapis }}
+
+                </a>
+
+            </li>
+
+        @endforeach
+
+    </ul>
+
+</div>
+
+</div>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -11,6 +76,7 @@
                             <th>Kode</th>
                             <th>Pelanggan</th>
                             <th>Layanan</th>
+                            <th>Terapis</th>
                             <th>Tanggal</th>
 
                             <th>No. Antrian</th>
@@ -25,6 +91,7 @@
                                 <td><small class="font-monospace">{{ $b->kd_booking }}</small></td>
                                 <td>{{ $b->user->nama_lengkap }}</td>
                                 <td><small>{{ $b->layanan->pluck('nama_layanan')->join(', ') }}</small></td>
+                                <td>{{ $b->terapis->nama_terapis ?? '-' }}</td>
                                 <td>{{ \Carbon\Carbon::parse($b->tgl_booking)->format('d/m/Y') }}</td>
 
                                 <td>
@@ -50,36 +117,49 @@
                                         <span class="badge badge-aktif">Aktif</span>
                                     @elseif($b->status === 'selesai')
                                         <span class="badge badge-selesai">Selesai</span>
-                                    @elseif(str_contains($b->status, 'dibatalkan'))
-                                        <span class="badge badge-batal">Dibatalkan</span>
+                                    @elseif($b->status === 'dibatalkan_sistem')
+    <span class="badge badge-batal">
+        Dibatalkan Sistem
+    </span>
+
+@elseif($b->status === 'dibatalkan')
+    <span class="badge badge-batal">
+        Dibatalkan
+    </span>
                                     @else
                                         <span class="badge badge-menunggu">{{ ucfirst(str_replace('_', ' ', $b->status)) }}</span>
                                     @endif
                                 </td>
                                 <td>
-    <div style="display:flex;gap:4px;flex-wrap:wrap">
-        <a href="/admin/booking/{{ $b->id }}/detail"
-           class="btn btn-sm btn-green rounded-3 fw-semibold">Detail</a>
+    <div style="display:flex;gap:6px;align-items:center;">
 
-        @if($b->status === 'menunggu_pembayaran')
+    <a href="/admin/booking/{{ $b->id }}/detail"
+       class="btn btn-detail-soft btn-sm px-3 py-1 rounded-3">
+        Detail
+    </a>
+
+        {{-- @if($b->status === 'menunggu_pembayaran')
         <form action="/admin/booking/{{ $b->id }}/setujui" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-sm rounded-3 fw-semibold"
-                style="background:var(--green-light);color:var(--green-dark);border:1px solid rgba(26,58,42,0.2)">
+            <button class="btn btn-sm rounded-3 fw-semibold"class="btn btn-success-soft rounded-3">
                 Setujui
             </button>
         </form>
-        @endif
+        @endif --}}
 
         {{-- ✅ TOMBOL HAPUS --}}
-        <form action="/admin/booking/{{ $b->id }}" method="POST" class="d-inline"
-              onsubmit="return confirm('Yakin hapus data booking {{ $b->kd_booking }}?')">
-            @csrf @method('DELETE')
-            <button class="btn btn-danger btn-sm rounded-3">
-                <i class="bi bi-trash3"></i> Hapus
-            </button>
-        </form>
-    </div>
+        <form action="/admin/booking/{{ $b->id }}" method="POST"
+          onsubmit="return confirm('Yakin hapus data booking {{ $b->kd_booking }}?')">
+        @csrf
+        @method('DELETE')
+
+        <button type="submit"
+                class="btn btn-danger-soft btn-sm px-3 py-1 rounded-3">
+            <i class="bi bi-trash3"></i> Hapus
+        </button>
+    </form>
+
+</div>
 </td>
                             </tr>
                         @empty

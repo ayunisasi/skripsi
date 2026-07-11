@@ -1,13 +1,29 @@
 @extends('admin.layout')
 @section('title', 'Detail Booking')
 @section('content')
+    <style>
+        .btn-purple-soft {
+            background: rgba(124, 77, 255, 0.12);
+            color: #7c4dff;
+            border: 1px solid rgba(124, 77, 255, 0.35);
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all .2s ease;
+        }
+
+        .btn-purple-soft:hover {
+            background: #7c4dff;
+            color: #fff;
+            border-color: #7c4dff;
+        }
+    </style>
 
     <div class="row g-4">
         {{-- Info Booking --}}
         <div class="col-md-7">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h6 class="fw-bold mb-3" style="color:#b5485a">
+                    <h6 class="fw-bold mb-3" style="color:#c9a84c">
                         <i class="bi bi-info-circle me-2"></i>Data Booking & Pelanggan
                     </h6>
                     <div class="row g-2" style="font-size:0.88rem">
@@ -26,7 +42,7 @@
 
                         <div class="col-5 text-muted">Nomor Antrian</div>
                         <div class="col-7">
-                            <strong style="color:#b5485a;font-size:1.2rem">
+                            <strong style="color:#2d5a3d;font-size:1.2rem">
                                 {{ $booking->nomor_antrian ?? '-' }}
                             </strong>
                         </div>
@@ -46,7 +62,7 @@
             {{-- Detail Layanan --}}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h6 class="fw-bold mb-3" style="color:#b5485a">
+                    <h6 class="fw-bold mb-3" style="color:#c9a84c">
                         <i class="bi bi-scissors me-2"></i>Detail Layanan
                     </h6>
                     <table class="table table-sm">
@@ -104,7 +120,7 @@
             @if(!in_array($booking->status, ['selesai', 'dibatalkan', 'dibatalkan_sistem']))
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h6 class="fw-bold mb-3" style="color:#b5485a">
+                        <h6 class="fw-bold mb-3" style="color:#c9a84c">
                             <i class="bi bi-plus-circle me-2"></i>Tambah Layanan/Produk di Lokasi
                         </h6>
                         <form action="/admin/booking/{{ $booking->id }}/tambah-item" method="POST">
@@ -133,7 +149,7 @@
                                         placeholder="Catatan (opsional)">
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-sm btn-pink">
+                                    <button type="submit" class="btn btn-purple-soft btn-sm">
                                         + Tambah Item
                                     </button>
                                 </div>
@@ -148,7 +164,7 @@
         <div class="col-md-5">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h6 class="fw-bold mb-3" style="color:#b5485a">
+                    <h6 class="fw-bold mb-3" style="color:#c9a84c">
                         <i class="bi bi-cash-coin me-2"></i>Ringkasan Pembayaran
                     </h6>
                     <div style="font-size:0.88rem">
@@ -202,36 +218,111 @@
                 </div>
             </div>
 
-            {{-- Riwayat Pembayaran --}}
+            {{-- Ulasan Terapis --}}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h6 class="fw-bold mb-3" style="color:#b5485a">
-                        <i class="bi bi-receipt me-2"></i>Riwayat Pembayaran
+
+                    <h6 class="fw-bold mb-3" style="color:#c9a84c">
+                        <i class="bi bi-chat-square-text me-2"></i>Ulasan Terapis
                     </h6>
-                    @forelse($booking->pembayaran as $p)
-                        <div class="border rounded-3 p-2 mb-2" style="font-size:0.82rem">
-                            <div class="d-flex justify-content-between">
-                                <span class="font-monospace">{{ $p->kd_pembayaran }}</span>
-                                <span class="badge {{ $p->status === 'lunas' ? 'badge-aktif' : 'badge-menunggu' }}">
-                                    {{ ucfirst($p->status) }}
-                                </span>
-                            </div>
-                            <div class="text-muted">
-                                {{ ucfirst($p->tipe) }} — {{ strtoupper($p->metode) }}
-                            </div>
-                            <div class="fw-semibold">
-                                Rp {{ number_format($p->jumlah, 0, ',', '.') }}
-                            </div>
+
+                    @if($booking->review)
+
+                        {{-- Rating --}}
+                        <div class="mb-3">
+                            @for($i = 1; $i <= 5; $i++)
+                                @if($i <= $booking->review->rating)
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                @else
+                                    <i class="bi bi-star text-secondary"></i>
+                                @endif
+                            @endfor
+
+                            <span class="ms-2 fw-semibold">
+                                {{ $booking->review->rating }}/5
+                            </span>
                         </div>
-                    @empty
-                        <p class="text-muted small">Belum ada riwayat pembayaran.</p>
-                    @endforelse
+
+                        {{-- Tag Review --}}
+                        <div class="mb-3">
+
+                            @if($booking->review->ramah)
+                                <span class="badge bg-success me-1 mb-1">Ramah</span>
+                            @endif
+
+                            @if($booking->review->rapi)
+                                <span class="badge bg-success me-1 mb-1">Rapi</span>
+                            @endif
+
+                            @if($booking->review->profesional)
+                                <span class="badge bg-success me-1 mb-1">Profesional</span>
+                            @endif
+
+                            @if($booking->review->bersih)
+                                <span class="badge bg-success me-1 mb-1">Bersih</span>
+                            @endif
+
+                            @if($booking->review->tepat_waktu)
+                                <span class="badge bg-success me-1 mb-1">Keterampilan</span>
+                            @endif
+
+                        </div>
+
+                        @if($booking->review->komentar)
+                            <div class="border rounded-3 p-3 bg-light">
+                                <small class="text-muted d-block mb-1">
+                                    Komentar Pelanggan
+                                </small>
+
+                                "{{ $booking->review->komentar }}"
+                            </div>
+                        @endif
+
+                    @else
+
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-chat-square-text fs-1"></i>
+
+                            <p class="mt-2 mb-0">
+                                Pelanggan belum memberikan ulasan.
+                            </p>
+                        </div>
+
+                    @endif
+
                 </div>
             </div>
 
+            {{-- Riwayat Pembayaran --}}
+            {{-- <div class="card mb-4">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3" style="color:#c9a84c">
+                        <i class="bi bi-receipt me-2"></i>Riwayat Pembayaran
+                    </h6>
+                    @forelse($booking->pembayaran as $p)
+                    <div class="border rounded-3 p-2 mb-2" style="font-size:0.82rem">
+                        <div class="d-flex justify-content-between">
+                            <span class="font-monospace">{{ $p->kd_pembayaran }}</span>
+                            <span class="badge {{ $p->status === 'lunas' ? 'badge-aktif' : 'badge-menunggu' }}">
+                                {{ ucfirst($p->status) }}
+                            </span>
+                        </div>
+                        <div class="text-muted">
+                            {{ ucfirst($p->tipe) }} — {{ strtoupper($p->metode) }}
+                        </div>
+                        <div class="fw-semibold">
+                            Rp {{ number_format($p->jumlah, 0, ',', '.') }}
+                        </div>
+                    </div>
+                    @empty
+                    <p class="text-muted small">Belum ada riwayat pembayaran.</p>
+                    @endforelse
+                </div>
+            </div> --}}
+
             {{-- Tombol Aksi --}}
             <div class="d-flex gap-2">
-                <a href="/admin/booking" class="btn btn-secondary flex-fill">← Kembali</a>
+                <a href="/admin/booking" class="btn btn-gray flex-fill">← Kembali</a>
                 @if(!in_array($booking->status, ['selesai', 'dibatalkan', 'dibatalkan_sistem']))
                     <form action="/admin/booking/{{ $booking->id }}/batalkan" method="POST" class="flex-fill"
                         onsubmit="return confirm('Yakin batalkan booking ini?')">
