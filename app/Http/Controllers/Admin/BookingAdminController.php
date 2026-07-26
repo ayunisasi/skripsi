@@ -161,12 +161,12 @@ public function index(Request $request)
         ]);
 
         // Pelunasan tunai → status booking tetap aktif sampai antrian selesai
-        $booking->update([
-        'jumlah_dibayar'    => $booking->total_harga,
-        'status_pembayaran' => 'lunas',
-        // Jangan ubah status booking di sini
-        // Status booking hanya berubah jadi 'selesai' ketika admin klik Selesai di antrian
-        ]);
+        $total = (int) ($booking->total_bayar ?? $booking->total_harga);
+
+$booking->update([
+    'jumlah_dibayar'    => $total,
+    'status_pembayaran' => 'lunas',
+]);
 
         // Update antrian jadi selesai
         if ($booking->antrian) {

@@ -708,6 +708,22 @@
             Data Pembayaran
         </a>
 
+        <a href="/admin/diskon" class="{{ request()->is('admin/diskon*') ? 'active' : '' }}">
+
+            <i class="bi bi-tags"></i>
+
+            Data Promo
+
+        </a>
+
+        <a href="{{ route('admin.laporan.index') }}" class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
+
+            <i class="bi bi-file-earmark-bar-graph"></i>
+
+            Laporan
+
+        </a>
+
         <div class="sidebar-footer">
 
             <form action="/logout" method="POST">

@@ -33,9 +33,11 @@ class MidtransController extends Controller
             abort(403);
         }
 
-        $jumlahBayar = $booking->jenis_pembayaran === 'dp'
-            ? $booking->jumlahDP()
-            : $booking->total_harga;
+        $total = $booking->total_bayar ?? $booking->total_harga;
+
+$jumlahBayar = $booking->jenis_pembayaran === 'dp'
+    ? round($total * 0.3)
+    : $total;
 
         // Buat snap token Midtrans
         $snapToken = $this->buatSnapToken($booking, $jumlahBayar);

@@ -15,6 +15,7 @@ class Booking extends Model
         'jumlah_dibayar', 'midtrans_order_id', 'snap_token',
         'status', 'status_kehadiran',
         'alasan_batal', 'dibatalkan_at', 'checkin_at',
+        'diskon_id', 'potongan', 'total_bayar',
     ];
 
     protected $casts = [
@@ -32,15 +33,19 @@ class Booking extends Model
     public function review()          { return $this->hasOne(Review::class); }
 
     // Helper methods
-    public function jumlahDP()
-    {
-        return (int) round($this->total_harga * 0.30);
-    }
+  public function jumlahDP()
+{
+    $total = $this->total_bayar ?? $this->total_harga;
 
-    public function sisaBayar()
-    {
-        return $this->total_harga - $this->jumlah_dibayar;
-    }
+    return (int) round($total * 0.3);
+}
+
+   public function sisaBayar()
+{
+    $total = $this->total_bayar ?? $this->total_harga;
+
+    return $total - $this->jumlah_dibayar;
+}
 
 
 

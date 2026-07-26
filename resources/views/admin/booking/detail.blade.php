@@ -168,26 +168,42 @@
                     </h6>
                     <div style="font-size:0.88rem">
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Total Tagihan</span>
+                            <span class="text-muted">Harga Awal</span>
                             <span class="fw-semibold">
                                 Rp {{ number_format($booking->total_harga, 0, ',', '.') }}
                             </span>
                         </div>
+
+                        @if($booking->potongan > 0)
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Promo</span>
+                                <span class="text-success">
+                                    -Rp {{ number_format($booking->potongan, 0, ',', '.') }}
+                                </span>
+                            </div>
+                        @endif
+
+                        <hr>
+
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Sudah Dibayar</span>
-                            <span class="fw-semibold text-success">
-                                Rp {{ number_format($booking->jumlah_dibayar, 0, ',', '.') }}
+                            <span class="fw-bold">Total Tagihan</span>
+                            <span class="fw-bold" style="color:#7c3aed">
+                                Rp {{ number_format($booking->total_bayar ?? $booking->total_harga, 0, ',', '.') }}
                             </span>
                         </div>
+
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Metode Awal</span>
-                            <span>{{ strtoupper($booking->jenis_pembayaran) }}</span>
+                            <span class="text-muted">Metode Pembayaran</span>
+
+                            <span class="fw-semibold">
+                                {{ $booking->jenis_pembayaran == 'dp' ? 'DP 30%' : 'Full' }}
+                            </span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <span class="fw-bold">Sisa Bayar</span>
                             <span class="fw-bold" style="color:#b5485a;font-size:1.1rem">
-                                Rp {{ number_format($booking->sisaBayar(), 0, ',', '.') }}
+                                Rp {{ number_format(max(0, $booking->sisaBayar()), 0, ',', '.') }}
                             </span>
                         </div>
                         <div class="d-flex justify-content-between mt-2">

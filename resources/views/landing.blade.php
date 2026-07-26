@@ -636,24 +636,10 @@
             padding: 15px;
         }
 
-        .cta-section {
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-size: 2rem;
-
-        }
 
         footer {
             font-size: 0.75rem;
-            padding: 22px;
+            padding: 10px;
         }
     </style>
 </head>
@@ -702,7 +688,6 @@
                     Daftar
                 </a>
             </div>
-
         </div>
 
     </section>
@@ -910,82 +895,6 @@
             </div>
 
         </div>
-
-    </section>
-
-    {{-- CARA BOOKING --}}
-    <section class="steps">
-
-        <p class="section-label">
-            Cara Booking
-        </p>
-
-        <h2 class="section-title">
-            Mudah dalam 4 Langkah
-        </h2>
-
-        <div class="container">
-
-            <div class="row g-4">
-
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <div class="step-title">Daftar Akun</div>
-                        <p class="step-desc">
-                            Buat akun dengan data dirimu
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <div class="step-title">Pilih Layanan</div>
-                        <p class="step-desc">
-                            Pilih layanan, terapis, dan tanggal yang diinginkan
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-title">Bayar DP / Full</div>
-                        <p class="step-desc">
-                            Bayar dengan pilih DP 30% atau full payment
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <div class="step-title">Dapat Nomor Antrian</div>
-                        <p class="step-desc">
-                            Dapat nomor antrian dan estimasi waktu pelayanan
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    {{-- CTA --}}
-    <section class="cta-section">
-
-        <h2>
-            Siap Tampil Lebih Elegan?
-        </h2>
-
-
-
-        <a href="/register" class="btn-white">
-            Daftar Sekarang →
-        </a>
 
     </section>
 

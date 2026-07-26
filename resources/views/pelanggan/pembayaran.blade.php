@@ -92,14 +92,14 @@
                 <span class="text-muted">Terapis</span>
                 <span>{{ $booking->terapis->nama_terapis }}</span>
             </div>
-            <div class="summary-row">
+            {{-- <div class="summary-row">
                 <span class="text-muted">No. Antrian</span>
                 <strong style="color:var(--gd); font-size:1.1rem">{{ $booking->nomor_antrian }}</strong>
-            </div>
-            <div class="summary-row">
+            </div> --}}
+            {{-- <div class="summary-row">
                 <span class="text-muted">Estimasi Dilayani</span>
                 <span>{{ $booking->estimasi_jam }}</span>
-            </div>
+            </div> --}}
             <div class="summary-row total-row">
                 <span class="fw-bold">
                     {{ $booking->jenis_pembayaran === 'dp' ? 'Bayar DP (30%)' : 'Full Payment' }}
@@ -110,8 +110,12 @@
             </div>
             @if($booking->jenis_pembayaran === 'dp')
                 <div class="summary-row" style="font-size:0.8rem">
-                    <span class="text-muted">Sisa bayar di salon</span>
-                    <span>Rp {{ number_format($booking->total_harga - $jumlahBayar, 0, ',', '.') }}</span>
+                    <span class="text-muted">Sisa bayar</span>
+                    @php
+                        $totalTagihan = $booking->total_bayar ?? $booking->total_harga;
+                    @endphp
+
+                    Rp {{ number_format($totalTagihan - $jumlahBayar, 0, ',', '.') }}
                 </div>
             @endif
         </div>

@@ -422,6 +422,31 @@
                 <input type="text" class="form-control" value="{{ Auth::user()->nama_lengkap }}" disabled
                     style="background:#fdf6f7">
             </div>
+            @if($diskon)
+                <div class="alert alert-warning border-0 shadow-sm mb-3" role="alert">
+                    <i class="bi bi-gift-fill me-2"></i>
+
+                    <strong>{{ $diskon->nama_diskon }}</strong><br>
+
+                    Potongan
+                    <strong>
+                        @if($diskon->tipe_potongan == 'persen')
+                            {{ number_format($diskon->nilai, 0, ',', '.') }}%
+                        @else
+                            Rp{{ number_format($diskon->nilai, 0, ',', '.') }}
+                        @endif
+                    </strong>
+
+                    @if($diskon->minimal_transaksi)
+                        untuk transaksi minimal
+                        <strong>
+                            Rp{{ number_format($diskon->minimal_transaksi, 0, ',', '.') }}
+                        </strong>.
+                    @endif
+
+                    Promo akan diterapkan secara otomatis saat syarat transaksi terpenuhi.
+                </div>
+            @endif
 
             {{-- PILIH LAYANAN --}}
             <div class="card p-4 mb-3">
@@ -453,7 +478,7 @@
                                 <li>
                                     <label
                                         class="dropdown-item layanan-card d-flex justify-content-between align-items-start
-                                                                                                {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
+                                                                                                                                {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
                                         data-harga="{{ $l->harga }}" data-durasi="{{ $l->durasi }}"
                                         onclick="toggleLayanan(this)">
 
@@ -636,8 +661,19 @@
                         </div>
 
                         <hr style="border-color:#f2c4cc">
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span id="summary-subtotal">-</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span style="color:#16a34a">🎉 Promo</span>
+                            <span id="summary-promo" style="color:#16a34a">-</span>
+                        </div>
+
                         <div class="d-flex justify-content-between" style="font-size:0.95rem">
-                            <span class="fw-bold">Total Harga</span>
+                            <span class="fw-bold">Total Bayar</span>
                             <span id="summary-total" class="fw-bold" style="color:#b5485a">-</span>
                         </div>
                     </div>
@@ -699,7 +735,9 @@ border-radius:10px;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let selectedTgl = '{{ old('tgl_booking') }}';
-
+        let promoPotongan = 0;
+        let promoNama = '';
+        let totalBayar = 0;
 
         function pilihTerapis(card) {
 
@@ -769,13 +807,59 @@ border-radius:10px;
             });
 
             const fmt = v => 'Rp ' + new Intl.NumberFormat('id-ID').format(v);
+            const layananIds = [];
+
+            document.querySelectorAll('input[name="layanan_ids[]"]:checked').forEach(cb => {
+                layananIds.push(cb.value);
+            });
+
+            fetch("{{ route('booking.cekPromo') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify({
+                    layanan_ids: layananIds
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    document.getElementById('summary-subtotal').textContent =
+                        fmt(data.subtotal);
+
+                    document.getElementById('summary-promo').textContent =
+                        data.potongan > 0
+                            ? '- ' + fmt(data.potongan) + ' (' + data.nama_promo + ')'
+                            : '-';
+
+                    document.getElementById('summary-total').textContent =
+                        fmt(data.total_bayar);
+
+                    document.getElementById('dp-amount').textContent =
+                        fmt(Math.round(data.total_bayar * 0.30));
+
+                    document.getElementById('full-amount').textContent =
+                        fmt(data.total_bayar);
+
+                });
 
             document.getElementById('summary-layanan').textContent =
                 namaLayanan.length > 0 ? namaLayanan.join(', ') : '-';
             document.getElementById('summary-durasi').textContent =
                 totalDurasi > 0 ? totalDurasi + ' menit' : '-';
-            document.getElementById('summary-total').textContent =
+            document.getElementById('summary-subtotal').textContent =
                 totalHarga > 0 ? fmt(totalHarga) : '-';
+            document.getElementById('summary-promo').textContent =
+                promoPotongan > 0
+                    ? '- ' + fmt(promoPotongan) + ' (' + promoNama + ')'
+                    : '-';
+
+            document.getElementById('summary-total').textContent =
+                totalBayar > 0
+                    ? fmt(totalBayar)
+                    : fmt(totalHarga);
             document.getElementById('dp-amount').textContent =
                 totalHarga > 0 ? fmt(Math.round(totalHarga * 0.30)) : 'Rp -';
             document.getElementById('full-amount').textContent =

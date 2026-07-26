@@ -43,13 +43,39 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="fw-bold mb-3" style="color:#1a3a2a">Ringkasan Pembayaran</h6>
+                        <h6 class="fw-bold mb-3" style="color:#1a3a2a">
+                            Ringkasan Pembayaran
+                        </h6>
 
+                        {{-- Harga Awal --}}
                         <div class="d-flex justify-content-between mb-2" style="font-size:0.88rem">
-                            <span class="text-muted">Total Tagihan</span>
-                            <span class="fw-bold">Rp {{ number_format($booking->total_harga, 0, ',', '.') }}</span>
+                            <span class="text-muted">Harga Awal</span>
+                            <span class="fw-semibold">
+                                Rp {{ number_format($booking->total_harga, 0, ',', '.') }}
+                            </span>
                         </div>
 
+                        {{-- Promo --}}
+                        @if($booking->potongan > 0)
+                            <div class="d-flex justify-content-between mb-2" style="font-size:0.88rem">
+                                <span class="text-muted">Promo</span>
+                                <span class="text-success">
+                                    -Rp {{ number_format($booking->potongan, 0, ',', '.') }}
+                                </span>
+                            </div>
+                        @endif
+
+                        <hr>
+
+                        {{-- Total Tagihan --}}
+                        <div class="d-flex justify-content-between mb-2" style="font-size:0.88rem">
+                            <span class="fw-bold">Total Tagihan</span>
+                            <span class="fw-bold" style="color:#7c3aed">
+                                Rp {{ number_format($booking->total_bayar ?? $booking->total_harga, 0, ',', '.') }}
+                            </span>
+                        </div>
+
+                        {{-- Sudah Dibayar --}}
                         <div class="d-flex justify-content-between mb-2" style="font-size:0.88rem">
                             <span class="text-muted">Sudah Dibayar</span>
                             <span class="fw-bold text-success">
@@ -59,10 +85,11 @@
 
                         <hr>
 
+                        {{-- Sisa Bayar --}}
                         <div class="d-flex justify-content-between" style="font-size:0.95rem">
                             <span class="fw-bold">Sisa Bayar</span>
-                            <span class="fw-bold" style="color:#c9a84c">
-                                Rp {{ number_format($booking->sisaBayar(), 0, ',', '.') }}
+                            <span class="fw-bold {{ $booking->sisaBayar() > 0 ? 'text-danger' : 'text-success' }}">
+                                Rp {{ number_format(max(0, $booking->sisaBayar()), 0, ',', '.') }}
                             </span>
                         </div>
 
@@ -104,7 +131,7 @@
 
             {{-- TRANSAKSI --}}
             <div class="col-md-6 mt-0">
-                <div class="card" style="margin-top:-50px;">
+                <div class="card mt-4" style="margin-top:-50px;">
                     <div class="card-body">
                         <h6 class="fw-bold mb-3" style="color:#1a3a2a">Riwayat Transaksi</h6>
 

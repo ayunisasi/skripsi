@@ -353,7 +353,7 @@
             <div class="booking-card">
                 {{-- Color bar --}}
                 <div class="status-bar" style="background:
-                            {{ $b->status === 'aktif' ? 'linear-gradient(90deg,#7C4DFF,#9B7BFF)' :
+                                    {{ $b->status === 'aktif' ? 'linear-gradient(90deg,#7C4DFF,#9B7BFF)' :
             ($b->status === 'selesai' ? 'linear-gradient(90deg,#7C4DFF,#B388FF)' :
                 (str_contains($b->status, 'dibatalkan') ? 'linear-gradient(90deg,#c62828,#ef5350)' :
                     'linear-gradient(90deg,#f57c00,#ffb74d)')) }}">
@@ -417,8 +417,10 @@
                         <div class="col-6">
                             <div class="info-row">
                                 <i class="bi bi-cash-coin"></i>
-                                <strong style="color:var(--gold)">Rp
-                                    {{ number_format($b->total_harga, 0, ',', '.') }}</strong>
+
+                                <strong style="color:#7c3aed">
+                                    Rp {{ number_format($b->total_bayar ?? $b->total_harga, 0, ',', '.') }}
+                                </strong>
                             </div>
                             @if($b->sisaBayar() > 0 && !str_contains($b->status, 'dibatalkan'))
                                 <div class="info-row">

@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\TerapisController;
 use App\Http\Controllers\Admin\BookingAdminController;
 use App\Http\Controllers\Admin\AntrianAdminController;
 use App\Http\Controllers\Admin\PembayaranAdminController;
+use App\Http\Controllers\Admin\DiskonController;
+use App\Http\Controllers\Admin\LaporanController;
 
 // =====================
 // PUBLIC ROUTES
@@ -38,6 +40,8 @@ Route::middleware(['auth', 'pelanggan'])->group(function () {
          ->name('booking.cek');
     Route::post('/booking', [BookingController::class, 'store'])
          ->name('booking.store');
+         Route::post('/booking/cek-promo', [BookingController::class, 'cekPromo'])
+         ->name('booking.cekPromo');
     Route::get('/booking/riwayat', [BookingController::class, 'riwayat'])
          ->name('booking.riwayat');
     Route::get('/booking/antrian/{kd_booking}', [AntrianController::class, 'show'])
@@ -90,6 +94,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::delete('/booking/{id}/hapus', [BookingController::class, 'destroy'])
         ->name('booking.destroy');
 
+
     // Antrian
     Route::get('/antrian', [AntrianAdminController::class, 'index'])
          ->name('admin.antrian.index');
@@ -112,6 +117,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
          Route::delete('/booking/{id}', [BookingAdminController::class, 'destroy'])
      ->name('admin.booking.destroy');
+
+     // Diskon
+    Route::resource('diskon', DiskonController::class);
+    // laporan
+    Route::get('/admin/laporan', [LaporanController::class, 'index'])
+    ->name('admin.laporan.index');
+
+    Route::get('/admin/laporan/pdf', [LaporanController::class, 'cetakPdf'])
+    ->name('admin.laporan.pdf');
 });
 
 Route::middleware('auth')->group(function () {

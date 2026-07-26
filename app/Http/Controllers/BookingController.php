@@ -10,6 +10,8 @@ use App\Services\AntrianService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Services\PromoService;
+use App\Models\Diskon;
 
 class BookingController extends Controller
 {
@@ -93,25 +95,6 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
         $bobotReview  = 0.3; // 30% pengaruh review positif
         $bobotBooking = 0.2; // 20% pengaruh jumlah booking
 
-// ================================
-// PERHITUNGAN AI SCORE
-// ================================
-// Rating dikali 10 agar skala nilainya
-// lebih seimbang.
-//
-// Review positif dikali 2 karena
-// terdiri dari beberapa indikator:
-//
-// - Ramah
-// - Rapi
-// - Bersih
-// - Profesional
-// - Tepat Waktu
-//
-// AI Score digunakan untuk menentukan
-// ranking rekomendasi terapis.
-// ================================
-
  $t->ai_score =
     ($rating * 10) * $bobotRating
     + ($reviewPositif * 2) * $bobotReview
@@ -126,10 +109,22 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
 
     $tanggalTersedia = AntrianService::getTanggalTersedia();
 
+    $diskon = Diskon::where('status', true)
+    ->where(function ($query) {
+        $query->whereNull('tanggal_mulai')
+              ->orWhere('tanggal_mulai', '<=', now());
+    })
+    ->where(function ($query) {
+        $query->whereNull('tanggal_selesai')
+              ->orWhere('tanggal_selesai', '>=', now());
+    })
+    ->first();
+
     return view('pelanggan.booking', compact(
         'layanan',
         'terapis',
-        'tanggalTersedia'
+        'tanggalTersedia',
+        'diskon'
     ));
 }
 
@@ -180,6 +175,14 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
     $layananList = Layanan::whereIn('id', $request->layanan_ids)->get();
     $totalHarga  = $layananList->sum('harga');
     $totalDurasi = $layananList->sum('durasi');
+    // Cek promo
+$promo = PromoService::cekPromo(
+    Auth::user(),
+    $totalHarga
+);
+
+$potongan = $promo['potongan'] ?? 0;
+$totalBayar = max(0, $totalHarga - $potongan);
 
 $cek = $this->antrianService->cekKetersediaan(
     $request->tgl_booking,
@@ -198,7 +201,10 @@ if (!$cek['tersedia']) {
         'user_id'          => Auth::id(),
         'terapis_id'       => $request->terapis_id,
         'tgl_booking'      => $request->tgl_booking,
-        'total_harga'      => $totalHarga,
+        'total_harga' => $totalHarga,
+        'potongan'    => $potongan,
+        'total_bayar' => $totalBayar,
+        'diskon_id'   => $promo['id'] ?? null,
         'total_durasi'     => $totalDurasi,
         'jenis_pembayaran' => $request->jenis_pembayaran,
         'status'           => 'menunggu_pembayaran',
@@ -209,6 +215,30 @@ if (!$cek['tersedia']) {
     // $this->antrianService->assignAntrian($booking);
 
     return redirect()->route('midtrans.form', $booking->id);
+}
+
+public function cekPromo(Request $request)
+{
+    $layanan = Layanan::whereIn(
+        'id',
+        $request->layanan_ids ?? []
+    )->get();
+
+    $subtotal = $layanan->sum('harga');
+
+    $promo = PromoService::cekPromo(
+        Auth::user(),
+        $subtotal
+    );
+
+    $potongan = $promo['potongan'] ?? 0;
+
+    return response()->json([
+        'subtotal' => $subtotal,
+        'potongan' => $potongan,
+        'nama_promo' => $promo['nama'] ?? '',
+        'total_bayar' => max(0, $subtotal - $potongan),
+    ]);
 }
 
     public function riwayat()
@@ -267,4 +297,6 @@ if (!$cek['tersedia']) {
     $booking->delete();
     return back()->with('success', 'Riwayat booking berhasil dihapus.');
 }
+
+
 }

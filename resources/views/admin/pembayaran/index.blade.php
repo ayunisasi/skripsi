@@ -6,7 +6,7 @@
     <div class="row g-4 mb-4">
 
         {{-- Pendapatan Hari Ini --}}
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between align-items-center p-4">
 
@@ -31,10 +31,10 @@
 
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         {{-- Pendapatan Bulan Ini --}}
-        <div class="col-md-6">
+        {{-- <div class="col-md-6">
             <div class="card shadow-sm border-0">
                 <div class="card-body d-flex justify-content-between align-items-center p-4">
 
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-    </div>
+    </div> --}}
 
     {{-- Tabel --}}
     <div class="card">

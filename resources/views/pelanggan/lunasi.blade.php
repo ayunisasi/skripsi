@@ -114,7 +114,7 @@
 
             <div class="summary-row">
                 <span class="text-muted">Total Tagihan</span>
-                <span>Rp {{ number_format($booking->total_harga, 0, ',', '.') }}</span>
+                <span>Rp {{ number_format($booking->total_bayar ?? $booking->total_harga, 0, ',', '.') }}</span>
             </div>
 
             <div class="summary-row">
