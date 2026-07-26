@@ -79,7 +79,7 @@ if ($lastAktif) {
         $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
 
         // Batasi jam tutup salon
-        $jamTutup = Carbon::parse('18:00');
+        $jamTutup = Carbon::parse($tgl . ' 18:00');
         if ($jamSelesai->gt($jamTutup)) {
             throw new \Exception('Terapis yang dipilih sudah penuh. Silahkan pilih terapis lainnya');
         }
@@ -180,7 +180,7 @@ if ($last) {
         $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
 
         // Batasi jam tutup
-        $jamTutup = Carbon::parse('18:00');
+        $jamTutup = Carbon::parse($tgl . ' 18:00');
 if ($jamSelesai->gt($jamTutup)) {
     return [
         'tersedia' => false,
@@ -240,7 +240,7 @@ if ($jamSelesai->gt($jamTutup)) {
     $jamMulai = Carbon::parse($antrian->estimasi_jam_selesai);
     $jamSelesaiBaru = $jamMulai->copy()->addMinutes($durasiTambahan);
 
-    $jamTutup = Carbon::parse('18:00'); // jam tutup salon
+    $jamTutup = Carbon::parse($booking->tgl_booking . ' 18:00');// jam tutup salon
     if ($jamSelesaiBaru->gt($jamTutup)) {
         return [
             'konflik' => true,

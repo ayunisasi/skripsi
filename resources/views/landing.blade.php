@@ -933,7 +933,7 @@
                         <div class="step-number">1</div>
                         <div class="step-title">Daftar Akun</div>
                         <p class="step-desc">
-                            Buat akun gratis dengan data dirimu
+                            Buat akun dengan data dirimu
                         </p>
                     </div>
                 </div>

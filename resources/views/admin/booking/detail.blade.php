@@ -71,6 +71,7 @@
                                 <th>No</th>
                                 <th>Layanan</th>
                                 <th>Harga</th>
+                                <th>Durasi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,6 +80,7 @@
                                     <td>{{ $i + 1 }}</td>
                                     <td>{{ $l->nama_layanan }}</td>
                                     <td>Rp {{ number_format($l->harga, 0, ',', '.') }}</td>
+                                    <td>{{ $l->durasi }} menit</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -144,10 +146,7 @@
                                         <option value="produk">Produk</option>
                                     </select>
                                 </div>
-                                <div class="col-12">
-                                    <input type="text" name="catatan" class="form-control form-control-sm"
-                                        placeholder="Catatan (opsional)">
-                                </div>
+
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-purple-soft btn-sm">
                                         + Tambah Item
