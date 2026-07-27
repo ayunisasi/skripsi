@@ -3,56 +3,237 @@
 
 <head>
     <meta charset="utf-8">
+
     <title>Laporan Pendapatan</title>
 
     <style>
+        @page {
+            margin: 22px;
+        }
+
         body {
-            font-family: DejaVu Sans, sans-serif;
-            font-size: 12px;
+            font-family: Helvetica, Arial, sans-serif;
+            color: #333;
+            font-size: 10px;
         }
 
-        h2 {
-            margin: 0;
-            text-align: center;
+        * {
+            box-sizing: border-box;
         }
 
-        h4 {
-            margin: 5px 0 20px;
-            text-align: center;
-            font-weight: normal;
-        }
 
-        .periode {
-            margin-bottom: 15px;
-        }
 
-        table {
+        .header-table,
+        .table-data,
+        .summary-table,
+        .ttd-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        table th,
-        table td {
-            border: 1px solid #000;
-            padding: 6px;
+        .header-table td,
+        .info-table td,
+        .ttd-table td {
+            border: none;
             vertical-align: top;
         }
 
-        table th {
-            background: #f2f2f2;
+        .logo {
+
+            width: 70px;
+
+            margin-left: 20px;
+
+        }
+
+        .company {
             text-align: center;
         }
 
-        .text-center {
+        .company h1 {
+
+            margin: 0;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+
+            color: #0F3E2E;
+
+            line-height: 1;
+
+        }
+
+        .company p {
+            margin: 3px 0;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .line1 {
+
+            border-top: 3px solid #0F3E2E;
+
+            margin-top: 10px;
+
+        }
+
+        .line2 {
+
+            border-top: 1px solid #AFAFAF;
+
+            margin-top: 2px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .title {
+
+            text-align: center;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #0F3E2E;
+
+            letter-spacing: 1px;
+
+            margin-top: 8px;
+
+            margin-bottom: 15px;
+
+        }
+
+        .info-table td {
+
+            padding: 0px 0;
+
+            font-size: 10px;
+
+        }
+
+        .table-data {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        .table-data th {
+
+            background: #CFCFCF;
+            color: #222;
+            border: 1px solid #7A7A7A;
+            padding: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            text-align: center;
+
+        }
+
+        .table-data td {
+
+            border: 1px solid #8E8E8E;
+            padding: 7px;
+            font-size: 10px;
+            vertical-align: middle;
+
+        }
+
+        .table-data tbody tr:nth-child(even) {
+            background: #F8F8F8;
+        }
+
+
+        .center {
             text-align: center;
         }
 
-        .text-right {
+        .right {
             text-align: right;
         }
 
+        .summary-table {
+
+            width: 30%;
+
+            margin-top: 18px;
+
+            float: left;
+
+        }
+
+        .summary-table td {
+
+            border: 1px solid #8E8E8E;
+            padding: 8px;
+
+        }
+
+        .summary-title {
+
+            background: #D9D9D9;
+            font-weight: bold;
+
+        }
+
+        .ttd {
+
+            width: 35%;
+
+            float: right;
+
+            text-align: center;
+
+            margin-top: 10px;
+
+        }
+
+        .qr {
+
+            width: 70px;
+
+            height: 70px;
+
+            border: 1px dashed #999;
+
+            margin: 10px auto;
+
+            line-height: 70px;
+
+            font-size: 10px;
+
+            color: #777;
+
+        }
+
         .footer {
-            margin-top: 20px;
+
+            position: fixed;
+
+            bottom: 0;
+
+            left: 0;
+
+            right: 0;
+
+            text-align: center;
+
+            font-size: 9px;
+
+            color: #777;
+
+        }
+
+        .clearfix {
+            clear: both;
         }
     </style>
 
@@ -60,32 +241,92 @@
 
 <body>
 
-    <h2>SALONQU</h2>
-    <h4>LAPORAN PENDAPATAN</h4>
+    <table class="header-table">
 
-    <div class="periode">
+        <tr>
 
-        <strong>Periode :</strong>
+            <td width="70">
 
-        {{ request('tanggal_awal') ?? '-' }}
-        s/d
-        {{ request('tanggal_akhir') ?? '-' }}
+                <img src="{{ public_path('images/salon.jpg') }}" class="logo">
+
+            </td>
+
+            <td class="company">
+
+                <h1>SALONQU</h1>
+
+
+
+                <p>Jl. Pangeran Dharma Kusuma No.67, Sindang, Indramayu</p>
+
+                <p>Telp. +62 896-1921-1547</p>
+
+            </td>
+
+            <td width="70"></td>
+
+        </tr>
+
+    </table>
+
+    <div class="line1"></div>
+    <div class="line2"></div>
+
+    <div class="title">
+
+        LAPORAN PENDAPATAN
 
     </div>
 
-    <table>
+    <table class="info-table" style="width:100%; margin-top:10px; margin-bottom:5px;">
+
+        <tr>
+
+            <td style="width:50%; text-align:left; vertical-align:top;">
+
+                <strong>Periode</strong><br>
+
+                {{ \Carbon\Carbon::parse(request('tanggal_awal'))->translatedFormat('d F Y') }}
+
+                s/d
+
+                {{ \Carbon\Carbon::parse(request('tanggal_akhir'))->translatedFormat('d F Y') }}
+
+            </td>
+
+            <td style="width:50%; text-align:right; vertical-align:top;">
+
+                <strong>Tanggal Cetak</strong><br>
+
+                {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+
+            </td>
+
+        </tr>
+
+    </table>
+
+
+
+    <table class="table-data">
 
         <thead>
 
             <tr>
 
-                <th width="40">No</th>
-                <th width="90">Tanggal</th>
-                <th width="110">Kode Booking</th>
-                <th>Pelanggan</th>
-                <th>Layanan</th>
-                <th width="90">Terapis</th>
-                <th width="100">Total</th>
+                <th width="5%">No</th>
+
+                <th width="12%">Tanggal</th>
+
+                <th width="15%">Kode Booking</th>
+
+                <th width="17%">Pelanggan</th>
+
+                <th width="28%">Layanan</th>
+
+                <th width="13%">Terapis</th>
+
+                <th width="10%">Total</th>
 
             </tr>
 
@@ -97,28 +338,34 @@
 
                 <tr>
 
-                    <td class="text-center">
-                        {{ $loop->iteration }}
-                    </td>
+                    <td class="center">{{ $loop->iteration }}</td>
 
-                    <td>
+                    <td class="center">
+
                         {{ \Carbon\Carbon::parse($item->tgl_booking)->format('d-m-Y') }}
+
                     </td>
 
                     <td>{{ $item->kd_booking }}</td>
 
-                    <td>{{ $item->user->username ?? '-' }}</td>
+                    <td>{{ $item->user->username }}</td>
 
                     <td>
+
                         {{ $item->layanan->pluck('nama_layanan')->implode(', ') }}
+
                     </td>
 
                     <td>
-                        {{ $item->terapis->nama_terapis ?? '-' }}
+
+                        {{ $item->terapis->nama_terapis }}
+
                     </td>
 
-                    <td>
+                    <td class="right">
+
                         Rp{{ number_format($item->jumlah_dibayar, 0, ',', '.') }}
+
                     </td>
 
                 </tr>
@@ -129,33 +376,88 @@
 
     </table>
 
-    <div class="footer">
 
-        <p>
-            <strong>Jumlah Transaksi :</strong>
-            {{ $totalBooking }}
-        </p>
+    {{-- Ringkasan --}}
+    <table class="summary-table">
 
-        <p>
-            <strong>Total Pendapatan :</strong>
-            Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
-        </p>
+        <tr>
+
+            <td class="summary-title" width="65%">
+                Jumlah Transaksi
+            </td>
+
+            <td class="center">
+                {{ $totalBooking }}
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td class="summary-title">
+                Total Pendapatan
+            </td>
+
+            <td class="right">
+
+                <strong>
+
+                    Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
+
+                </strong>
+
+            </td>
+
+        </tr>
+
+    </table>
+
+    {{-- Tanda Tangan --}}
+    <div class="ttd">
+
+        Indramayu,
+
+        {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
+
+        <br>
+
+        <strong>
+
+            Disusun dan Dicetak Oleh
+
+        </strong>
+
+        <div class="qr">
+
+
+
+        </div>
+
+        <strong>
+
+            Administrator
+
+        </strong>
+
+        <br>
+
+        <span style="font-size:9px;color:#777;">
+
+            SalonQu
+
+        </span>
 
     </div>
 
-    <div style="
-    position:fixed;
-    bottom:15px;
-    left:0;
-    right:0;
-    text-align:center;
-    font-size:10px;
-    color:#666;
-">
+    <div class="clearfix"></div>
+
+    <div class="footer">
 
         Laporan Pendapatan • SalonQu
 
     </div>
+
 </body>
 
 </html>
+</body>

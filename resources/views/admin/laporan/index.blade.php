@@ -2,7 +2,20 @@
 @section('title', 'Laporan')
 @section('content')
 
+    <style>
+        .custom-table {
+            border: 2px solid #6C757D;
+            border-collapse: collapse;
+        }
 
+        .custom-table th {
+            border: 1.5px solid #6C757D !important;
+        }
+
+        .custom-table td {
+            border: 1.5px solid #8B8B8B !important;
+        }
+    </style>
 
     <div class="container-fluid">
 
@@ -73,7 +86,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered table-hover align-middle">
+                <table class="table table-bordered custom-table align-middle mb-0">
 
                     <thead class="table-light text-center">
 

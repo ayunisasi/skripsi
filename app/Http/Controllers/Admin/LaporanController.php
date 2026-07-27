@@ -64,7 +64,7 @@ public function cetakPdf(Request $request)
         'totalPendapatan'
     ));
 
-    $pdf->setPaper('A4', 'landscape');
+    $pdf->setPaper('A4', 'portrait');
 
     return $pdf->stream('laporan-pendapatan.pdf');
 }
