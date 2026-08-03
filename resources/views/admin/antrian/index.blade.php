@@ -130,4 +130,29 @@
     @empty
         <div class="card p-4 text-center text-muted">Belum ada terapis aktif.</div>
     @endforelse
+
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Kembalikan posisi scroll setelah halaman selesai dimuat
+    const scrollPos = sessionStorage.getItem('antrianScroll');
+
+    if (scrollPos) {
+        window.scrollTo(0, parseInt(scrollPos));
+        sessionStorage.removeItem('antrianScroll');
+    }
+
+    // Simpan posisi scroll saat klik tombol aksi
+    document.querySelectorAll('form').forEach(function(form) {
+
+        form.addEventListener('submit', function() {
+
+            sessionStorage.setItem('antrianScroll', window.scrollY);
+
+        });
+
+    });
+
+});
+</script>
 @endsection

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Daftar - Sri Salon Sindang</title>
+    <title>Daftar - SalonQu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap"
@@ -40,12 +40,6 @@
             color: black;
             font-size: 1.4rem;
             margin-top: 6px;
-        }
-
-        .sub-text {
-            color: #7c3aed;
-            font-size: 0.8rem;
-            opacity: 0.8;
         }
 
         .form-label {
@@ -128,7 +122,6 @@
             <img src="/images/salon.jpg" alt="Logo"
                 style="width:55px; height:55px; object-fit:cover; margin-bottom:8px; border-radius:50%;">
             <div class="brand">Daftar Akun</div>
-            <div class="sub-text">Sri Salon Sindang</div>
         </div>
 
         @if(session('error'))

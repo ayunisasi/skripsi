@@ -4,6 +4,25 @@
 @section('content')
 
     <div class="container py-4 pt-1">
+
+        <div class="mb-3">
+
+            <a href="/admin/pembayaran" class="btn rounded-3 px-3 py-1" style="
+                    background:#f5f3ff;
+                    color:#7c3aed;
+                    border:1px solid #d8b4fe;
+                    font-size:13px;
+                    font-weight:600;
+                ">
+
+                <i class="bi bi-arrow-left me-1"></i>
+
+                Kembali
+
+            </a>
+
+        </div>
+
         <div class="row g-4">
 
             {{-- LEFT: DATA BOOKING --}}
@@ -165,12 +184,6 @@
 
         </div>
 
-        {{-- BUTTON BACK (FIXED) --}}
-        <div class="mt-3">
-            <a href="/admin/pembayaran" class="btn btn-gray">
-                ← Kembali
-            </a>
-        </div>
     </div>
 
 @endsection

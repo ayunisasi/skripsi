@@ -43,8 +43,8 @@ public function index()
             $t->keterampilan;
 
         $t->ai_score =
-            ($t->rating * 10 * 0.5) +
-            ($reviewPositif * 2 * 0.3) +
+            ($t->rating * 0.5) +
+            ($reviewPositif * 0.3) +
             ($t->booking_selesai * 0.2);
     }
 

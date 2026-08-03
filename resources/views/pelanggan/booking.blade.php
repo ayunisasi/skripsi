@@ -422,31 +422,7 @@
                 <input type="text" class="form-control" value="{{ Auth::user()->nama_lengkap }}" disabled
                     style="background:#fdf6f7">
             </div>
-            @if($diskon)
-                <div class="alert alert-warning border-0 shadow-sm mb-3" role="alert">
-                    <i class="bi bi-gift-fill me-2"></i>
 
-                    <strong>{{ $diskon->nama_diskon }}</strong><br>
-
-                    Potongan
-                    <strong>
-                        @if($diskon->tipe_potongan == 'persen')
-                            {{ number_format($diskon->nilai, 0, ',', '.') }}%
-                        @else
-                            Rp{{ number_format($diskon->nilai, 0, ',', '.') }}
-                        @endif
-                    </strong>
-
-                    @if($diskon->minimal_transaksi)
-                        untuk transaksi minimal
-                        <strong>
-                            Rp{{ number_format($diskon->minimal_transaksi, 0, ',', '.') }}
-                        </strong>.
-                    @endif
-
-                    Promo akan diterapkan secara otomatis saat syarat transaksi terpenuhi.
-                </div>
-            @endif
 
             {{-- PILIH LAYANAN --}}
             <div class="card p-4 mb-3">
@@ -478,7 +454,7 @@
                                 <li>
                                     <label
                                         class="dropdown-item layanan-card d-flex justify-content-between align-items-start
-                                                                                                                                {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
+                                                                                                                                                    {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
                                         data-harga="{{ $l->harga }}" data-durasi="{{ $l->durasi }}"
                                         onclick="toggleLayanan(this)">
 

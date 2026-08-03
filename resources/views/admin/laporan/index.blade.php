@@ -2,27 +2,12 @@
 @section('title', 'Laporan')
 @section('content')
 
-    <style>
-        .custom-table {
-            border: 2px solid #6C757D;
-            border-collapse: collapse;
-        }
-
-        .custom-table th {
-            border: 1.5px solid #6C757D !important;
-        }
-
-        .custom-table td {
-            border: 1.5px solid #8B8B8B !important;
-        }
-    </style>
-
     <div class="container-fluid">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
 
             <div>
-                <h3 class="mb-1">Laporan Pendapatan</h3>
+                <h4 class="mb-1">Laporan Pendapatan</h4>
                 <small class="text-muted">
                     Menampilkan laporan transaksi berdasarkan periode yang dipilih.
                 </small>
@@ -38,37 +23,44 @@
 
                     <div class="row">
 
-                        <div class="col-md-4">
+                        <div class="col-md-2">
 
-                            <label class="form-label">
+                            <label class="form-label mb-1" style="font-size:13px; font-weight:500;">
                                 Tanggal Awal
                             </label>
 
-                            <input type="date" name="tanggal_awal" class="form-control"
-                                value="{{ request('tanggal_awal') }}">
+                            <input type="date" name="tanggal_awal" class="form-control form-control-sm"
+                                style="font-size:12px; height:36px;" value="{{ request('tanggal_awal') }}">
 
                         </div>
 
                         <div class="col-md-4">
 
-                            <label class="form-label">
+                            <label class="form-label mb-1" style="font-size:13px; font-weight:500;">
                                 Tanggal Akhir
                             </label>
 
-                            <input type="date" name="tanggal_akhir" class="form-control"
+                            <input type="date" name="tanggal_akhir" class="form-control form-control-sm"
+                                style="font-size:12px; height:36px;" class="form-control"
                                 value="{{ request('tanggal_akhir') }}">
 
                         </div>
 
-                        <div class="col-md-4 d-flex align-items-end">
+                        <div class="col-md-4 d-flex align-items-end gap-2">
 
-                            <button type="submit" class="btn btn-primary me-2">
+                            <button type="submit" class="btn btn-primary"
+                                style="height:36px; font-size:13px; padding:6px 14px;">
                                 Tampilkan
                             </button>
 
-                            <a href="{{ route('admin.laporan.pdf', request()->all()) }}" class="btn btn-success"
-                                target="_blank">
-                                <i class="fas fa-file-pdf"></i> Cetak PDF
+                            <a href="{{ route('admin.laporan.pdf', request()->all()) }}"
+                                class="btn btn-success d-inline-flex align-items-center" target="_blank"
+                                style="font-size:13px; padding:6px 14px;">
+
+                                <i class="fas fa-file-pdf me-1"></i>
+
+                                Cetak PDF
+
                             </a>
 
                         </div>
@@ -86,19 +78,39 @@
 
             <div class="table-responsive">
 
-                <table class="table table-bordered custom-table align-middle mb-0">
+                <table class="table custom-table align-middle">
 
-                    <thead class="table-light text-center">
+                    <thead class="text-center">
 
                         <tr>
 
-                            <th width="60">No</th>
-                            <th>Tanggal</th>
-                            <th>Kode Booking</th>
-                            <th>Pelanggan</th>
-                            <th>Layanan</th>
-                            <th>Terapis</th>
-                            <th class="text-end">Total Pembayaran</th>
+                            <th style="width:60px;">
+                                No
+                            </th>
+
+                            <th style="width:110px;">
+                                Tanggal
+                            </th>
+
+                            <th style="width:140px;">
+                                Kode Booking
+                            </th>
+
+                            <th style="width:170px;">
+                                Pelanggan
+                            </th>
+
+                            <th>
+                                Layanan
+                            </th>
+
+                            <th style="width:150px;">
+                                Terapis
+                            </th>
+
+                            <th style="width:170px;">
+                                Total Pembayaran
+                            </th>
 
                         </tr>
 
@@ -114,19 +126,45 @@
                                     {{ $loop->iteration }}
                                 </td>
 
-                                <td>
-                                    {{ \Carbon\Carbon::parse($item->tgl_booking)->format('d-m-Y') }}
-                                </td>
+                                <td class="text-center">
 
-                                <td>{{ $item->kd_booking }}</td>
+                                    {{ \Carbon\Carbon::parse($item->tgl_booking)->translatedFormat('d M Y') }}
+
+                                </td>
+                                <td class="text-center">
+
+                                    <span class="font-monospace">
+
+                                        {{ $item->kd_booking }}
+
+                                    </span>
+
+                                </td>
 
                                 <td>{{ $item->user->username ?? '-' }}</td>
 
-                                <td style="max-width: 280px; word-wrap: break-word; white-space: normal;">
-                                    {{ $item->layanan->pluck('nama_layanan')->implode(', ') }}
-                                </td>
+                                <td style="max-width:220px;">
 
-                                <td>{{ $item->terapis->nama_terapis ?? '-' }}</td>
+                                    {{ $item->layanan->first()->nama_layanan }}
+
+                                    @if($item->layanan->count() > 1)
+
+                                        <br>
+
+                                        <small class="text-muted">
+
+                                            +{{ $item->layanan->count() - 1 }} layanan lainnya
+
+                                        </small>
+
+                                    @endif
+
+                                </td>
+                                <td class="text-center">
+
+                                    {{ $item->terapis->nama_terapis ?? '-' }}
+
+                                </td>
 
                                 <td class="text-end">
 
@@ -159,24 +197,51 @@
 
         <hr class="mb-2">
 
-        <div class="ms-4 mb-3">
+        <div class="row px-3 pb-3">
 
-            <p class="mb-2">
-                <strong>Jumlah Transaksi :</strong>
-                {{ $totalBooking }}
-            </p>
+            <div class="col-md-3">
 
-            <p class="mb-0">
-                <strong>Total Pendapatan :</strong>
-                <span class="text-success fw-bold">
-                    Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
-                </span>
-            </p>
+                <div class="border rounded-3 p-2">
+
+                    <small class="text-muted" style="font-size:12px;">
+
+                        Jumlah Transaksi
+
+                    </small>
+
+                    <h6 class="fw-bold mb-0">
+
+                        {{ $totalBooking }}
+
+                    </h6>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="border rounded-3 p-2">
+
+                    <small class="text-muted" style="font-size:12px;">
+
+                        Total Pendapatan
+
+                    </small>
+
+                    <h6 class="fw-bold text-success mb-0">
+
+                        Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
+
+                    </h6>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-    </div>
 
 @endsection

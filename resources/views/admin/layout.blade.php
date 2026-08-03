@@ -183,24 +183,21 @@
 
         .card {
             border: none;
-
             border-radius: 22px;
-
             overflow: hidden;
-
             background: #fff;
             box-shadow: 0 6px 25px rgba(124, 58, 237, .08);
+            border: 1px solid #efe7d2;
 
-            border:
-                1px solid #efe7d2;
-            transition: 0.3s;
+            transition: box-shadow .25s;
         }
 
         .card:hover {
-            transform: translateY(-4px);
 
-            box-shadow:
-                0 18px 40px rgba(0, 0, 0, 0.08);
+            transform: none;
+
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .08);
+
         }
 
         .card-body {
@@ -212,7 +209,7 @@
 
         .table {
             margin-bottom: 0;
-            border-collapse: separate;
+            border-collapse: collapse;
             border-spacing: 0 8px;
         }
 
@@ -432,7 +429,7 @@
 
             color: white;
 
-            transform: translateY(-2px);
+            transform: none;
         }
 
         .btn-add-soft {
@@ -585,9 +582,9 @@
 
         /* BADGE */
         .table .badge {
-            font-size: 0.68rem;
-            padding: 6px 9px;
-            border-radius: 20px;
+            font-size: 0.62rem;
+            padding: 4px 8px;
+            border-radius: 16px;
         }
 
         /* AKSI BIAR RAPIH */
@@ -642,6 +639,72 @@
 
         .filter-dropdown .dropdown-divider {
             margin: 4px 0;
+        }
+
+        /* ==========================
+   PROFESSIONAL TABLE
+========================== */
+
+        .custom-table {
+
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+
+        .custom-table thead th {
+
+            background: #F5F3FF;
+
+            color: #7C3AED;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            padding: 10px;
+
+            border-right: 1px solid #E9D5FF;
+
+        }
+
+        .custom-table tbody td {
+
+            padding: 10px;
+
+            border-bottom: 1px solid #EAEAEA;
+
+            border-right: 1px solid #F1F1F1;
+
+            vertical-align: middle;
+
+            font-size: 11px;
+
+        }
+
+        .custom-table tbody td:last-child,
+        .custom-table thead th:last-child {
+
+            border-right: none;
+
+        }
+
+        .custom-table tbody tr {
+
+            transition: .2s;
+
+        }
+
+        .custom-table tbody tr:hover {
+
+            background: #FAFAFA;
+
+        }
+
+        .custom-table tbody tr:last-child td {
+
+            border-bottom: none;
+
         }
     </style>
 </head>
@@ -702,18 +765,18 @@
             Data Terapis
         </a>
 
-        <a href="/admin/pembayaran" class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
-
-            <i class="bi bi-cash-coin"></i>
-            Data Pembayaran
-        </a>
-
         <a href="/admin/diskon" class="{{ request()->is('admin/diskon*') ? 'active' : '' }}">
 
             <i class="bi bi-tags"></i>
 
             Data Promo
 
+        </a>
+
+        <a href="/admin/pembayaran" class="{{ request()->is('admin/pembayaran*') ? 'active' : '' }}">
+
+            <i class="bi bi-cash-coin"></i>
+            Data Pembayaran
         </a>
 
         <a href="{{ route('admin.laporan.index') }}" class="{{ request()->is('admin/laporan*') ? 'active' : '' }}">
@@ -795,6 +858,56 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     @stack('scripts')
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            document.querySelectorAll('.delete-form').forEach(function (form) {
+
+                form.addEventListener('submit', function (e) {
+
+                    e.preventDefault();
+
+                    Swal.fire({
+
+                        title: 'Hapus Data?',
+
+                        text: 'Data yang dihapus tidak dapat dikembalikan.',
+
+                        icon: 'warning',
+
+                        showCancelButton: true,
+
+                        confirmButtonColor: '#dc3545',
+
+                        cancelButtonColor: '#6c757d',
+
+                        confirmButtonText: 'Ya, Hapus',
+
+                        cancelButtonText: 'Batal',
+
+                        reverseButtons: true
+
+                    }).then((result) => {
+
+                        if (result.isConfirmed) {
+
+                            form.submit();
+
+                        }
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    </script>
 
 </body>
 

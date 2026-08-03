@@ -198,12 +198,6 @@
 
         .qr {
 
-            width: 70px;
-
-            height: 70px;
-
-            border: 1px dashed #999;
-
             margin: 10px auto;
 
             line-height: 70px;
@@ -429,24 +423,13 @@
 
         <div class="qr">
 
-
+            <img src="{{ public_path('images/ttd.png') }}" width="80" height="80">
 
         </div>
 
-        <strong>
 
-            Administrator
 
-        </strong>
-
-        <br>
-
-        <span style="font-size:9px;color:#777;">
-
-            SalonQu
-
-        </span>
-
+    </div>
     </div>
 
     <div class="clearfix"></div>

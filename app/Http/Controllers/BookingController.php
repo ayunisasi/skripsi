@@ -109,7 +109,7 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
 
     $tanggalTersedia = AntrianService::getTanggalTersedia();
 
-    $diskon = Diskon::where('status', true)
+    $diskons = Diskon::where('status', true)
     ->where(function ($query) {
         $query->whereNull('tanggal_mulai')
               ->orWhere('tanggal_mulai', '<=', now());
@@ -118,14 +118,14 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
         $query->whereNull('tanggal_selesai')
               ->orWhere('tanggal_selesai', '>=', now());
     })
-    ->first();
+    ->get();
 
     return view('pelanggan.booking', compact(
-        'layanan',
-        'terapis',
-        'tanggalTersedia',
-        'diskon'
-    ));
+    'layanan',
+    'terapis',
+    'tanggalTersedia',
+    'diskons'
+));
 }
 
 

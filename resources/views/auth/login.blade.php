@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - Sri Salon Sindang</title>
+    <title>Login - SalonQu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500&display=swap"
@@ -99,7 +99,7 @@
         <div class="text-center mb-4">
             <img src="/images/salon.jpg" alt="Logo Salon"
                 style="width:55px; height:55px; object-fit:cover; margin-bottom:8px;">
-            <div class="brand">Sri Salon Sindang</div>
+            <div class="brand">SalonQu</div>
             <div class="sub">E-Booking Salon</div>
         </div>
 

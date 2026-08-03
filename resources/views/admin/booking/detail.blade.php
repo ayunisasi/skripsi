@@ -17,7 +17,23 @@
             border-color: #7c4dff;
         }
     </style>
+    <div class="mb-3">
 
+        <a href="/admin/booking" class="btn rounded-3 px-3 py-1" style="
+                    background:#f5f3ff;
+                    color:#7c3aed;
+                    border:1px solid #d8b4fe;
+                    font-size:13px;
+                    font-weight:600;
+                ">
+
+            <i class="bi bi-arrow-left me-1"></i>
+
+            Kembali
+
+        </a>
+
+    </div>
     <div class="row g-4">
         {{-- Info Booking --}}
         <div class="col-md-7">
@@ -336,8 +352,7 @@
             </div> --}}
 
             {{-- Tombol Aksi --}}
-            <div class="d-flex gap-2">
-                <a href="/admin/booking" class="btn btn-gray flex-fill">← Kembali</a>
+            <div class="d-flex gap-2 align-items-center">
                 @if(!in_array($booking->status, ['selesai', 'dibatalkan', 'dibatalkan_sistem']))
                     <form action="/admin/booking/{{ $booking->id }}/batalkan" method="POST" class="flex-fill"
                         onsubmit="return confirm('Yakin batalkan booking ini?')">

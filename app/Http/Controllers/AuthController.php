@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Diskon;
+use App\Models\Layanan;
 
 class AuthController extends Controller
 {
@@ -15,18 +16,26 @@ class AuthController extends Controller
     // =====================
    public function landing()
 {
-    $diskon = Diskon::where('status', true)
-        ->where(function ($query) {
-            $query->whereNull('tanggal_mulai')
-                ->orWhere('tanggal_mulai', '<=', now());
-        })
-        ->where(function ($query) {
-            $query->whereNull('tanggal_selesai')
-                ->orWhere('tanggal_selesai', '>=', now());
-        })
-        ->first();
+   $diskons = Diskon::where('status', true)
+    ->where(function ($query) {
+        $query->whereNull('tanggal_mulai')
+              ->orWhere('tanggal_mulai', '<=', now());
+    })
+    ->where(function ($query) {
+        $query->whereNull('tanggal_selesai')
+              ->orWhere('tanggal_selesai', '>=', now());
+    })
+    ->orderBy('created_at', 'desc')
+    ->get();
 
-    return view('landing', compact('diskon'));
+    $layananLanding = Layanan::where('landing', true)
+        ->orderBy('urutan')
+        ->get();
+
+    return view('landing', [
+    'diskons' => $diskons,
+    'layananLanding' => $layananLanding,
+]);
 }
 
     // =====================

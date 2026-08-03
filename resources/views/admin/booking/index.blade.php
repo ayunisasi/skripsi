@@ -70,16 +70,20 @@
 
 </div>
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
+                <table class="table custom-table align-middle">
+                    <thead class="text-center">
                         <tr>
                             <th>Kode</th>
                             <th>Pelanggan</th>
-                            <th>Layanan</th>
+                           <th style="width:110px;">
+                            Layanan
+                        </th>
                             <th>Terapis</th>
-                            <th>Tanggal</th>
+                            <th style="min-width:110px;">Tanggal</th>
 
-                            <th>No. Antrian</th>
+                            <th class="text-center" style="width:95px;">
+                            Antrian
+                        </th>
                             <th>Status Bayar</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -88,19 +92,74 @@
                     <tbody>
                         @forelse($bookings as $b)
                             <tr>
-                                <td><small class="font-monospace">{{ $b->kd_booking }}</small></td>
-                                <td>{{ $b->user->nama_lengkap }}</td>
-                                <td><small>{{ $b->layanan->pluck('nama_layanan')->join(', ') }}</small></td>
-                                <td>{{ $b->terapis->nama_terapis ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($b->tgl_booking)->format('d/m/Y') }}</td>
+                                <td style="min-width:120px;">
 
+                                <span class="fw-semibold text-dark">
+                                    {{ $b->kd_booking }}
+                                </span>
+
+                            </td>
+                                <td>{{ $b->user->nama_lengkap }}</td>
+                                <td style="width:140px;">
+
+                                <div>
+                                    {{ $b->layanan->first()->nama_layanan ?? '-' }}
+                                </div>
+
+                                @if($b->layanan->count() > 1)
+
+                                    <small class="text-muted">
+                                        +{{ $b->layanan->count() - 1 }} layanan lainnya
+                                    </small>
+
+                                @endif
+
+                            </td>
+                                <td style="min-width:110px;">
+
+                                <span>
+
+                                    {{ $b->terapis->nama_terapis ?? '-' }}
+
+                                </span>
+
+                            </td>
                                 <td>
-                                    @if($b->nomor_antrian)
-                                        <strong style="color:#b5485a">{{ $b->nomor_antrian }}</strong>
-                                    @else
-                                        <span class="text-muted">-</span>
-                                    @endif
-                                </td>
+
+                                <div>
+                                    {{ \Carbon\Carbon::parse($b->tgl_booking)->translatedFormat('d M Y') }}
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ \Carbon\Carbon::parse($b->tgl_booking)->translatedFormat('l') }}
+                                </small>
+
+                            </td>
+
+                               <td class="text-center">
+
+                            @if($b->nomor_antrian)
+
+                                <span style="
+                                    display:inline-block;
+                                    min-width:26px;
+                                    padding:3px 8px;
+                                    border-radius:999px;
+                                    background:#F3E8FF;
+                                    color:#7C3AED;
+                                    font-weight:700;
+                                    font-size:11px;
+                                ">
+                                    {{ $b->nomor_antrian }}
+                                </span>
+
+                            @else
+
+                                <span class="text-muted">-</span>
+
+                            @endif
+
+                        </td>
                                 <td>
                                     @if($b->status_pembayaran === 'lunas')
                                         <span class="badge badge-aktif">Lunas</span>
@@ -114,9 +173,33 @@
                                 </td>
                                 <td>
                                     @if($b->status === 'aktif')
-                                        <span class="badge badge-aktif">Aktif</span>
+                                    <span class="badge"
+                                    style="
+                                    background:#F3E8FF;
+                                    color:#7C3AED;
+                                    border:1px solid #D8B4FE;
+                                    padding:6px 12px;
+                                    border-radius:20px;
+                                    font-weight:600;
+                                    ">
+
+                                    Aktif
+
+                                    </span>
                                     @elseif($b->status === 'selesai')
-                                        <span class="badge badge-selesai">Selesai</span>
+                                        <span class="badge"
+                                        style="
+                                        background:#DCFCE7;
+                                        color:#15803D;
+                                        border:1px solid #86EFAC;
+                                        padding:6px 12px;
+                                        border-radius:20px;
+                                        font-weight:600;
+                                        ">
+
+                                        Selesai
+
+                                        </span>
                                     @elseif($b->status === 'dibatalkan_sistem')
     <span class="badge badge-batal">
         Dibatalkan Sistem
@@ -134,9 +217,19 @@
     <div style="display:flex;gap:6px;align-items:center;">
 
     <a href="/admin/booking/{{ $b->id }}/detail"
-       class="btn btn-detail-soft btn-sm px-3 py-1 rounded-3">
-        Detail
-    </a>
+   class="btn btn-detail-soft btn-sm rounded-circle"
+   style="
+        width:30px;
+        height:30px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+   "
+   title="Detail">
+
+    <i class="bi bi-eye"></i>
+
+</a>
 
         {{-- @if($b->status === 'menunggu_pembayaran')
         <form action="/admin/booking/{{ $b->id }}/setujui" method="POST" class="d-inline">
@@ -148,15 +241,28 @@
         @endif --}}
 
         {{-- ✅ TOMBOL HAPUS --}}
-        <form action="/admin/booking/{{ $b->id }}" method="POST"
-          onsubmit="return confirm('Yakin hapus data booking {{ $b->kd_booking }}?')">
+        <form
+    action="/admin/booking/{{ $b->id }}"
+    method="POST"
+    class="delete-form">
         @csrf
         @method('DELETE')
 
-        <button type="submit"
-                class="btn btn-danger-soft btn-sm px-3 py-1 rounded-3">
-            <i class="bi bi-trash3"></i> Hapus
-        </button>
+        <button
+    type="submit"
+    class="btn btn-danger-soft btn-sm rounded-circle"
+    style="
+        width:30px;
+        height:30px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    "
+    title="Hapus">
+
+    <i class="bi bi-trash3"></i>
+
+</button>
     </form>
 
 </div>

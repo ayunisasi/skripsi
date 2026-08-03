@@ -219,6 +219,166 @@
             color: var(--green);
         }
 
+        .hero-promo {
+
+            position: absolute;
+
+            left: 55px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 250px;
+
+            padding: 9px;
+
+            background: rgba(255, 252, 247, .92);
+
+            backdrop-filter: blur(10px);
+
+            border: 2px solid rgba(214, 183, 120, .35);
+
+            border-radius: 20px;
+
+            box-shadow:
+
+                0 18px 40px rgba(0, 0, 0, .10),
+
+                inset 0 0 15px rgba(255, 255, 255, .5);
+
+        }
+
+        .promo-header {
+
+            display: flex;
+
+            align-items: center;
+
+            text-align: center;
+
+            gap: 14px;
+
+            padding: 10px 16px;
+
+            border-radius: 18px;
+
+            background: #6d28d9;
+
+            color: white;
+
+            margin-bottom: 10px;
+
+            box-shadow: 0 8px 18px rgba(109, 40, 217, .18);
+            border: 1px solid rgba(255, 255, 255, .18);
+
+        }
+
+        .promo-header i {
+
+            font-size: 15px;
+            color: #FFD54F;
+
+        }
+
+        .promo-title {
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            line-height: 1;
+
+            transform: translateX(12px);
+        }
+
+        .promo-subtitle {
+
+            margin-top: 4px;
+
+            font-size: 10px;
+
+            opacity: .9;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+            transform: translateX(12px);
+
+        }
+
+        .promo-header h5 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .promo-item {
+
+            padding: 10px;
+
+            border-bottom: 1px dashed #E7DCC8;
+
+        }
+
+        .promo-item:last-child {
+            border: none;
+        }
+
+        .promo-name {
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #2b2b2b;
+
+            text-transform: uppercase;
+
+        }
+
+        .promo-value {
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            color: #7C3AED;
+
+            margin: 6px 0;
+
+        }
+
+        .promo-min {
+
+            color: #666;
+
+            font-size: 11px;
+
+        }
+
+        .promo-date {
+
+            margin-top: 8px;
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            background: #F3E8FF;
+
+            color: #6D28D9;
+
+            font-size: 10px;
+
+            font-weight: 500;
+
+        }
+
         /* BANNER */
         .banner-section {
             margin-top: -70px;
@@ -321,7 +481,7 @@
         }
 
         .service-content {
-            padding: 25px;
+            padding: 20px;
         }
 
         .service-top {
@@ -335,11 +495,12 @@
             color: var(--gold-dark);
             font-weight: 700;
             font-size: 0.95rem;
+            margin-bottom: 2px !important;
         }
 
         .service-name {
             font-size: 1.05rem;
-            margin-bottom: 14px;
+            margin-bottom: 4px;
             color: var(--green);
             font-weight: 600;
         }
@@ -347,8 +508,8 @@
         .service-desc {
             color: #6d746f;
             font-size: 0.85rem;
-            line-height: 1.6;
-            margin-bottom: 22px;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
 
         .service-footer {
@@ -458,96 +619,137 @@
             box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
         }
 
-        footer {
-            background: #ffffff;
-            /* ungu gelap elegan */
-            color: rgba(255, 255, 255, 0.7);
+        .footer {
+
+            background: #faf8ff;
+
+            margin-top: 0px;
+
+            padding: 60px 0 25px;
+
+            border-top: 1px solid #ece3ff;
+
+        }
+
+        .footer-content {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 22px;
+
+            flex-wrap: wrap;
+
+        }
+
+        .footer-logo {
+
+            font-family: 'Playfair Display', serif;
+
+            font-size: 2rem;
+
+            color: #7c3aed;
+
+            margin: 0;
+
+        }
+
+        .footer-divider {
+
+            width: 1px;
+
+            height: 45px;
+
+            background: #e5d8ff;
+
+        }
+
+        .footer-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #555;
+
+            font-size: .9rem;
+
+        }
+
+        .footer-item i {
+
+            color: #7c3aed;
+
+            font-size: 18px;
+
+            margin-right: 4px;
+
+        }
+
+        .footer hr {
+            display: none;
+        }
+
+        .copyright {
+
+            margin: 0;
+
             text-align: center;
-            padding: 10px 20px;
-            font-size: 0.82rem;
-            border-top: 1px solid #eee;
+
+            color: #888;
+
+            font-size: .85rem;
+
         }
 
-        footer p {
-            max-width: 500px;
-            /* ini bikin tidak panjang ke samping */
-            margin: 0 auto;
+        .footer hr {
+
+            margin: 35px 0 20px;
+
+            border-color: #ece3ff;
+
+        }
+
+        .copyright {
 
             text-align: center;
 
-            color: #6b7280;
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
+            color: #999;
 
-        footer span {
-            color: #a78bfa;
-        }
+            margin: 0;
 
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: var(--green);
-        }
+            font-size: .9rem;
 
-        /* bullet default */
-        .swiper-pagination-bullet {
-            background: #d8c7ff !important;
-            /* ungu soft */
-            opacity: 1;
-        }
-
-        /* bullet aktif */
-        .swiper-pagination-bullet-active {
-            background: #a78bfa !important;
-            /* ungu lebih tegas */
-            box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
         }
 
         /* RESPONSIVE */
-        @media (max-width: 768px) {
+        @media(max-width:768px) {
 
-            .hero-badge,
-            .hero-title,
-            .hero-desc,
-            .hero-btns {
-                transform: none;
+            .footer-content {
+
+                flex-direction: column;
+
+                gap: 14px;
+
             }
 
-            .navbar {
-                padding: 14px 20px;
+            .footer-divider {
+
+                display: none;
+
             }
 
-            .hero {
-                padding: 120px 20px 80px;
+            .footer-logo {
+
+                margin-bottom: 5px;
+
             }
 
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-btns {
-                justify-content: center;
-            }
-
-            .services,
-            .steps,
-            .cta-section {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-
-            .banner-section {
-                padding: 0 15px;
-                margin-top: -40px;
-            }
-
-            .layananSwiper {
-                padding-bottom: 60px;
-            }
-
-            .swiper-slide {
-                height: auto;
-            }
         }
 
 
@@ -575,12 +777,12 @@
         }
 
         .hero-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             line-height: 1.3;
         }
 
         .hero-desc {
-            font-size: 0.95rem;
+            font-size: 0.90rem;
             line-height: 1.8;
         }
 
@@ -663,6 +865,93 @@
     {{-- HERO --}}
     <section class="hero">
 
+        {{-- CARD PROMO --}}
+        @if($diskons->count())
+
+            <div class="hero-promo">
+
+                <div class="promo-header">
+
+                    <i class="bi bi-gift-fill"></i>
+
+                    <div>
+
+                        <div class="promo-title">
+                            PROMO!!
+                        </div>
+
+                        <div class="promo-subtitle">
+                            Exclusive Offer
+                        </div>
+
+                    </div>
+
+                </div>
+                @foreach($diskons->take(3) as $promo)
+
+                    <div class="promo-item">
+
+                        <div class="promo-name">
+
+                            {{ strtoupper($promo->nama_diskon) }}
+
+                        </div>
+
+                        <div class="promo-value">
+
+                            @if($promo->tipe_potongan == 'persen')
+
+                                DISKON {{ (int) $promo->nilai }}%
+
+                            @else
+
+                                POTONGAN
+                                Rp{{ number_format($promo->nilai, 0, ',', '.') }}
+
+                            @endif
+
+                        </div>
+
+                        @if($promo->jenis == 'diskon' && $promo->minimal_transaksi)
+
+                            <div class="promo-min">
+                                Minimal transaksi
+                                Rp{{ number_format($promo->minimal_transaksi, 0, ',', '.') }}
+                            </div>
+
+                        @endif
+
+                        @if($promo->jenis == 'langganan' && $promo->minimal_kunjungan)
+
+                            <div class="promo-min">
+                                Minimal {{ $promo->minimal_kunjungan }} kali kunjungan
+                            </div>
+
+                        @endif
+
+                        @if($promo->tanggal_mulai && $promo->tanggal_selesai)
+
+                            <div class="promo-date">
+
+                                Berlaku
+
+                                {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->translatedFormat('d M Y') }}
+
+                                -
+
+                                {{ \Carbon\Carbon::parse($promo->tanggal_selesai)->translatedFormat('d M Y') }}
+
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                @endforeach
+
+            </div>
+        @endif
+
         <div class="hero-content">
 
             <div class="hero-badge">
@@ -688,10 +977,10 @@
                     Daftar
                 </a>
             </div>
+
         </div>
 
     </section>
-
 
     {{-- LAYANAN --}}
     <section class="services" id="layanan">
@@ -707,181 +996,63 @@
 
                 <div class="swiper-wrapper">
 
-                    {{-- CARD 1 --}}
-                    <div class="swiper-slide">
-                        <div class="service-card">
+                    @foreach($layananLanding as $layanan)
 
-                            <div class="service-image">
-                                <img src="{{ asset('images/creambath.jpg') }}" alt="">
-                            </div>
+                                    <div class="swiper-slide">
 
-                            <div class="service-content">
+                                        <div class="service-card">
 
-                                <div class="service-top">
-                                    <span class="service-price">Rp35K</span>
-                                </div>
+                                            <div class="service-image">
 
-                                <h5 class="service-name">
-                                    Creambath
-                                </h5>
+                                                <img src="{{ $layanan->gambar
+                        ? asset('storage/' . $layanan->gambar)
+                        : asset('images/default-service.jpg') }}" alt="{{ $layanan->nama_layanan }}">
 
-                                <p class="service-desc">
-                                    Perawatan rambut agar tetap sehat,
-                                    lembut, dan berkilau.
-                                </p>
+                                            </div>
 
-                                <div class="service-footer">
-                                    <span>
-                                        <i class="bi bi-clock"></i>
-                                        60 Menit
-                                    </span>
-                                </div>
+                                            <div class="service-content">
 
-                            </div>
+                                                <div class="service-top">
 
-                        </div>
-                    </div>
+                                                    <span class="service-price">
 
-                    {{-- CARD 2 --}}
-                    <div class="swiper-slide">
-                        <div class="service-card">
+                                                        Rp{{ number_format($layanan->harga, 0, ',', '.') }}
 
-                            <div class="service-image">
-                                <img src="{{ asset('images/facial.png') }}" alt="">
-                            </div>
+                                                    </span>
 
-                            <div class="service-content">
+                                                </div>
 
-                                <div class="service-top">
-                                    <span class="service-price">50K</span>
-                                </div>
+                                                <h5 class="service-name">
 
-                                <h5 class="service-name">
-                                    Facial
-                                </h5>
+                                                    {{ $layanan->nama_layanan }}
 
-                                <p class="service-desc">
-                                    Facial treatment untuk wajah lebih
-                                    glowing dan segar.
-                                </p>
+                                                </h5>
 
-                                <div class="service-footer">
-                                    <span>
-                                        <i class="bi bi-clock"></i>
-                                        30 Menit
-                                    </span>
-                                </div>
+                                                <p class="service-desc">
 
-                            </div>
+                                                    {{ $layanan->deskripsi_singkat }}
 
-                        </div>
-                    </div>
+                                                </p>
 
-                    {{-- CARD 3 --}}
-                    <div class="swiper-slide">
-                        <div class="service-card">
+                                                <div class="service-footer">
 
-                            <div class="service-image">
-                                <img src="{{ asset('images/masker.png') }}" alt="">
-                            </div>
+                                                    <span>
 
-                            <div class="service-content">
+                                                        <i class="bi bi-clock"></i>
 
-                                <div class="service-top">
-                                    <span class="service-price">Rp35K</span>
-                                </div>
+                                                        {{ $layanan->durasi }} Menit
 
-                                <h5 class="service-name">
-                                    Masker Rambut
-                                </h5>
+                                                    </span>
 
-                                <p class="service-desc">
-                                    Perawatan rambut untuk menjaga kesehatan
-                                    rambut.
-                                </p>
+                                                </div>
 
-                                <div class="service-footer">
-                                    <span>
-                                        <i class="bi bi-clock"></i>
-                                        30 Menit
-                                    </span>
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
-                    </div>
+                                    </div>
 
-                    {{-- CARD 4 --}}
-                    <div class="swiper-slide">
-                        <div class="service-card">
-
-                            <div class="service-image">
-                                <img src="{{ asset('images/potong.png') }}" alt="">
-                            </div>
-
-                            <div class="service-content">
-
-                                <div class="service-top">
-                                    <span class="service-price">25k</span>
-                                </div>
-
-                                <h5 class="service-name">
-                                    Potong Rambut
-                                </h5>
-
-                                <p class="service-desc">
-                                    Potong rambut sesuai gaya yang
-                                    diinginkan.
-                                </p>
-
-                                <div class="service-footer">
-                                    <span>
-                                        <i class="bi bi-clock"></i>
-                                        20 Menit
-                                    </span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    {{-- CARD 5 --}}
-                    <div class="swiper-slide">
-                        <div class="service-card">
-
-                            <div class="service-image">
-                                <img src="{{ asset('images/lulur.png') }}" alt="">
-                            </div>
-
-                            <div class="service-content">
-
-                                <div class="service-top">
-                                    <span class="service-price">110K</span>
-                                </div>
-
-                                <h5 class="service-name">
-                                    Lulur Massage
-                                </h5>
-
-                                <p class="service-desc">
-                                    Lulur dan pijat relaksasi
-                                    untuk membantu mengangkat sel kulit
-                                    mati
-                                </p>
-
-                                <div class="service-footer">
-                                    <span>
-                                        <i class="bi bi-clock"></i>
-                                        90 Menit
-                                    </span>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
 
@@ -898,12 +1069,49 @@
 
     </section>
 
-    <footer>
-        <p>
-            © {{ date('Y') }}
-            <span>SalonQu</span>.
-            All rights reserved.
-        </p>
+    <footer class="footer">
+
+        <div class="container">
+            <div class="footer-content">
+
+                <h3 class="footer-logo">
+                    SalonQu
+                </h3>
+
+                <div class="footer-divider"></div>
+
+                <div class="footer-item">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>Jl.P.Dharma Kusuma No.67, Indramayu</span>
+                </div>
+
+                <div class="footer-item">
+                    <i class="bi bi-whatsapp"></i>
+                    <span>+62 896-1921-1548</span>
+                </div>
+
+                <div class="footer-item">
+                    <i class="bi bi-instagram"></i>
+                    <span>@salonqusindang</span>
+                </div>
+
+                <div class="footer-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>salonqu@gmail.com</span>
+                </div>
+
+            </div>
+
+            <hr>
+
+            <p class="copyright">
+
+                © {{ date('Y') }} SalonQu. All rights reserved.
+
+            </p>
+
+        </div>
+
     </footer>
 
 
@@ -920,6 +1128,8 @@
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+                dynamicBullets: true,
+                dynamicMainBullets: 5,
             },
 
             navigation: {

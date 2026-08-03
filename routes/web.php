@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\AntrianAdminController;
 use App\Http\Controllers\Admin\PembayaranAdminController;
 use App\Http\Controllers\Admin\DiskonController;
 use App\Http\Controllers\Admin\LaporanController;
-
+use App\Http\Controllers\Admin\WebsiteSettingController;
 // =====================
 // PUBLIC ROUTES
 // =====================
@@ -120,11 +120,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
      // Diskon
     Route::resource('diskon', DiskonController::class);
+
     // laporan
-    Route::get('/admin/laporan', [LaporanController::class, 'index'])
+    Route::get('/laporan', [LaporanController::class, 'index'])
     ->name('admin.laporan.index');
 
-    Route::get('/admin/laporan/pdf', [LaporanController::class, 'cetakPdf'])
+    Route::get('/laporan/pdf', [LaporanController::class, 'cetakPdf'])
     ->name('admin.laporan.pdf');
 });
 
