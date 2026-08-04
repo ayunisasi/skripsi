@@ -20,12 +20,12 @@
     <div class="mb-3">
 
         <a href="/admin/booking" class="btn rounded-3 px-3 py-1" style="
-                    background:#f5f3ff;
-                    color:#7c3aed;
-                    border:1px solid #d8b4fe;
-                    font-size:13px;
-                    font-weight:600;
-                ">
+                        background:#f5f3ff;
+                        color:#7c3aed;
+                        border:1px solid #d8b4fe;
+                        font-size:13px;
+                        font-weight:600;
+                    ">
 
             <i class="bi bi-arrow-left me-1"></i>
 
@@ -293,7 +293,7 @@
                                 <span class="badge bg-success me-1 mb-1">Bersih</span>
                             @endif
 
-                            @if($booking->review->tepat_waktu)
+                            @if($booking->review->keterampilan)
                                 <span class="badge bg-success me-1 mb-1">Keterampilan</span>
                             @endif
 

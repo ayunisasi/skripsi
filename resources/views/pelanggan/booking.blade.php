@@ -129,12 +129,8 @@
             box-shadow: 0 0 0 2px rgba(201, 168, 76, .3);
         }
 
-        .layanan-card input[type=checkbox] {
-            display: block;
-            width: 18px;
-            height: 18px;
-            margin-top: 8px;
-            accent-color: #7c3aed;
+       .layanan-card input[type=checkbox]{
+        display:none;
         }
 
         .btn-pink {
@@ -453,12 +449,13 @@
                             @foreach($layanan as $l)
                                 <li>
                                     <label
-                                        class="dropdown-item layanan-card d-flex justify-content-between align-items-start
-                                                                                                                                                    {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
+                                        class="dropdown-item layanan-card d-flex justify-content-between align-items-start"
+                                        {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
                                         data-harga="{{ $l->harga }}" data-durasi="{{ $l->durasi }}"
                                         onclick="toggleLayanan(this)">
 
-                                        <input type="checkbox" name="layanan_ids[]" value="{{ $l->id }}" class="me-2" {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'checked' : '' }}>
+                                        <input type="checkbox" name="layanan_ids[]"value="{{ $l->id }}"hidden
+                                        {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'checked' : '' }}>
 
                                         <div style="width:100%">
                                             <div class="fw-semibold" style="font-size:0.9rem; color:#2d1b20">
@@ -558,11 +555,11 @@
                                     @endif --}}
 
                                     <div class="rating-badge">
-                                        ⭐ {{ $t->rating_rata }}
+                                        ⭐ {{ $t->rating }}
                                     </div>
 
                                     <div class="mini-stat">
-                                        {{ $t->jumlah_booking }} Booking
+                                        {{ $t->booking_selesai }} Booking
                                         •
                                         {{ $t->jumlah_review }} Review
                                     </div>
@@ -586,7 +583,7 @@
                                         </span>
 
                                         <span class="tag">
-                                            Keterampilan ({{ $t->tepat_waktu ?? 0 }})
+                                            Keterampilan ({{ $t->keterampilan ?? 0 }})
                                         </span>
 
                                     </div>

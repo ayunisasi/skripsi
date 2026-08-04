@@ -434,7 +434,7 @@
                             </label>
 
                             <label class="tag">
-                                <input type="checkbox" name="tepat_waktu"> Keterampilan
+                                <input type="checkbox" name="keterampilan"> Keterampilan
                             </label>
 
                         </div>

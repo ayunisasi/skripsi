@@ -32,25 +32,50 @@ public function index()
         $t->rapi = $t->reviews->where('rapi', true)->count();
         $t->profesional = $t->reviews->where('profesional', true)->count();
         $t->bersih = $t->reviews->where('bersih', true)->count();
-        $t->keterampilan = $t->reviews->where('tepat_waktu', true)->count();
-
-        // Hitung Score
-        $reviewPositif =
-            $t->ramah +
-            $t->rapi +
-            $t->profesional +
-            $t->bersih +
-            $t->keterampilan;
-
-        $t->ai_score =
-            ($t->rating * 0.5) +
-            ($reviewPositif * 0.3) +
-            ($t->booking_selesai * 0.2);
+        $t->keterampilan = $t->reviews->where('keterampilan', true)->count();
     }
+
+    $maxRating = $terapis->max('rating');
+    $maxReview = $terapis->max(function ($t) {
+    return
+        $t->ramah +
+        $t->rapi +
+        $t->profesional +
+        $t->bersih +
+        $t->keterampilan;
+});
+    $maxBooking = $terapis->max('booking_selesai');
+
+    foreach ($terapis as $t) {
+
+    $reviewPositif =
+        $t->ramah +
+        $t->rapi +
+        $t->profesional +
+        $t->bersih +
+        $t->keterampilan;
+
+    $ratingNormal = $maxRating > 0
+        ? $t->rating / $maxRating
+        : 0;
+
+    $reviewNormal = $maxReview > 0
+        ? $reviewPositif / $maxReview
+        : 0;
+
+    $bookingNormal = $maxBooking > 0
+        ? $t->booking_selesai / $maxBooking
+        : 0;
+
+    $t->score =
+        ($ratingNormal * 0.5) +
+        ($reviewNormal * 0.3) +
+        ($bookingNormal * 0.2);
+}
 
     // Urutkan berdasarkan Score tertinggi
     $collection = $terapis->getCollection()
-        ->sortByDesc('ai_score')
+        ->sortByDesc('score')
         ->values();
 
     // Terapis unggulan

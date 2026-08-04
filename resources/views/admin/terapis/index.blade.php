@@ -7,13 +7,13 @@
                 <h6 class="fw-bold mb-0">Data Terapis</h6>
                 <button type="button" class="btn btn-add-soft rounded-3" data-bs-toggle="modal"
                     data-bs-target="#tambahTerapisModal" style="
-                height:36px;
-                padding:6px 14px;
-                font-size:13px;
-                display:flex;
-                align-items:center;
-                gap:6px;
-            ">
+                    height:36px;
+                    padding:6px 14px;
+                    font-size:13px;
+                    display:flex;
+                    align-items:center;
+                    gap:6px;
+                ">
                     <i class="bi bi-plus"></i>
                     Tambah Terapis
                 </button>
@@ -85,15 +85,8 @@
 
                                 @if($terapisUnggulan && $terapisUnggulan->id == $t->id)
 
-                                    <span class="badge mt-2"
-                                        style="
-                                                                                                                                                                        background:#fff7d6;
-                                                                                                                                                                        color:#8a6d1f;
-                                                                                                                                                                        border:1px solid #ffe69c;
-                                                                                                                                                                        ">
-
+                                    <span class="badge mt-2" style="background:#fff7d6;color:#8a6d1f;border:1px solid #ffe69c;">
                                         👑 Terapis Unggulan
-
                                     </span>
 
                                 @endif
@@ -127,16 +120,10 @@
                                         @csrf
                                         @method('DELETE')
 
-                                        <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus" style="
-                                                                                                                    width:36px;
-                                                                                                                    height:36px;
-                                                                                                                    display:flex;
-                                                                                                                    align-items:center;
-                                                                                                                    justify-content:center;
-                                                                                                                    ">
-
+                                        <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus"
+                                            style="
+                                                width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
                                             <i class="bi bi-trash3"></i>
-
                                         </button>
 
                                     </form>

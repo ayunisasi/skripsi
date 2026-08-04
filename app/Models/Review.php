@@ -15,7 +15,7 @@ class Review extends Model
     'rapi',
     'profesional',
     'bersih',
-    'tepat_waktu'
+    'keterampilan'
 ];
 
     public function booking() { return $this->belongsTo(Booking::class); }

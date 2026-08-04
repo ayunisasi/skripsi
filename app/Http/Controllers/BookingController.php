@@ -33,9 +33,9 @@ class BookingController extends Controller
        foreach ($terapis as $t) {
 
     $rating = round($t->reviews->avg('rating') ?? 0, 1);
-    $t->rating_rata = $rating;
+    $t->rating = $rating;
     $t->jumlah_review = $t->reviews->count();
-    $t->jumlah_booking =
+    $t->booking_selesai =
         $t->bookings
           ->where('status', 'selesai')
           ->count();
@@ -67,7 +67,7 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
 
     $t->profesional = $t->reviews->where('profesional', true)->count();
 
-    $t->tepat_waktu = $t->reviews->where('tepat_waktu', true)->count();
+    $t->keterampilan = $t->reviews->where('keterampilan', true)->count();
 
 // Hitung total review positif yang diberikan pelanggan
 // Semakin banyak review positif, semakin tinggi nilai terapis
@@ -77,35 +77,61 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
         $t->rapi +
         $t->bersih +
         $t->profesional +
-        $t->tepat_waktu;
+        $t->keterampilan;
 
-// ================================
-// WEIGHT (BOBOT)
-// ================================
-// Rating pelanggan : 50%
-// Review positif   : 30%
-// Jumlah booking   : 20%
-//
-// Bobot ini digunakan sebagai dasar
-// pengambilan keputusan rekomendasi
-// terapis terbaik.
-// ================================
 
         $bobotRating  = 0.5; // 50% pengaruh rating
         $bobotReview  = 0.3; // 30% pengaruh review positif
-        $bobotBooking = 0.2; // 20% pengaruh jumlah booking
+        $bobotBooking = 0.2; // 20% pengaruh booking selesai
 
- $t->ai_score =
-    ($rating * 10) * $bobotRating
-    + ($reviewPositif * 2) * $bobotReview
-    + ($t->jumlah_booking) * $bobotBooking;
 }
 
-// Urutkan terapis berdasarkan AI Score tertinggi.
-// Terapis dengan nilai tertinggi akan tampil
-// sebagai rekomendasi utama (Terapis Unggulan).
+$maxRating = $terapis->max('rating');
 
-    $terapis = $terapis->sortByDesc('ai_score')->values();
+$maxReview = $terapis->max(function ($t) {
+    return
+        $t->ramah +
+        $t->rapi +
+        $t->bersih +
+        $t->profesional +
+        $t->keterampilan;
+});
+
+$maxBooking = $terapis->max('booking_selesai');
+
+foreach ($terapis as $t) {
+
+    $reviewPositif =
+        $t->ramah +
+        $t->rapi +
+        $t->bersih +
+        $t->profesional +
+        $t->keterampilan;
+
+    $ratingNormal =
+        $maxRating > 0
+            ? $t->rating / $maxRating
+            : 0;
+
+    $reviewNormal =
+        $maxReview > 0
+            ? $reviewPositif / $maxReview
+            : 0;
+
+    $bookingNormal =
+        $maxBooking > 0
+            ? $t->booking_selesai / $maxBooking
+            : 0;
+
+    $t->score =
+        ($ratingNormal * 0.5) +
+        ($reviewNormal * 0.3) +
+        ($bookingNormal * 0.2);
+}
+
+
+
+    $terapis = $terapis->sortByDesc('score')->values();
 
     $tanggalTersedia = AntrianService::getTanggalTersedia();
 
@@ -138,12 +164,12 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
         ]);
 
         // Cek apakah terapis sudah penuh
-        $jumlahBooking = Booking::where('terapis_id', $request->terapis_id)
+        $booking_selesai = Booking::where('terapis_id', $request->terapis_id)
             ->where('tgl_booking', $request->tgl_booking)
             ->whereNotIn('status', ['dibatalkan', 'dibatalkan_sistem'])
             ->count();
 
-        if ($jumlahBooking >= 5) {
+        if ($booking_selesai >= 5) {
 
         return back()
             ->with('error', 'Terapis ini sudah penuh. Silakan pilih terapis lain.')

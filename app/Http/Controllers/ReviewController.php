@@ -37,7 +37,7 @@ class ReviewController extends Controller
             'rapi' => $request->has('rapi'),
             'profesional' => $request->has('profesional'),
             'bersih' => $request->has('bersih'),
-            'tepat_waktu' => $request->has('tepat_waktu'),
+            'keterampilan' => $request->has('keterampilan'),
         ]);
 
         return redirect('/booking/riwayat')
