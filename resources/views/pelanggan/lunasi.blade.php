@@ -87,7 +87,7 @@
 
         .summary-row.total span:last-child {
             color: var(--gold);
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: 700;
         }
     </style>

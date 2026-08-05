@@ -715,44 +715,6 @@
 
         }
 
-        .copyright {
-
-            text-align: center;
-
-            color: #999;
-
-            margin: 0;
-
-            font-size: .9rem;
-
-        }
-
-        /* RESPONSIVE */
-        @media(max-width:768px) {
-
-            .footer-content {
-
-                flex-direction: column;
-
-                gap: 14px;
-
-            }
-
-            .footer-divider {
-
-                display: none;
-
-            }
-
-            .footer-logo {
-
-                margin-bottom: 5px;
-
-            }
-
-        }
-
-
 
         .navbar {
             padding: 12px 18px;
@@ -838,6 +800,190 @@
             padding: 15px;
         }
 
+        @media (max-width:768px) {
+
+            .hero {
+                min-height: auto;
+                padding: 90px 20px 40px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            /* Hero */
+            .hero-content {
+                max-width: 100%;
+                text-align: center;
+                order: 1;
+            }
+
+            .hero-badge {
+                transform: none;
+                margin-bottom: 15px;
+            }
+
+            .hero-title {
+                transform: none;
+                font-size: 2rem;
+                line-height: 1.2;
+                margin-bottom: 12px;
+            }
+
+            .hero-desc {
+                transform: none;
+                font-size: .85rem;
+                line-height: 1.6;
+                margin-bottom: 18px;
+            }
+
+            /* Promo pindah ke bawah deskripsi */
+            .hero-promo {
+                order: 2;
+                position: static;
+                transform: none;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto 25px;
+                padding: 8px;
+            }
+
+            /* Tombol */
+            .hero-btns {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                transform: none;
+            }
+
+            .btn-booking {
+                background: linear-gradient(135deg, var(--gold), #e1c48c);
+                color: var(--green);
+                border: none;
+                width: 46%;
+                padding: 10px 0;
+                font-size: .82rem;
+            }
+
+            .btn-outline-pink {
+                width: 46%;
+                padding: 10px 0;
+                font-size: .82rem;
+                background: var(--cream);
+
+                color: var(--green);
+
+                border: 2.5px solid var(--gold);
+
+                border-radius: 30px;
+
+                font-weight: 600;
+
+                transition: .3s;
+            }
+
+            /* Promo dibuat lebih kecil */
+            .promo-header {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px 16px;
+                border-radius: 18px;
+                background: #6d28d9;
+                color: white;
+            }
+
+            .promo-header i {
+                position: absolute;
+                left: 15px;
+                color: #FFD54F;
+                font-size: 15px;
+            }
+
+            .promo-header>div {
+                text-align: center;
+            }
+
+            .promo-title {
+                font-size: 15px;
+            }
+
+            .promo-subtitle {
+                font-size: 9px;
+            }
+
+            .promo-item {
+                padding: 8px;
+            }
+
+            .promo-name {
+                font-size: 12px;
+            }
+
+            .promo-value {
+                font-size: 14px;
+            }
+
+            .promo-min {
+                font-size: 10px;
+            }
+
+            .promo-date {
+                font-size: 9px;
+                padding: 4px 8px;
+                margin-top: 5px;
+            }
+
+            .footer-content {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                gap: 6px;
+
+                width: fit-content;
+                margin: 0 auto;
+            }
+
+            .footer-logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 6px;
+            }
+
+            .footer-divider {
+                display: none;
+            }
+
+            .footer-item {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: .9rem;
+            }
+
+            .footer-item i {
+                width: 20px;
+                text-align: center;
+                color: #7C3AED;
+            }
+
+            .copyright {
+
+                margin: 0;
+
+                text-align: center;
+
+                color: #888;
+
+                font-size: .75rem;
+
+            }
+
+        }
 
         footer {
             font-size: 0.75rem;
@@ -866,92 +1012,6 @@
     <section class="hero">
 
         {{-- CARD PROMO --}}
-        @if($diskons->count())
-
-            <div class="hero-promo">
-
-                <div class="promo-header">
-
-                    <i class="bi bi-gift-fill"></i>
-
-                    <div>
-
-                        <div class="promo-title">
-                            PROMO!!
-                        </div>
-
-                        <div class="promo-subtitle">
-                            Exclusive Offer
-                        </div>
-
-                    </div>
-
-                </div>
-                @foreach($diskons->take(3) as $promo)
-
-                    <div class="promo-item">
-
-                        <div class="promo-name">
-
-                            {{ strtoupper($promo->nama_diskon) }}
-
-                        </div>
-
-                        <div class="promo-value">
-
-                            @if($promo->tipe_potongan == 'persen')
-
-                                DISKON {{ (int) $promo->nilai }}%
-
-                            @else
-
-                                POTONGAN
-                                Rp{{ number_format($promo->nilai, 0, ',', '.') }}
-
-                            @endif
-
-                        </div>
-
-                        @if($promo->jenis == 'diskon' && $promo->minimal_transaksi)
-
-                            <div class="promo-min">
-                                Minimal transaksi
-                                Rp{{ number_format($promo->minimal_transaksi, 0, ',', '.') }}
-                            </div>
-
-                        @endif
-
-                        @if($promo->jenis == 'langganan' && $promo->minimal_kunjungan)
-
-                            <div class="promo-min">
-                                Minimal {{ $promo->minimal_kunjungan }} kali kunjungan
-                            </div>
-
-                        @endif
-
-                        @if($promo->tanggal_mulai && $promo->tanggal_selesai)
-
-                            <div class="promo-date">
-
-                                Berlaku
-
-                                {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->translatedFormat('d M Y') }}
-
-                                -
-
-                                {{ \Carbon\Carbon::parse($promo->tanggal_selesai)->translatedFormat('d M Y') }}
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                @endforeach
-
-            </div>
-        @endif
-
         <div class="hero-content">
 
             <div class="hero-badge">
@@ -967,6 +1027,92 @@
                 Nikmati layanan salon modern dengan
                 nyaman di SalonQu.
             </p>
+
+            @if($diskons->count())
+
+                <div class="hero-promo">
+
+                    <div class="promo-header">
+
+                        <i class="bi bi-gift-fill"></i>
+
+                        <div>
+
+                            <div class="promo-title">
+                                PROMO!!
+                            </div>
+
+                            <div class="promo-subtitle">
+                                Exclusive Offer
+                            </div>
+
+                        </div>
+
+                    </div>
+                    @foreach($diskons->take(3) as $promo)
+
+                        <div class="promo-item">
+
+                            <div class="promo-name">
+
+                                {{ strtoupper($promo->nama_diskon) }}
+
+                            </div>
+
+                            <div class="promo-value">
+
+                                @if($promo->tipe_potongan == 'persen')
+
+                                    DISKON {{ (int) $promo->nilai }}%
+
+                                @else
+
+                                    POTONGAN
+                                    Rp{{ number_format($promo->nilai, 0, ',', '.') }}
+
+                                @endif
+
+                            </div>
+
+                            @if($promo->jenis == 'diskon' && $promo->minimal_transaksi)
+
+                                <div class="promo-min">
+                                    Minimal transaksi
+                                    Rp{{ number_format($promo->minimal_transaksi, 0, ',', '.') }}
+                                </div>
+
+                            @endif
+
+                            @if($promo->jenis == 'langganan' && $promo->minimal_kunjungan)
+
+                                <div class="promo-min">
+                                    Minimal {{ $promo->minimal_kunjungan }} kali kunjungan
+                                </div>
+
+                            @endif
+
+                            @if($promo->tanggal_mulai && $promo->tanggal_selesai)
+
+                                <div class="promo-date">
+
+                                    Berlaku
+
+                                    {{ \Carbon\Carbon::parse($promo->tanggal_mulai)->translatedFormat('d M Y') }}
+
+                                    -
+
+                                    {{ \Carbon\Carbon::parse($promo->tanggal_selesai)->translatedFormat('d M Y') }}
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+            @endif
 
             <div class="hero-btns">
                 <a href="/booking" class="btn-booking">

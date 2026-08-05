@@ -353,6 +353,30 @@
             .terapis-grid {
                 grid-template-columns: 1fr;
             }
+            .payment-option{
+            padding:12px 8px !important;
+            }
+
+            .payment-option .fw-semibold{
+                font-size:1.15rem;
+            }
+
+            .payment-option div:last-child{
+                font-size:.95rem !important;
+                white-space:nowrap;
+            }
+            .summary-box{
+                font-size:.92rem;
+            }
+
+            .summary-box .fw-bold{
+                font-size:1rem;
+            }
+            #summary-promo{
+                font-size:.85rem;
+                line-height:1.3;
+                text-align:right;
+            }
     </style>
 </head>
 
@@ -449,7 +473,7 @@
                             @foreach($layanan as $l)
                                 <li>
                                     <label
-                                        class="dropdown-item layanan-card d-flex justify-content-between align-items-start"
+                                        class="dropdown-item layanan-card d-flex align-items-start"
                                         {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'selected' : '' }}"
                                         data-harga="{{ $l->harga }}" data-durasi="{{ $l->durasi }}"
                                         onclick="toggleLayanan(this)">
@@ -457,7 +481,7 @@
                                         <input type="checkbox" name="layanan_ids[]"value="{{ $l->id }}"hidden
                                         {{ is_array(old('layanan_ids')) && in_array($l->id, old('layanan_ids')) ? 'checked' : '' }}>
 
-                                        <div style="width:100%">
+                                        <div style="flex:1; min-width:0;">
                                             <div class="fw-semibold" style="font-size:0.9rem; color:#2d1b20">
                                                 {{ $l->nama_layanan }}
                                             </div>
@@ -467,7 +491,7 @@
                                             </small>
                                         </div>
 
-                                        <span class="fw-bold ms-2" style="color:#b5485a;font-size:0.85rem">
+                                        <span class="fw-bold ms-3" style="white-space:nowrap;color:#b5485a;font-size:.85rem">
                                             Rp {{ number_format($l->harga, 0, ',', '.') }}
                                         </span>
 
