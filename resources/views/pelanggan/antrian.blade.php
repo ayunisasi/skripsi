@@ -759,35 +759,35 @@
                                 class="val">{{ \Carbon\Carbon::parse($booking->tgl_booking)->isoFormat('D MMM Y') }}</span>
                         </div>
                         <div class="detail-row">
-    <span class="lbl">Subtotal</span>
-    <span class="val">
-        Rp {{ number_format($booking->total_harga, 0, ',', '.') }}
-    </span>
-</div>
+                            <span class="lbl">Subtotal</span>
+                            <span class="val">
+                                Rp {{ number_format($booking->total_harga, 0, ',', '.') }}
+                            </span>
+                        </div>
 
-@if($booking->potongan > 0)
+                        @if($booking->potongan > 0)
 
-<div class="detail-row">
-    <span class="lbl" style="color:#16a34a">
-        🎉 Promo
-    </span>
+                            <div class="detail-row">
+                                <span class="lbl" style="color:#16a34a">
+                                    🎉 Promo
+                                </span>
 
-    <span class="val" style="color:#16a34a;font-weight:700">
-        - Rp {{ number_format($booking->potongan,0,',','.') }}
-    </span>
-</div>
+                                <span class="val" style="color:#16a34a;font-weight:700">
+                                    - Rp {{ number_format($booking->potongan, 0, ',', '.') }}
+                                </span>
+                            </div>
 
-@endif
+                        @endif
 
-<div class="detail-row">
-    <span class="lbl">
-        Total Bayar
-    </span>
+                        <div class="detail-row">
+                            <span class="lbl">
+                                Total Bayar
+                            </span>
 
-    <span class="val" style="color:#7c3aed;font-weight:700">
-        Rp {{ number_format($booking->total_bayar ?? $booking->total_harga,0,',','.') }}
-    </span>
-</div>
+                            <span class="val" style="color:#7c3aed;font-weight:700">
+                                Rp {{ number_format($booking->total_bayar ?? $booking->total_harga, 0, ',', '.') }}
+                            </span>
+                        </div>
                         <div class="detail-row">
                             <span class="lbl">Status Bayar</span>
                             <span class="val">
@@ -834,7 +834,8 @@
         // ✅ REAL-TIME COUNTDOWN
         @if($antrian && $antrian->status === 'menunggu')
 
-            const targetTime = '{{ \Carbon\Carbon::parse($booking->tgl_booking)->format("Y-m-d") }} {{ $antrian->estimasi_jam_mulai }}:00';
+            const targetTime = '{{ \Carbon\Carbon::parse($booking->tgl_booking)->format("Y-m-d") }} {{ $antrian->estimasi_jam_mulai }}';
+
 
         @elseif($antrian && $antrian->status === 'dipanggil')
 
