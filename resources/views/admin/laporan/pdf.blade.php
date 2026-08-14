@@ -417,7 +417,7 @@
 
         <strong>
 
-            Disusun dan Dicetak Oleh
+            Dicetak oleh Administrator
 
         </strong>
 

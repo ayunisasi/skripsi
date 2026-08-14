@@ -291,23 +291,9 @@
 
             line-height: 1;
 
-            transform: translateX(12px);
+            transform: translateX(15px);
         }
 
-        .promo-subtitle {
-
-            margin-top: 4px;
-
-            font-size: 10px;
-
-            opacity: .9;
-
-            text-transform: uppercase;
-
-            letter-spacing: 2px;
-            transform: translateX(12px);
-
-        }
 
         .promo-header h5 {
             margin: 0;
@@ -1040,10 +1026,6 @@
 
                             <div class="promo-title">
                                 PROMO!!
-                            </div>
-
-                            <div class="promo-subtitle">
-                                Exclusive Offer
                             </div>
 
                         </div>
