@@ -283,9 +283,9 @@ if (Carbon::now()->hour >= 18) {
         $count  = 0;
         $i      = 0;
 
-        while ($count < 6) {
+        while ($count < 7) {
             $tgl = $today->copy()->addDays($i++);
-            if ($tgl->dayOfWeek === Carbon::SUNDAY) continue;
+            // if ($tgl->dayOfWeek === Carbon::SUNDAY) continue;
             $result[] = [
                 'value'    => $tgl->format('Y-m-d'),
                 'label'    => $tgl->isoFormat('dddd, D MMMM Y'),
