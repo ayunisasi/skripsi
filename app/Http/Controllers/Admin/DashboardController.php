@@ -17,7 +17,7 @@ class DashboardController extends Controller
 
     // ✅ FIX: Layanan selesai HARI INI saja
     $layananSelesaiHariIni = Booking::where('status', 'selesai')
-       ->whereDate('created_at', Carbon::today())
+       ->whereDate('tgl_booking', Carbon::today())
         ->count();
 
     // ✅ FIX: Antrian hari ini saja, tanpa yang dibatalkan

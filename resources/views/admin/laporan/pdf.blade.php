@@ -342,7 +342,7 @@
 
                     <td>{{ $item->kd_booking }}</td>
 
-                    <td>{{ $item->user->username }}</td>
+                    <td>{{ $item->user->nama_lengkap }}</td>
 
                     <td>
 

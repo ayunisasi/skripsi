@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Diskon;
+use App\Models\Booking;
 use Carbon\Carbon;
 
 class PromoService
@@ -45,12 +46,16 @@ class PromoService
         // =====================
         // Promo Langganan
         // =====================
-        if (
-            $promo->jenis == 'langganan' &&
-            $user->jumlah_kunjungan >= $promo->minimal_kunjungan
-        ) {
-            $valid = true;
-        }
+        if ($promo->jenis == 'langganan') {
+
+    $jumlahKunjungan = Booking::where('user_id', $user->id)
+        ->where('status', 'selesai')
+        ->count();
+
+    if ($jumlahKunjungan >= $promo->minimal_kunjungan) {
+        $valid = true;
+    }
+}
 
         if ($valid) {
 

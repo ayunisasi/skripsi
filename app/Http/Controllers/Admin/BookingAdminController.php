@@ -110,7 +110,13 @@ public function index(Request $request)
         ]);
 
         // Update total harga booking
-        $booking->increment('total_harga', $request->harga);
+        $totalHargaBaru = $booking->total_harga + $request->harga;
+        $totalBayarBaru = $booking->total_bayar + $request->harga;
+
+        $booking->update([
+            'total_harga' => $totalHargaBaru,
+            'total_bayar' => $totalBayarBaru,
+        ]);
 
         // Update durasi dan jam selesai antrian jika ada durasi tambahan
         if ($durasi > 0 && $booking->antrian) {

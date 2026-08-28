@@ -141,7 +141,7 @@
 
                                 </td>
 
-                                <td>{{ $item->user->username ?? '-' }}</td>
+                                <td>{{ $item->user->nama_lengkap ?? '-' }}</td>
 
                                 <td style="max-width:220px;">
 
