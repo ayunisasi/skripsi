@@ -48,25 +48,30 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'username' => 'required',
+        // 1. Validasi input
+        $credentials = $request->validate([
+            'email'    => 'required|email',
             'password' => 'required',
         ], [
-            'username.required' => 'Username wajib diisi.',
+            'email.required'    => 'Email wajib diisi.',
+            'email.email'       => 'Format email tidak valid.',
             'password.required' => 'Password wajib diisi.',
         ]);
 
-        $user = User::where('username', $request->username)->first();
+        // 2. Coba autentikasi pengguna
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            if ($user->role === 'admin') {
-                return redirect('/admin/dashboard');
+            // Redirect sesuai role user
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admin/dashboard');
             }
-            return redirect('/booking');
+
+            return redirect()->intended('/booking');
         }
 
-        return back()->with('error', 'Username atau password salah!');
+        // 3. Jika gagal autentikasi
+        return back()->with('error', 'Email atau password salah!')->withInput($request->only('email'));
     }
 
     // =====================
@@ -79,38 +84,44 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // Validasi input
         $request->validate([
             'nama_lengkap' => 'required|string|max:100',
-            'username'     => 'required|string|unique:users|max:50',
-            'email'        => 'required|email|unique:users',
+            'email'        => 'required|email|unique:users,email',
             'no_telp'      => 'required|string|max:15',
             'password'     => 'required|min:6|confirmed',
         ], [
-            'username.unique'    => 'Username sudah digunakan.',
-            'email.unique'       => 'Email sudah terdaftar.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'password.min'       => 'Password minimal 6 karakter.',
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'email.required'        => 'Email wajib diisi.',
+            'email.unique'          => 'Email sudah terdaftar.',
+            'no_telp.required'      => 'Nomor telepon wajib diisi.',
+            'password.required'     => 'Password wajib diisi.',
+            'password.confirmed'    => 'Konfirmasi password tidak cocok.',
+            'password.min'          => 'Password minimal 6 karakter.',
         ]);
 
+        // Simpan data pelanggan baru
         User::create([
             'nama_lengkap' => $request->nama_lengkap,
-            'username'     => $request->username,
             'email'        => $request->email,
             'no_telp'      => $request->no_telp,
             'password'     => Hash::make($request->password),
             'role'         => 'pelanggan',
         ]);
 
-        return redirect('/login')
-            ->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
     // =====================
     // LOGOUT
     // =====================
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/');
     }
 }

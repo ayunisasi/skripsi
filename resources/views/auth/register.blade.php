@@ -134,31 +134,29 @@
                 <label class="form-label">Nama Lengkap</label>
                 <input type="text" name="nama_lengkap" class="form-control @error('nama_lengkap') is-invalid @enderror"
                     value="{{ old('nama_lengkap') }}" placeholder="Nama lengkap kamu" required>
-                @error('nama_lengkap')<div class="invalid-feedback">{{ $message }}</div>@enderror
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                    value="{{ old('username') }}" placeholder="Username unik" required>
-                @error('username')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @error('nama_lengkap')
+                <div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                     value="{{ old('email') }}" placeholder="email@example.com" required>
-                @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">No. Telepon</label>
                 <input type="text" name="no_telp" class="form-control @error('no_telp') is-invalid @enderror"
                     value="{{ old('no_telp') }}" placeholder="08xxxxxxxxxx" required>
-                @error('no_telp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @error('no_telp')
+                <div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                     placeholder="Minimal 6 karakter" required>
-                @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-4">
                 <label class="form-label">Konfirmasi Password</label>

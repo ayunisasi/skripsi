@@ -714,7 +714,7 @@ padding:8px;
 border-radius:10px;
 ">
                                 <i class="bi bi-info-circle-fill"></i>
-                                Terlambat >15 menit / tidak hadir → pembayaran hangus.
+                                Pembayaran hangus jika batal, tidak hadir, atau terlambat >15 menit setelah dipanggil.
                             </div>
 
                         </div>

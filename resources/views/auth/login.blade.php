@@ -117,10 +117,10 @@
         <form action="/login" method="POST">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-control @error('username') is-invalid @enderror"
-                    value="{{ old('username') }}" placeholder="Masukkan username" required>
-                @error('username')
+                <label class="form-label">Email</label>
+                <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
+                    value="{{ old('email') }}" placeholder="Masukkan Email" required>
+                @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -142,7 +142,7 @@
             </small>
         </div>
         <div class="text-center mt-2">
-            <a href="/" style="color:#7c3aed;>
+            <a href="/" style="color:#7c3aed;">
                 ← Kembali ke Beranda
             </a>
         </div>

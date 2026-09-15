@@ -10,11 +10,11 @@
                         placeholder="Cari username / nama..." value="{{ request('search') }}"
                         style="border-radius:8px; width:220px;">
                     <button class="btn btn-sm" style="
-                                                        background:#f5f3ff;
-                                                        color:#7c3aed;
-                                                        border:1px solid #d8b4fe;
-                                                        font-weight:600;
-                                                        ">
+                                                            background:#f5f3ff;
+                                                            color:#7c3aed;
+                                                            border:1px solid #d8b4fe;
+                                                            font-weight:600;
+                                                            ">
                         Cari
                     </button>
                 </form>
@@ -22,125 +22,54 @@
             <table class="table custom-table align-middle">
                 <thead class="text-center">
                     <tr>
-
-                        <th style="width:60px;" class="text-center">
-                            No
-                        </th>
-
-                        <th style="width:120px;" class="text-center">
-                            Username
-                        </th>
-
-                        <th style="width:170px;" class="text-center">
-                            Nama Lengkap
-                        </th>
-
-                        <th style="width:220px;" class="text-center">
-                            Email
-                        </th>
-
-                        <th style="width:130px;" class="text-center">
-                            No. Telepon
-                        </th>
-
-                        <th style="width:90px;" class="text-center">
-                            Aksi
-                        </th>
-
+                        <th style="width:60px;" class="text-center">No</th>
+                        <th style="width:200px;" class="text-center">Nama Lengkap</th>
+                        <th style="width:220px;" class="text-center">Email</th>
+                        <th style="width:150px;" class="text-center">No. Telepon</th>
+                        <th style="width:90px;" class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @forelse($users as $i => $u)
-
                         <tr>
-
-                            <td>
-
-                                {{ $users->firstItem() + $i }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $u->username }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $u->nama_lengkap }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $u->email }}
-
-                            </td>
-
-                            <td>
-
-                                {{ $u->no_telp }}
-
-                            </td>
-
+                            <td class="text-center">{{ $users->firstItem() + $i }}</td>
+                            <td>{{ $u->nama_lengkap }}</td>
+                            <td>{{ $u->email }}</td>
+                            <td class="text-center">{{ $u->no_telp }}</td>
                             <td class="text-center">
-
                                 <div class="d-flex justify-content-center gap-2">
-
                                     <button type="button" class="btn btn-warning-soft btn-sm rounded-circle btn-edit-user"
                                         data-bs-toggle="modal" data-bs-target="#editUserModal" data-id="{{ $u->id }}"
-                                        data-username="{{ $u->username }}"
                                         data-nama="{{ $u->nama_lengkap }}" data-email="{{ $u->email }}"
                                         data-telp="{{ $u->no_telp }}" title="Edit">
-
                                         <i class="bi bi-pencil"></i>
-
                                     </button>
 
-                                    <form
-    action="/admin/users/{{ $u->id }}"
-    method="POST"
-    class="delete-form">
-
+                                    <form action="/admin/users/{{ $u->id }}" method="POST" class="delete-form">
                                         @csrf
                                         @method('DELETE')
-
                                         <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus" style="
-                                                                                                    width:36px;
-                                                                                                    height:36px;
-                                                                                                    display:flex;
-                                                                                                    align-items:center;
-                                                                                                    justify-content:center;
-                                                                                                ">
-
+                                                    width:36px;
+                                                    height:36px;
+                                                    display:flex;
+                                                    align-items:center;
+                                                    justify-content:center;
+                                                ">
                                             <i class="bi bi-trash3"></i>
-
                                         </button>
-
                                     </form>
-
                                 </div>
-
                             </td>
-
                         </tr>
 
                     @empty
-
                         <tr>
-
-                            <td colspan="6" class="text-center text-muted py-4">
-
+                            <td colspan="5" class="text-center text-muted py-4">
                                 Belum ada data user
-
                             </td>
-
                         </tr>
-
                     @endforelse
-
                 </tbody>
             </table>
             {{ $users->links() }}
@@ -148,43 +77,18 @@
     </div>
     {{-- Modal Edit User --}}
     <div class="modal fade" id="editUserModal" tabindex="-1">
-
         <div class="modal-dialog modal-dialog-centered">
-
             <div class="modal-content">
-
                 <form id="editUserForm" method="POST">
-
                     @csrf
                     @method('PUT')
-
                     <div class="modal-header">
-
-                        <h5 class="modal-title">
-
-                            Edit User
-
-                        </h5>
-
+                        <h5 class="modal-title">Edit User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal">
                         </button>
-
                     </div>
 
                     <div class="modal-body">
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-
-                                Username
-
-                            </label>
-
-                            <input type="text" name="username" id="editUsername" class="form-control" required>
-
-                        </div>
-
                         <div class="mb-3">
 
                             <label class="form-label">

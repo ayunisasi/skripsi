@@ -22,13 +22,15 @@ class LaporanController extends Controller
         $query->whereDate('tgl_booking', '<=', $request->tanggal_akhir);
     }
 
+    // 1. HITUNG TOTAL DULU dari seluruh data (sebelum dipaginasi)
+    $totalBooking = (clone $query)->count();
+    $totalPendapatan = (clone $query)->sum('jumlah_dibayar');
+
+    // 2. AMBIL 10 DATA PER HALAMAN untuk tabel
     $booking = $query
         ->orderByDesc('tgl_booking')
-        ->get();
-
-    $totalBooking = $booking->count();
-
-    $totalPendapatan = $booking->sum('jumlah_dibayar');
+        ->paginate(10)
+        ->withQueryString();
 
     return view('admin.laporan.index', compact(
         'booking',

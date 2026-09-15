@@ -123,7 +123,7 @@
                             <tr>
 
                                 <td class="text-center">
-                                    {{ $loop->iteration }}
+                                    {{ $booking->firstItem() + $loop->index }}
                                 </td>
 
                                 <td class="text-center">
@@ -194,6 +194,10 @@
 
             </div>
         </div> {{-- penutup table-responsive --}}
+        <!-- Navigasi Pagination (Halaman 1, 2, 3 / Next) -->
+        <div class="d-flex justify-content-end mt-3 px-2">
+            {{ $booking->links() }}
+        </div>
 
         <hr class="mb-2">
 
