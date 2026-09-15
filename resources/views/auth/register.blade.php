@@ -146,10 +146,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">No. Telepon</label>
-                <input type="text" name="no_telp" class="form-control @error('no_telp') is-invalid @enderror"
-                    value="{{ old('no_telp') }}" placeholder="08xxxxxxxxxx" required>
+                <input type="text" name="no_telp" class="form-control" inputmode="numeric" pattern="[0-9]+"
+                    maxlength="15" placeholder="Masukkan nomor telepon" required>
                 @error('no_telp')
-                <div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">Password</label>

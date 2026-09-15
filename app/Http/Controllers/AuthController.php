@@ -88,7 +88,7 @@ class AuthController extends Controller
         $request->validate([
             'nama_lengkap' => 'required|string|max:100',
             'email'        => 'required|email|unique:users,email',
-            'no_telp'      => 'required|string|max:15',
+            'no_telp'      => 'required|digits_between:10,15',
             'password'     => 'required|min:6|confirmed',
         ], [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
