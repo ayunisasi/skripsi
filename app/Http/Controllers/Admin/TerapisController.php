@@ -95,16 +95,28 @@ public function index()
         return view('admin.terapis.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_terapis' => 'required|string|max:100',
-            'status'       => 'required|in:aktif,nonaktif',
-        ]);
-        Terapis::create($request->all());
-        return redirect('/admin/terapis')
-            ->with('success', 'Terapis berhasil ditambahkan!');
+   public function store(Request $request)
+{
+    $request->validate([
+        'nama_terapis' => 'required|string|max:100',
+        'status'       => 'required|in:aktif,nonaktif',
+        'foto'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+    $data = [
+        'nama_terapis' => $request->nama_terapis,
+        'status'       => $request->status,
+    ];
+
+    if ($request->hasFile('foto')) {
+        $data['foto'] = $request->file('foto')->store('terapis', 'public');
     }
+
+    Terapis::create($data);
+
+    return redirect('/admin/terapis')
+        ->with('success', 'Terapis berhasil ditambahkan!');
+}
 
     public function edit($id)
     {
@@ -113,15 +125,29 @@ public function index()
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama_terapis' => 'required|string|max:100',
-            'status'       => 'required|in:aktif,nonaktif',
-        ]);
-        Terapis::findOrFail($id)->update($request->all());
-        return redirect('/admin/terapis')
-            ->with('success', 'Terapis berhasil diperbarui!');
+{
+    $request->validate([
+        'nama_terapis' => 'required|string|max:100',
+        'status'       => 'required|in:aktif,nonaktif',
+        'foto'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+    $terapis = Terapis::findOrFail($id);
+
+    $data = [
+        'nama_terapis' => $request->nama_terapis,
+        'status'       => $request->status,
+    ];
+
+    if ($request->hasFile('foto')) {
+        $data['foto'] = $request->file('foto')->store('terapis', 'public');
     }
+
+    $terapis->update($data);
+
+    return redirect('/admin/terapis')
+        ->with('success', 'Terapis berhasil diperbarui!');
+}
 
     public function destroy($id)
     {

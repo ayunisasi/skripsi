@@ -557,7 +557,15 @@
                             <div class="terapis-card-horizontal" {{ !$t->tersedia ? 'disabled-card' : '' }}"
                                 @if($t->tersedia) onclick="pilihTerapis(this)" @endif>
 
-                                <img src="{{ asset('images/terapis1.jpg') }}" class="terapis-foto-horizontal">
+                                @if($t->foto)
+                                    <img src="{{ asset('storage/' . $t->foto) }}"
+                                    class="terapis-foto-horizontal"
+                                    alt="{{ $t->nama_terapis }}">
+                                @else
+                                    <img src="{{ asset('images/terapis1.jpg') }}"
+                                    class="terapis-foto-horizontal"
+                                    alt="{{ $t->nama_terapis }}">
+                                @endif
 
                                 <div class="terapis-info">
 

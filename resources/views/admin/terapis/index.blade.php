@@ -7,13 +7,13 @@
                 <h6 class="fw-bold mb-0">Data Terapis</h6>
                 <button type="button" class="btn btn-add-soft rounded-3" data-bs-toggle="modal"
                     data-bs-target="#tambahTerapisModal" style="
-                    height:36px;
-                    padding:6px 14px;
-                    font-size:13px;
-                    display:flex;
-                    align-items:center;
-                    gap:6px;
-                ">
+                                                height:36px;
+                                                padding:6px 14px;
+                                                font-size:13px;
+                                                display:flex;
+                                                align-items:center;
+                                                gap:6px;
+                                            ">
                     <i class="bi bi-plus"></i>
                     Tambah Terapis
                 </button>
@@ -58,10 +58,37 @@
 
                             </td>
 
-                            <td style="font-weight:500;">
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
 
-                                {{ $t->nama_terapis }}
+                                    @if($t->foto)
+                                        <img src="{{ asset('storage/' . $t->foto) }}" alt="{{ $t->nama_terapis }}" style="
+                                                                                width:45px;
+                                                                                height:45px;
+                                                                                object-fit:cover;
+                                                                                border-radius:50%;
+                                                                             ">
+                                    @else
+                                        <div style="
+                                                                                width:45px;
+                                                                                height:45px;
+                                                                                border-radius:50%;
+                                                                                background:#f1eef8;
+                                                                                display:flex;
+                                                                                align-items:center;
+                                                                                justify-content:center;
+                                                                                color:#8b7bb5;
+                                                                                font-size:18px;
+                                                                            ">
+                                            <i class="bi bi-person"></i>
+                                        </div>
+                                    @endif
 
+                                    <span style="font-weight:500;">
+                                        {{ $t->nama_terapis }}
+                                    </span>
+
+                                </div>
                             </td>
 
                             <td>
@@ -122,7 +149,7 @@
 
                                         <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus"
                                             style="
-                                                width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+                                                                                                        width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
                                             <i class="bi bi-trash3"></i>
                                         </button>
 
@@ -164,7 +191,7 @@
 
             <div class="modal-content border-0 shadow rounded-4">
 
-                <form action="/admin/terapis" method="POST">
+                <form action="/admin/terapis" method="POST" enctype="multipart/form-data">
 
                     @csrf
 
@@ -198,6 +225,15 @@
                             </label>
 
                             <input type="text" name="nama_terapis" class="form-control rounded-3" required>
+
+                        </div>
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Foto Terapis
+                            </label>
+
+                            <input type="file" name="foto" class="form-control rounded-3" accept="image/*">
 
                         </div>
 
@@ -255,7 +291,7 @@
 
             <div class="modal-content border-0 shadow rounded-4">
 
-                <form id="editTerapisForm" method="POST">
+                <form id="editTerapisForm" method="POST" enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
@@ -295,6 +331,19 @@
 
                             <input type="text" id="editNamaTerapis" name="nama_terapis" class="form-control rounded-3"
                                 required>
+
+                        </div>
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Foto Terapis
+                            </label>
+
+                            <input type="file" name="foto" class="form-control rounded-3" accept="image/*">
+
+                            <small class="text-muted">
+                                Format: JPG, JPEG, PNG, WEBP. Maksimal 2 MB.
+                            </small>
 
                         </div>
 

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Terapis extends Model
 {
     protected $table = 'terapis';
-    protected $fillable = ['nama_terapis', 'status'];
+    protected $fillable = ['nama_terapis', 'status', 'foto'];
 
     public function bookings() { return $this->hasMany(Booking::class); }
     public function antrian()  { return $this->hasMany(Antrian::class); }
