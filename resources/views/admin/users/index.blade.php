@@ -10,11 +10,11 @@
                         placeholder="Cari username / nama..." value="{{ request('search') }}"
                         style="border-radius:8px; width:220px;">
                     <button class="btn btn-sm" style="
-                                                            background:#f5f3ff;
-                                                            color:#7c3aed;
-                                                            border:1px solid #d8b4fe;
-                                                            font-weight:600;
-                                                            ">
+                                                                background:#f5f3ff;
+                                                                color:#7c3aed;
+                                                                border:1px solid #d8b4fe;
+                                                                font-weight:600;
+                                                                ">
                         Cari
                     </button>
                 </form>
@@ -50,12 +50,12 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus" style="
-                                                    width:36px;
-                                                    height:36px;
-                                                    display:flex;
-                                                    align-items:center;
-                                                    justify-content:center;
-                                                ">
+                                                            width:36px;
+                                                            height:36px;
+                                                            display:flex;
+                                                            align-items:center;
+                                                            justify-content:center;
+                                                        ">
                                             <i class="bi bi-trash3"></i>
                                         </button>
                                     </form>
@@ -157,8 +157,6 @@
             button.addEventListener('click', function () {
 
                 let id = this.dataset.id;
-
-                document.getElementById('editUsername').value = this.dataset.username;
 
                 document.getElementById('editNama').value = this.dataset.nama;
 

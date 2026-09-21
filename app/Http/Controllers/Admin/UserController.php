@@ -30,13 +30,16 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'username'      => 'required|string|max:50|unique:users,username,' . $id,
             'nama_lengkap' => 'required|string|max:100',
             'email'        => 'required|email|unique:users,email,'.$id,
             'no_telp'      => 'required|string|max:15',
         ]);
         User::findOrFail($id)->update(
-            $request->only( 'username', 'nama_lengkap', 'email', 'no_telp')
+            [
+    'nama_lengkap' => $request->nama_lengkap,
+    'email' => $request->email,
+    'no_telp' => $request->no_telp,
+]
         );
         return redirect('/admin/users')
             ->with('success', 'Data user berhasil diperbarui!');
