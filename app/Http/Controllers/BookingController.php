@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Layanan;
@@ -16,7 +14,6 @@ use App\Models\Diskon;
 class BookingController extends Controller
 {
     protected $antrianService;
-
     public function __construct(AntrianService $antrianService)
     {
         $this->antrianService = $antrianService;
@@ -25,7 +22,6 @@ class BookingController extends Controller
   public function index()
 {
     $layanan = Layanan::all();
-
     $terapis = Terapis::with(['reviews', 'bookings'])
         ->where('status', 'aktif')
         ->get();
@@ -57,21 +53,14 @@ $t->maksimal_booking = 5;
 
 // Status tersedia
 $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
-
     // kriteria
     $t->ramah = $t->reviews->where('ramah', true)->count();
-
     $t->rapi = $t->reviews->where('rapi', true)->count();
-
     $t->bersih = $t->reviews->where('bersih', true)->count();
-
     $t->profesional = $t->reviews->where('profesional', true)->count();
-
     $t->keterampilan = $t->reviews->where('keterampilan', true)->count();
-
 // Hitung total review positif yang diberikan pelanggan
 // Semakin banyak review positif, semakin tinggi nilai terapis
-
     $reviewPositif =
         $t->ramah +
         $t->rapi +
@@ -79,15 +68,11 @@ $t->tersedia = $t->booking_hari_ini < $t->maksimal_booking;
         $t->profesional +
         $t->keterampilan;
 
-
         $bobotRating  = 0.5; // 50% pengaruh rating
         $bobotReview  = 0.3; // 30% pengaruh review positif
         $bobotBooking = 0.2; // 20% pengaruh booking selesai
-
 }
-
 $maxRating = $terapis->max('rating');
-
 $maxReview = $terapis->max(function ($t) {
     return
         $t->ramah +
@@ -96,11 +81,9 @@ $maxReview = $terapis->max(function ($t) {
         $t->profesional +
         $t->keterampilan;
 });
-
 $maxBooking = $terapis->max('booking_selesai');
 
 foreach ($terapis as $t) {
-
     $reviewPositif =
         $t->ramah +
         $t->rapi +
@@ -129,12 +112,8 @@ foreach ($terapis as $t) {
         ($bookingNormal * 0.2);
 }
 
-
-
     $terapis = $terapis->sortByDesc('score')->values();
-
     $tanggalTersedia = AntrianService::getTanggalTersedia();
-
     $diskons = Diskon::where('status', true)
     ->where(function ($query) {
         $query->whereNull('tanggal_mulai')
@@ -153,8 +132,6 @@ foreach ($terapis as $t) {
     'diskons'
 ));
 }
-
-
     public function cekKetersediaan(Request $request)
     {
         $request->validate([
@@ -175,7 +152,6 @@ foreach ($terapis as $t) {
             ->with('error', 'Terapis ini sudah penuh. Silakan pilih terapis lain.')
             ->withInput();
 }
-
         $layananList = Layanan::whereIn('id', $request->layanan_ids)->get();
         $totalDurasi = $layananList->sum('durasi');
 
@@ -184,10 +160,8 @@ foreach ($terapis as $t) {
             $request->terapis_id,
             $totalDurasi
         );
-
         return response()->json($hasil);
     }
-
     public function store(Request $request)
 {
     $request->validate([
@@ -242,7 +216,6 @@ if (!$cek['tersedia']) {
 
     return redirect()->route('midtrans.form', $booking->id);
 }
-
 public function cekPromo(Request $request)
 {
     $layanan = Layanan::whereIn(
@@ -266,7 +239,6 @@ public function cekPromo(Request $request)
         'total_bayar' => max(0, $subtotal - $potongan),
     ]);
 }
-
     public function riwayat()
     {
         $bookings = Booking::with(['layanan', 'terapis', 'antrian'])
@@ -276,7 +248,6 @@ public function cekPromo(Request $request)
 
         return view('pelanggan.riwayat', compact('bookings'));
     }
-
     public function batalkan(Request $request, int $id)
     {
         $booking = Booking::where('id', $id)
@@ -308,7 +279,6 @@ public function cekPromo(Request $request)
             'Booking berhasil dibatalkan.'
         );
     }
-
     public function destroy(int $id)
 {
     $booking = Booking::where('id', $id)
@@ -319,10 +289,7 @@ public function cekPromo(Request $request)
     if (!in_array($booking->status, ['selesai', 'dibatalkan', 'dibatalkan_sistem'])) {
         return back()->with('error', 'Booking aktif tidak bisa dihapus dari riwayat.');
     }
-
     $booking->delete();
     return back()->with('success', 'Riwayat booking berhasil dihapus.');
 }
-
-
 }

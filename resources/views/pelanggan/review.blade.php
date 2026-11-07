@@ -73,6 +73,40 @@
             opacity: 0.9;
             /* biar gak terlalu “ngejreng” */
         }
+        /* Nama pengguna di navbar */
+.navbar-top .dropdown-toggle {
+    color: #7c3aed !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Menu dropdown */
+.navbar-top .dropdown-menu {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    border: 1px solid #e9d5ff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.10);
+}
+
+/* Tulisan menu */
+.navbar-top .dropdown-item {
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+}
+
+/* Saat menu disentuh */
+.navbar-top .dropdown-item:hover {
+    background-color: #f5f0ff;
+    color: #7c3aed;
+}
+
+/* Garis pemisah dropdown */
+.navbar-top .dropdown-divider {
+    border-color: #e9d5ff;
+}
 
         .brand-sub {
             color: rgba(255, 255, 255, 0.45);
@@ -283,9 +317,21 @@
             color: #fff;
         }
 
-        .dropdown-menu .dropdown-item {
-            font-size: 0.8rem;
-        }
+           .navbar-top .dropdown-menu {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    border: 1px solid #e9d5ff;
+    border-radius: 8px;
+    padding: 5px 0;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.10);
+}
+
+.navbar-top .dropdown-item {
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    padding: 6px 14px;
+}
 
         @media (max-width: 768px) {
 
@@ -342,34 +388,53 @@
                 <a class="dropdown-toggle text-decoration-none" href="#" role="button" data-bs-toggle="dropdown"
                     style="color:#7C4DFF;font-size:0.85rem;font-weight:500">
 
-                    <i class="bi bi-person-circle me-1"></i>
-                    {{ Auth::user()->nama_lengkap }}
+                   @if(Auth::user()->foto_profil)
+    <img src="{{ asset('storage/' . Auth::user()->foto_profil) }}"
+         width="24"
+         height="24"
+         style="border-radius:50%; object-fit:cover; vertical-align:middle; margin-right:5px;">
+@else
+    <i class="bi bi-person-circle me-1"></i>
+@endif
+
+{{ Auth::user()->nama_lengkap }}
 
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end">
 
-                    <li>
+                <li>
+                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                        <i class="bi bi-person me-2"></i> Profil
+                    </a>
+                </li>
+
+                 <li>
                         <a class="dropdown-item" href="/booking">
                             <i class="bi bi-plus-circle me-2"></i> Booking Baru
                         </a>
                     </li>
 
+                <li>
+                    <a class="dropdown-item" href="/booking/riwayat">
+                        <i class="bi bi-clock-history me-2"></i> Riwayat
+                    </a>
+                </li>
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
 
-                    <li>
-                        <form action="/logout" method="POST">
-                            @csrf
-                            <button class="dropdown-item text-danger">
-                                <i class="bi bi-box-arrow-right me-2"></i> Logout
-                            </button>
-                        </form>
-                    </li>
+                <li>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button class="dropdown-item text-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i> Logout
+                        </button>
+                    </form>
+                </li>
 
-                </ul>
+            </ul>
             </div>
         </div>
     </nav>
@@ -392,6 +457,9 @@
                     <!-- ⭐ RATING BINTANG (FUNCTION TETAP: name="rating") -->
                     <div class="mb-3">
                         <label class="form-label">Rating</label>
+                    <p class="text-muted small mb-2">
+                        Berikan penilaian berdasarkan hasil pelayanan yang Anda terima.
+                    </p>
 
                         <div class="star-rating">
                             <input type="radio" id="star5" name="rating" value="5">
@@ -414,6 +482,9 @@
                     <!-- TAG -->
                     <div class="mb-3">
                         <label class="form-label">Kelebihan yang dirasakan</label>
+                    <p class="text-muted small mb-2">
+                        Pilih kelebihan yang Anda rasakan dari terapis selama memberikan pelayanan.
+                    </p>
 
                         <div class="tags">
 

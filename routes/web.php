@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\PembayaranAdminController;
 use App\Http\Controllers\Admin\DiskonController;
 use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\WebsiteSettingController;
+use App\Http\Controllers\ProfileController;
 // =====================
 // PUBLIC ROUTES
 // =====================
@@ -24,6 +25,20 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/cek-email', [AuthController::class, 'cekEmail']);
+// LUPA PASSWORD
+Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])
+    ->name('password.request');
+
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+    ->name('password.update');
+
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Midtrans webhook (tidak perlu auth)
@@ -34,6 +49,12 @@ Route::post('/midtrans/callback', [MidtransController::class, 'callback'])
 // PELANGGAN ROUTES
 // =====================
 Route::middleware(['auth', 'pelanggan'])->group(function () {
+        // Profil Pelanggan
+    Route::get('/profil', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::put('/profil', [ProfileController::class, 'update'])
+        ->name('profile.update');
     Route::get('/booking', [BookingController::class, 'index'])
          ->name('booking.index');
     Route::post('/booking/cek-ketersediaan', [BookingController::class, 'cekKetersediaan'])

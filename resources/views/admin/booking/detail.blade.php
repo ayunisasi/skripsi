@@ -358,7 +358,7 @@
                         onsubmit="return confirm('Yakin batalkan booking ini?')">
                         @csrf
                         <input type="hidden" name="alasan" value="Dibatalkan oleh admin">
-                        <button type="submit" class="btn btn-danger w-100 rounded-3">Batalkan</button>
+                        {{-- <button type="submit" class="btn btn-danger w-100 rounded-3">Batalkan</button> --}}
                     </form>
                 @endif
             </div>

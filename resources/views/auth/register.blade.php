@@ -139,10 +139,13 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+
+                <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
                     value="{{ old('email') }}" placeholder="email@example.com" required>
-                @error('email')
-                <div class="invalid-feedback">{{ $message }}</div>@enderror
+
+                <div id="email-feedback" class="small mt-1"></div>
+
+
             </div>
             <div class="mb-3">
                 <label class="form-label">No. Telepon</label>
@@ -174,6 +177,44 @@
             </small>
         </div>
     </div>
+
+    <script>
+        const emailInput = document.getElementById('email');
+        const emailFeedback = document.getElementById('email-feedback');
+
+        let timer;
+
+        emailInput.addEventListener('input', function () {
+            clearTimeout(timer);
+
+            const email = this.value.trim();
+
+            emailFeedback.textContent = '';
+            emailFeedback.style.color = '';
+
+            if (email === '') {
+                return;
+            }
+
+            timer = setTimeout(() => {
+                fetch('/cek-email?email=' + encodeURIComponent(email))
+                    .then(response => response.json())
+                    .then(data => {
+                        emailFeedback.textContent = data.message;
+
+                        if (data.status === 'exists' || data.status === 'invalid') {
+                            emailFeedback.style.color = 'red';
+                        } else {
+                            emailFeedback.style.color = 'green';
+                        }
+                    })
+                    .catch(error => {
+                        emailFeedback.textContent = 'Gagal mengecek email.';
+                        emailFeedback.style.color = 'red';
+                    });
+            }, 500);
+        });
+    </script>
 </body>
 
 </html>

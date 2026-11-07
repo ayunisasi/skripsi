@@ -132,6 +132,12 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="text-end mb-3">
+                <a href="{{ route('password.request') }}"
+                    style="color:#7c3aed; font-size:0.8rem; text-decoration:none;">
+                    Lupa Password?
+                </a>
+            </div>
             <button type="submit" class="btn-pink">Masuk</button>
         </form>
 
@@ -141,11 +147,7 @@
                 <a href="/register" style="color:#7c3aed; font-weight:600;">Daftar</a>
             </small>
         </div>
-        <div class="text-center mt-2">
-            <a href="/" style="color:#7c3aed;">
-                ← Kembali ke Beranda
-            </a>
-        </div>
+
     </div>
 </body>
 
