@@ -51,6 +51,52 @@
                         <div class="col-7">{{ $booking->user->no_telp }}</div>
                         <div class="col-5 text-muted">Terapis</div>
                         <div class="col-7">{{ $booking->terapis->nama_terapis ?? '-' }}</div>
+
+                        @if(
+    in_array($booking->status, ['menunggu_pembayaran', 'aktif']) &&
+    $booking->status_kehadiran === 'menunggu' &&
+    $booking->antrian &&
+    $booking->antrian->status === 'menunggu'
+)
+    <div class="col-12 mt-3">
+        <div class="p-3 rounded-3" style="background:#faf7ff;border:1px solid #e9d5ff;">
+            <h6 class="fw-bold mb-3" style="color:#7c3aed;">
+                Ganti Terapis
+            </h6>
+
+            <form action="{{ route('admin.booking.ganti_terapis', $booking->id) }}" method="POST">
+                @csrf
+
+                <div class="mb-2">
+                    <label class="form-label small fw-semibold">Terapis Pengganti</label>
+                    <select name="terapis_id" class="form-select form-select-sm" required>
+                        <option value="">-- Pilih Terapis --</option>
+                        @foreach($terapisList as $t)
+                            <option value="{{ $t->id }}">
+                                {{ $t->nama_terapis }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold">Alasan Terapis Tidak Tersedia</label>
+                    <select name="alasan" class="form-select form-select-sm" required>
+                        <option value="">-- Pilih Alasan --</option>
+                        <option value="Sakit">Sakit</option>
+                        <option value="Izin">Izin</option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                    class="btn btn-purple-soft btn-sm"
+                    onclick="return confirm('Yakin ingin mengganti terapis untuk booking ini?')">
+                    Ganti Terapis
+                </button>
+            </form>
+        </div>
+    </div>
+@endif
                         <div class="col-5 text-muted">Tanggal</div>
                         <div class="col-7">{{ \Carbon\Carbon::parse($booking->tgl_booking)->isoFormat('dddd, D MMMM Y') }}
                         </div>

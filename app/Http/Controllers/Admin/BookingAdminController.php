@@ -11,6 +11,9 @@ use App\Models\Terapis;
 use App\Services\AntrianService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Antrian;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class BookingAdminController extends Controller
 {
@@ -39,16 +42,33 @@ public function index(Request $request)
 }
 
     public function detail(int $id)
-    {
-        $booking = Booking::with([
-            'user', 'layanan', 'terapis',
-            'antrian', 'pembayaran', 'produkTambahan'
-        ])->findOrFail($id);
+{
+    $booking = Booking::with([
+        'user', 'layanan', 'terapis',
+        'antrian', 'pembayaran', 'produkTambahan'
+    ])->findOrFail($id);
 
-        $layananList = Layanan::all();
+    $layananList = Layanan::all();
 
-        return view('admin.booking.detail', compact('booking', 'layananList'));
-    }
+    $terapisList = Terapis::where('status', 'aktif')
+    ->where('id', '!=', $booking->terapis_id)
+    ->get()
+    ->filter(function ($terapis) use ($booking) {
+        $cek = $this->antrianService->cekKetersediaan(
+            $booking->tgl_booking,
+            $terapis->id,
+            $booking->total_durasi
+        );
+
+        return $cek['tersedia'];
+    });
+
+    return view('admin.booking.detail', compact(
+        'booking',
+        'layananList',
+        'terapisList'
+    ));
+}
 
     public function setujui(int $id)
     {
@@ -181,6 +201,140 @@ $booking->update([
 
         return back()->with('success', 'Pelunasan tunai berhasil dikonfirmasi!');
     }
+
+
+public function gantiTerapis(Request $request, int $id)
+{
+    $request->validate([
+        'terapis_id' => 'required|exists:terapis,id',
+        'alasan' => 'required|in:Sakit,Izin',
+    ]);
+
+    $hasil = DB::transaction(function () use ($request, $id) {
+
+        $booking = Booking::with(['terapis', 'user'])
+            ->lockForUpdate()
+            ->findOrFail($id);
+
+        $antrian = $booking->antrian()
+            ->lockForUpdate()
+            ->first();
+
+        if (!$antrian || $antrian->status !== 'menunggu') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'terapis_id' => 'Booking tidak memiliki antrean menunggu atau sudah diproses.',
+            ]);
+        }
+        if (!in_array($booking->status, ['menunggu_pembayaran', 'aktif'])) {
+    throw \Illuminate\Validation\ValidationException::withMessages([
+        'terapis_id' => 'Booking tidak dapat diganti karena statusnya sudah tidak aktif.',
+    ]);
+}
+
+if ($booking->status_kehadiran !== 'menunggu') {
+    throw \Illuminate\Validation\ValidationException::withMessages([
+        'terapis_id' => 'Booking tidak dapat diganti karena status kehadirannya sudah berubah.',
+    ]);
+}
+
+        $terapisLamaId = $booking->terapis_id;
+        $namaTerapisLama = $booking->terapis->nama_terapis ?? '-';
+
+        $terapisBaru = Terapis::where('status', 'aktif')
+            ->findOrFail($request->terapis_id);
+
+        if ($terapisBaru->id == $terapisLamaId) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'terapis_id' => 'Pilih terapis yang berbeda.',
+            ]);
+        }
+
+        // Periksa ketersediaan terapis pengganti
+        $cek = $this->antrianService->cekKetersediaan(
+            $booking->tgl_booking,
+            $terapisBaru->id,
+            $booking->total_durasi
+        );
+
+        if (!$cek['tersedia']) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'terapis_id' => 'Terapis pengganti tidak tersedia pada tanggal tersebut.',
+            ]);
+        }
+
+        // Pindahkan booking ke terapis baru
+        $booking->update([
+            'terapis_id' => $terapisBaru->id,
+            'nomor_antrian' => $cek['nomor_antrian'],
+            'estimasi_jam' => $cek['estimasi_mulai'],
+            'jam_mulai' => $cek['estimasi_mulai'],
+            'jam_selesai' => $cek['estimasi_selesai'],
+        ]);
+// Perbarui antrean sesuai antrean terapis pengganti
+$antrian->update([
+    'terapis_id' => $terapisBaru->id,
+    'tgl_antrian' => $booking->tgl_booking,
+    'nomor_antrian' => $cek['nomor_antrian'],
+    'estimasi_jam_mulai' => $cek['estimasi_mulai'],
+    'estimasi_jam_selesai' => $cek['estimasi_selesai'],
+    'total_durasi' => $booking->total_durasi,
+]);
+
+        return [
+            'booking' => $booking,
+            'terapis_lama_id' => $terapisLamaId,
+            'nama_lama' => $namaTerapisLama,
+            'nama_baru' => $terapisBaru->nama_terapis,
+            'nomor' => $cek['nomor_antrian'],
+            'mulai' => $cek['estimasi_mulai'],
+            'selesai' => $cek['estimasi_selesai'],
+        ];
+    });
+
+    // Hitung ulang antrean terapis lama
+    $this->antrianService->recalculate(
+        $hasil['booking']->tgl_booking,
+        $hasil['terapis_lama_id']
+    );
+
+    // Kirim email pemberitahuan kepada pelanggan
+    $emailGagal = false;
+    $booking = $hasil['booking']->load('user');
+
+    if ($booking->user && $booking->user->email) {
+        try {
+            Mail::raw(
+               "Halo {$booking->user->nama_lengkap},\n\n"
+                . "Mohon maaf atas ketidaknyamanan yang mungkin terjadi. Kami ingin menginformasikan bahwa terdapat perubahan terapis untuk booking Anda karena terapis sebelumnya berhalangan hadir.\n\n"
+                . "Berikut adalah informasi perubahan booking Anda:\n\n"
+                . "Kode Booking: {$booking->kd_booking}\n"
+                . "Terapis sebelumnya: {$hasil['nama_lama']}\n"
+                . "Terapis pengganti: {$hasil['nama_baru']}\n"
+                . "Alasan: {$request->alasan}\n"
+                . "Tanggal: {$booking->tgl_booking}\n"
+                . "Nomor antrean baru: {$hasil['nomor']}\n"
+                . "Estimasi mulai: {$hasil['mulai']}\n"
+                . "Estimasi selesai: {$hasil['selesai']}\n\n"
+                . "Terima kasih telah menggunakan layanan SalonQu.",
+                function ($message) use ($booking) {
+                    $message->to($booking->user->email)
+                        ->subject('Pemberitahuan Perubahan Terapis - SalonQu');
+                }
+            );
+        } catch (\Throwable $e) {
+            $emailGagal = true;
+        }
+    }
+
+    if ($emailGagal) {
+        return back()->with('warning',
+            'Terapis berhasil diganti, tetapi email pemberitahuan gagal dikirim.');
+    }
+
+    return back()->with('success',
+        'Terapis berhasil diganti dan email pemberitahuan telah diproses.');
+}
+
 
     public function destroy(int $id)
 {

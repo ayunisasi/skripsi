@@ -106,95 +106,83 @@ if ($lastAktif) {
     }
 
     // Cek ketersediaan terapis hari ini
-    public function cekKetersediaan(string $tgl, int $terapisId, int $durasi): array
-    {
-        $jumlahAktif = Antrian::where('terapis_id', $terapisId)
-            ->where('tgl_antrian', $tgl)
-            ->whereNotIn('status', ['dibatalkan'])
-            ->count();
 
-        if ($jumlahAktif >= 5) {
-            return [
-                'tersedia' => false,
-                'pesan' => 'Terapis yang dipilih sudah penuh. Silahkan pilih terapis lainnya',
-            ];
-        }
+public function cekKetersediaan(string $tgl, int $terapisId, int $durasi): array
+{
+    $jumlahAktif = Antrian::where('terapis_id', $terapisId)
+        ->where('tgl_antrian', $tgl)
+        ->whereNotIn('status', ['dibatalkan'])
+        ->count();
 
-        $last = Antrian::where('terapis_id', $terapisId)
-            ->where('tgl_antrian', $tgl)
-            ->whereNotIn('status', ['dibatalkan'])
-            ->orderBy('nomor_antrian', 'desc')
-            ->first();
-
-        $jamBuka = Carbon::parse('09:00');
-$sekarang = Carbon::now();
-
-if ($last) {
-
-    $lastSelesai = Carbon::parse(
-        $tgl . ' ' . $last->estimasi_jam_selesai
-    );
-
-    // Jika antrean terakhir masih berlangsung
-    if ($lastSelesai->gt($sekarang)) {
-
-        $jamMulai = $lastSelesai->copy();
-
-    } else {
-
-        // Antrean sudah kosong
-        if (Carbon::parse($tgl)->isToday()) {
-
-            if ($sekarang->lt($jamBuka)) {
-                $jamMulai = $jamBuka->copy();
-            } else {
-                $jamMulai = $sekarang->copy()->addMinutes(10);
-            }
-
-        } else {
-
-            $jamMulai = $jamBuka->copy();
-
-        }
-
+    if ($jumlahAktif >= 5) {
+        return [
+            'tersedia' => false,
+            'pesan' => 'Terapis yang dipilih sudah penuh.',
+        ];
     }
 
-} else {
+    // Ambil nomor antrean terakhir, termasuk yang sudah selesai
+    $lastNomor = Antrian::where('terapis_id', $terapisId)
+        ->where('tgl_antrian', $tgl)
+        ->whereNotIn('status', ['dibatalkan'])
+        ->orderBy('nomor_antrian', 'desc')
+        ->first();
 
-    if (Carbon::parse($tgl)->isToday()) {
+    // Ambil antrean yang masih berlangsung atau menunggu
+    $lastAktif = Antrian::where('terapis_id', $terapisId)
+        ->where('tgl_antrian', $tgl)
+        ->whereIn('status', ['menunggu', 'dipanggil', 'dilayani'])
+        ->orderBy('nomor_antrian', 'desc')
+        ->first();
 
-        if ($sekarang->lt($jamBuka)) {
-            $jamMulai = $jamBuka->copy();
+    $jamBuka = Carbon::parse($tgl . ' 09:00');
+    $sekarang = Carbon::now();
+
+    if ($lastAktif) {
+        $lastSelesai = Carbon::parse(
+            $tgl . ' ' . $lastAktif->estimasi_jam_selesai
+        );
+
+        if ($lastSelesai->gt($sekarang)) {
+            $jamMulai = $lastSelesai->copy();
         } else {
             $jamMulai = $sekarang->copy()->addMinutes(10);
+
+            if ($jamMulai->lt($jamBuka)) {
+                $jamMulai = $jamBuka->copy();
+            }
         }
-
     } else {
-
-        $jamMulai = $jamBuka->copy();
-
+        if (Carbon::parse($tgl)->isToday()) {
+            $jamMulai = $sekarang->lt($jamBuka)
+                ? $jamBuka->copy()
+                : $sekarang->copy()->addMinutes(10);
+        } else {
+            $jamMulai = $jamBuka->copy();
+        }
     }
 
-}
+    $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
 
-        $jamSelesai = $jamMulai->copy()->addMinutes($durasi);
+    $jamTutup = Carbon::parse($tgl . ' 18:00');
 
-        // Batasi jam tutup
-        $jamTutup = Carbon::parse($tgl . ' 18:00');
-if ($jamSelesai->gt($jamTutup)) {
+    if ($jamSelesai->gt($jamTutup)) {
+        return [
+            'tersedia' => false,
+            'pesan' => 'Terapis yang dipilih sudah penuh.',
+        ];
+    }
+
     return [
-        'tersedia' => false,
-        'pesan' => 'Terapis yang dipilih sudah penuh. Silahkan pilih terapis lainnya'
+        'tersedia' => true,
+        'estimasi_mulai' => $jamMulai->format('H:i'),
+        'estimasi_selesai' => $jamSelesai->format('H:i'),
+        'nomor_antrian' => $lastNomor
+            ? $lastNomor->nomor_antrian + 1
+            : 1,
     ];
 }
 
-        return [
-            'tersedia' => true,
-            'estimasi_mulai' => $jamMulai->format('H:i'),
-            'estimasi_selesai' => $jamSelesai->format('H:i'),
-            'nomor_antrian' => $last ? $last->nomor_antrian + 1 : 1,
-        ];
-    }
 
     // Recalculate jam setelah ada perubahan
     public function recalculate(string $tgl, int $terapisId): void
@@ -208,10 +196,10 @@ if ($jamSelesai->gt($jamTutup)) {
         $jam = Carbon::parse('09:00'); // jam buka
 
         foreach ($antrians as $a) {
-            if ($a->status === 'dilayani') {
-                $jam = Carbon::parse($a->estimasi_jam_selesai);
-                continue;
-            }
+           if (in_array($a->status, ['dipanggil', 'dilayani'])) {
+    $jam = Carbon::parse($a->estimasi_jam_selesai);
+    continue;
+}
 
             $selesai = $jam->copy()->addMinutes($a->total_durasi);
 

@@ -136,12 +136,27 @@
                                             <td>{{ $a->estimasi_jam_selesai }}</td>
                                             <td>
                                                 @if($a->status === 'menunggu')
-                                                    <span class="badge badge-menunggu">⏳ Menunggu</span>
-                                                @elseif($a->status === 'dilayani')
-                                                    <span class="badge badge-green">▶ Dilayani</span>
-                                                @else
-                                                    <span class="badge badge-selesai">✅ Selesai</span>
-                                                @endif
+    <span class="badge badge-menunggu">
+        ⏳ Menunggu
+    </span>
+
+@elseif($a->status === 'dipanggil')
+    <span class="badge"
+        style="background:#ede9fe;color:#6d28d9;border:1px solid #c4b5fd;">
+        Dipanggil
+    </span>
+
+@elseif($a->status === 'dilayani')
+    <span class="badge"
+        style="background:#dcfce7;color:#166534;border:1px solid #86efac;">
+        ▶ Dilayani
+    </span>
+
+@elseif($a->status === 'selesai')
+    <span class="badge badge-selesai">
+        ✅ Selesai
+    </span>
+@endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -108,6 +108,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
          ->name('admin.booking.batalkan');
     Route::get('/booking/{id}/detail', [BookingAdminController::class, 'detail'])
          ->name('admin.booking.detail');
+
+         Route::post('/booking/{id}/ganti-terapis', [BookingAdminController::class, 'gantiTerapis'])
+    ->name('admin.booking.ganti_terapis');
     Route::post('/booking/{id}/tambah-item', [BookingAdminController::class, 'tambahItem'])
          ->name('admin.booking.tambah_item');
     Route::post('/booking/{id}/konfirmasi-cash', [BookingAdminController::class, 'konfirmasiCash'])
@@ -119,6 +122,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     // Antrian
     Route::get('/antrian', [AntrianAdminController::class, 'index'])
          ->name('admin.antrian.index');
+
+         // Antrian
+Route::get('/antrian', [AntrianAdminController::class, 'index'])
+    ->name('admin.antrian.index');
+
+// Panggil antrean berikutnya berdasarkan terapis
+Route::post('/antrian/{terapisId}/panggil-berikutnya',
+    [AntrianAdminController::class, 'panggilBerikutnya'])
+    ->name('admin.antrian.panggilBerikutnya');
     Route::post('/antrian/{id}/panggil', [AntrianAdminController::class, 'panggil'])
          ->name('admin.antrian.panggil');
     Route::post('/antrian/{id}/layani', [AntrianAdminController::class, 'layani'])

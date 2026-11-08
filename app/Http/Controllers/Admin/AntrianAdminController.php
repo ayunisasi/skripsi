@@ -8,6 +8,7 @@ use App\Models\Terapis;
 use App\Services\AntrianService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AntrianAdminController extends Controller
 {
@@ -36,6 +37,63 @@ $antrians = Antrian::with(['booking.user', 'booking.layanan', 'terapis'])
     $sesi = null; // tidak dipakai lagi
     return view('admin.antrian.index', compact('antrians', 'terapis', 'tgl', 'sesi'));
 }
+
+
+// Panggil antrean berikutnya berdasarkan urutan FCFS per terapis
+public function panggilBerikutnya(int $terapisId)
+{
+    $terapis = Terapis::where('status', 'aktif')
+        ->findOrFail($terapisId);
+
+    $hasil = DB::transaction(function () use ($terapisId) {
+
+        // Ambil seluruh antrean terapis hari ini dan kunci selama transaksi
+        $dataAntrian = Antrian::where('terapis_id', $terapisId)
+            ->whereHas('booking', function ($q) {
+                $q->whereDate('tgl_booking', Carbon::today());
+            })
+            ->orderBy('nomor_antrian')
+            ->lockForUpdate()
+            ->get();
+
+        // Cegah pemanggilan berikutnya jika masih ada pelanggan dipanggil/dilayani
+        $sedangDiproses = $dataAntrian->whereIn(
+            'status',
+            ['dipanggil', 'dilayani']
+        )->isNotEmpty();
+
+        if ($sedangDiproses) {
+            return [
+                'type' => 'error',
+                'message' => 'Selesaikan pelayanan pelanggan sebelumnya terlebih dahulu.'
+            ];
+        }
+
+        // Ambil nomor antrean terkecil yang masih menunggu
+        $antrian = $dataAntrian->firstWhere('status', 'menunggu');
+
+        if (!$antrian) {
+            return [
+                'type' => 'error',
+                'message' => 'Tidak ada antrean menunggu untuk terapis ini.'
+            ];
+        }
+
+        // Ubah status menjadi dipanggil
+        $antrian->update([
+            'status' => 'dipanggil',
+            'called_at' => now(),
+        ]);
+
+        return [
+            'type' => 'success',
+            'message' => "Antrean #{$antrian->nomor_antrian} berhasil dipanggil."
+        ];
+    });
+
+    return back()->with($hasil['type'], $hasil['message']);
+}
+
 
     // Panggil antrian — tandai sedang dilayani
     public function panggil(int $id)
