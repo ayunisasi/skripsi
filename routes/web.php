@@ -98,6 +98,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // Terapis
     Route::resource('terapis', TerapisController::class);
+    // Ketersediaan Terapis
+Route::post('/terapis/{id}/unavailable', [TerapisController::class, 'unavailable'])
+    ->name('admin.terapis.unavailable');
+
+Route::post('/terapis/{id}/available', [TerapisController::class, 'available'])
+    ->name('admin.terapis.available');
 
     // Booking
     Route::get('/booking', [BookingAdminController::class, 'index'])

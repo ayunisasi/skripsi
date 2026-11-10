@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Terapis;
 use Illuminate\Http\Request;
+use App\Models\KetidakhadiranTerapis;
 
 class TerapisController extends Controller
 {
@@ -155,4 +156,46 @@ public function index()
         return redirect('/admin/terapis')
             ->with('success', 'Terapis berhasil dihapus!');
     }
+
+    // Mengatur terapis menjadi Unavailable
+public function unavailable(Request $request, $id)
+{
+    $request->validate([
+        'tanggal' => 'required|date|after_or_equal:today',
+        'alasan'  => 'required|in:Sakit,Izin',
+    ]);
+
+    $terapis = Terapis::findOrFail($id);
+
+    KetidakhadiranTerapis::updateOrCreate(
+        [
+            'terapis_id' => $terapis->id,
+            'tanggal'    => $request->tanggal,
+        ],
+        [
+            'alasan' => $request->alasan,
+        ]
+    );
+
+    return redirect()->route('terapis.index')
+        ->with('success', 'Terapis berhasil diatur menjadi Unavailable.');
+}
+
+
+// Mengatur terapis kembali menjadi Available
+public function available(Request $request, $id)
+{
+    $request->validate([
+        'tanggal' => 'required|date',
+    ]);
+
+    $terapis = Terapis::findOrFail($id);
+
+    KetidakhadiranTerapis::where('terapis_id', $terapis->id)
+        ->whereDate('tanggal', $request->tanggal)
+        ->delete();
+
+    return redirect()->route('terapis.index')
+        ->with('success', 'Terapis berhasil diatur menjadi Available.');
+}
 }

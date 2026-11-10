@@ -134,6 +134,17 @@
 
                                 <div class="d-flex justify-content-center gap-2">
 
+                                <button type="button"
+                                class="btn btn-add-soft btn-sm rounded-circle btn-ketersediaan-terapis"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ketersediaanTerapisModal"
+                                data-id="{{ $t->id }}"
+                                data-nama="{{ $t->nama_terapis }}"
+                                title="Atur Ketersediaan"
+                                style="width:36px;height:36px;">
+                                <i class="bi bi-calendar-check"></i>
+                                </button>
+
                                     <button type="button" class="btn btn-warning-soft btn-sm rounded-circle btn-edit-terapis"
                                         data-bs-toggle="modal" data-bs-target="#editTerapisModal" data-id="{{ $t->id }}"
                                         data-nama="{{ $t->nama_terapis }}" data-status="{{ $t->status }}" title="Edit">
@@ -149,7 +160,7 @@
 
                                         <button class="btn btn-danger-soft btn-sm rounded-circle" title="Hapus"
                                             style="
-                                                                                                        width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
+                                            width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
                                             <i class="bi bi-trash3"></i>
                                         </button>
 
@@ -395,6 +406,76 @@
 
     </div>
 
+{{-- Modal Atur Ketersediaan Terapis --}}
+<div class="modal fade" id="ketersediaanTerapisModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow rounded-4">
+
+            <div class="modal-header border-0">
+                <div>
+                    <h5 class="fw-bold mb-1">Atur Ketersediaan Terapis</h5>
+                    <small class="text-muted" id="namaTerapisKetersediaan"></small>
+                </div>
+
+                <button type="button" class="btn-close"
+                    data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                {{-- Form Unavailable --}}
+                <form id="formUnavailable" method="POST">
+                    @csrf
+
+                    <h6 class="fw-semibold mb-3">Atur Unavailable</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Tidak Tersedia</label>
+                        <input type="date" name="tanggal"
+                            class="form-control rounded-3"
+                            min="{{ date('Y-m-d') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Alasan</label>
+                        <select name="alasan" class="form-select rounded-3" required>
+                            <option value="">Pilih alasan</option>
+                            <option value="Sakit">Sakit</option>
+                            <option value="Izin">Izin</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-purple w-100">
+                        Simpan Unavailable
+                    </button>
+                </form>
+
+                <hr class="my-4">
+
+                {{-- Form Available --}}
+                <form id="formAvailable" method="POST">
+                    @csrf
+
+                    <h6 class="fw-semibold mb-3">Atur Available Kembali</h6>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" name="tanggal"
+                            class="form-control rounded-3"
+                            min="{{ date('Y-m-d') }}" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">
+                        Jadikan Available
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <script>
 
         document.querySelectorAll('.btn-edit-terapis').forEach(function (button) {
@@ -413,6 +494,27 @@
             });
 
         });
+
+        // Atur ketersediaan terapis
+document.querySelectorAll('.btn-ketersediaan-terapis').forEach(function (button) {
+
+    button.addEventListener('click', function () {
+
+        const id = this.dataset.id;
+        const nama = this.dataset.nama;
+
+        document.getElementById('namaTerapisKetersediaan').textContent =
+            nama;
+
+        document.getElementById('formUnavailable').action =
+            "/admin/terapis/" + id + "/unavailable";
+
+        document.getElementById('formAvailable').action =
+            "/admin/terapis/" + id + "/available";
+
+    });
+
+});
 
     </script>
 @endsection

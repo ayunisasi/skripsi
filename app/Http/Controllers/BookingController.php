@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Services\PromoService;
 use App\Models\Diskon;
+use App\Models\KetidakhadiranTerapis;
 
 class BookingController extends Controller
 {
@@ -22,7 +23,7 @@ class BookingController extends Controller
   public function index()
 {
     $layanan = Layanan::all();
-    $terapis = Terapis::with(['reviews', 'bookings'])
+    $terapis = Terapis::with(['reviews', 'bookings', 'ketidakhadiran'])
         ->where('status', 'aktif')
         ->get();
 
@@ -114,7 +115,15 @@ foreach ($terapis as $t) {
 
     $terapis = $terapis->sortByDesc('score')->values();
     $tanggalTersedia = AntrianService::getTanggalTersedia();
-    $diskons = Diskon::where('status', true)
+
+$ketidakhadiranTerapis = KetidakhadiranTerapis::get()->map(function ($data) {
+    return [
+        'terapis_id' => $data->terapis_id,
+        'tanggal' => \Carbon\Carbon::parse($data->tanggal)->format('Y-m-d'),
+    ];
+});
+
+$diskons = Diskon::where('status', true)
     ->where(function ($query) {
         $query->whereNull('tanggal_mulai')
               ->orWhere('tanggal_mulai', '<=', now());
@@ -125,11 +134,12 @@ foreach ($terapis as $t) {
     })
     ->get();
 
-    return view('pelanggan.booking', compact(
+return view('pelanggan.booking', compact(
     'layanan',
     'terapis',
     'tanggalTersedia',
-    'diskons'
+    'diskons',
+    'ketidakhadiranTerapis'
 ));
 }
     public function cekKetersediaan(Request $request)
@@ -171,6 +181,17 @@ foreach ($terapis as $t) {
         'tgl_booking'      => 'required|date',
         'jenis_pembayaran' => 'required|in:dp,full',
     ]);
+
+ // Cek apakah terapis sedang Unavailable
+$unavailable = KetidakhadiranTerapis::where('terapis_id', $request->terapis_id)
+    ->whereDate('tanggal', $request->tgl_booking)
+    ->exists();
+
+if ($unavailable) {
+    return back()
+        ->with('error', 'Terapis tidak tersedia pada tanggal tersebut. Silakan pilih terapis lain.')
+        ->withInput();
+}
 
     $layananList = Layanan::whereIn('id', $request->layanan_ids)->get();
     $totalHarga  = $layananList->sum('harga');

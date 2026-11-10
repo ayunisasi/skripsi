@@ -586,7 +586,8 @@
 
                     @foreach($terapis as $t)
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-6 mb-3 kartu-terapis"
+                         data-terapis-id="{{ $t->id }}">
 
                             <div class="terapis-card-horizontal" {{ !$t->tersedia ? 'disabled-card' : '' }}"
                                 @if($t->tersedia) onclick="pilihTerapis(this)" @endif>
@@ -812,11 +813,42 @@ border-radius:10px;
 
         // Pilih tanggal (dropdown)
         function pilihTanggal(val) {
-            document.getElementById('tgl_booking').value = val;
-            selectedTgl = val;
-            cekFormLengkap();
+    document.getElementById('tgl_booking').value = val;
+    selectedTgl = val;
 
+    filterTerapisByTanggal();
+
+    cekFormLengkap();
+}
+function filterTerapisByTanggal() {
+    const tanggal = document.getElementById('tgl_booking').value;
+
+    const ketidakhadiran = @json($ketidakhadiranTerapis);
+    console.log('Tanggal dipilih:', tanggal);
+console.log('Data ketidakhadiran:', ketidakhadiran);
+console.table(ketidakhadiran);
+
+    document.querySelectorAll('.kartu-terapis').forEach(function (kartu) {
+        const terapisId = kartu.dataset.terapisId;
+
+        const unavailable = ketidakhadiran.some(function (data) {
+            return String(data.terapis_id) === String(terapisId)
+                && data.tanggal === tanggal;
+        });
+
+        kartu.style.display = unavailable ? 'none' : '';
+
+        if (unavailable) {
+            const radio = kartu.querySelector('input[name="terapis_id"]');
+
+            if (radio) {
+                radio.checked = false;
+            }
         }
+    });
+
+    cekFormLengkap();
+}
 
 
 

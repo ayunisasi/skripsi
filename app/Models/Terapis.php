@@ -10,4 +10,8 @@ class Terapis extends Model
     public function bookings() { return $this->hasMany(Booking::class); }
     public function antrian()  { return $this->hasMany(Antrian::class); }
     public function reviews()  { return $this->hasMany(Review::class); }
+
+    public function ketidakhadiran() { return $this->hasMany(KetidakhadiranTerapis::class); }
 }
+
+

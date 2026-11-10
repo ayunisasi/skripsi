@@ -107,7 +107,7 @@ class AuthController extends Controller
         'status' => $exists ? 'exists' : 'available',
         'message' => $exists
             ? 'Email sudah terdaftar.'
-            : 'Email tersedia.'
+            : ''
     ]);
 }
 
